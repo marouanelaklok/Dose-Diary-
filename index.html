@@ -96,7 +96,7 @@ const SUB_INFO = {
     "Schlafentzug ist das größte Risiko: Schon 24 Std. ohne Schlaf erhöhen psychotisches Risiko und Unfallgefahr stark",
     "Essen erzwingen: Appetithemmung ist stark — kleine Mahlzeiten vor und nach dem Konsum sind essenziell",
     "Viel Wasser trinken (2–3 L/Tag) — Hyperthermie und Dehydrierung sind häufige Komplikationen",
-    "Drug-Checking nutzen: Speed ist eine der am häufigsten gestreckten Substanzen — Anlaufstellen: drugchecking.de, checkit.at, saferparty.ch",
+    "Drug-Checking nutzen: Speed ist eine der am häufigsten gestreckten Substanzen (MSM, Koffein, teils NPS)",
     "Nasenpflege bei nasalem Konsum: Kochsalzspülung nach jeder Session, eigenes Röhrchen verwenden",
     "Mind. 3 Tage Pause zwischen Konsumereignissen — Dopaminsystem braucht Zeit zur Erholung",
     "Bei Verfolgungsgedanken, Paranoia oder Halluzinationen: sofort Konsum stoppen und Hilfe suchen"
@@ -111,12 +111,12 @@ const SUB_INFO = {
     "Cannabis ⚠️ Herzbelastung, Panikattacken bei empfindlichen Personen"
   ] },
   MDMA: { risk:"mittel–hoch", riskColor:"#E8A87C", onset:"30–60 Min.", duration:"3–5 Std.", safer:[
-    "Dosierung: max. 1–1.5 mg/kg Körpergewicht — bei 70 kg max. 105 mg gesamt",
-    "6-Wochen-Regel strikt einhalten: Häufigerer Konsum schädigt Serotonin-Neuronen dauerhaft (Neurotoxizität)",
+    "Dosierung: max. 1,3 mg/kg Körpergewicht — bei 70 kg entspricht das ca. 90 mg gesamt",
+    "12-Wochen-Regel strikt einhalten: Häufigerer Konsum schädigt Serotonin-Neuronen dauerhaft (Neurotoxizität). Als Orientierung gilt: mindestens 12 Wochen Pause zwischen Konsumanlässen",
     "NIEMALS nachlegen — der Wunsch ist ein Zeichen des Comedowns, kein Zeichen von Unterdosierung",
     "Wasser trinken: ca. 250–500 ml/Std. beim Tanzen — nicht mehr (Hyponatriämie-Risiko bei Übertrinken!)",
     "Körpertemperatur beobachten: Überhitzung (Hyperthermie) ist häufigste Todesursache — Tanzpausen, kühle Orte aufsuchen",
-    "Drug-Checking nutzen: Viele 'Ecstasy'-Pillen enthalten Amphetamin, PMA/PMMA oder Fentanyl-Analogika — Anlaufstellen: drugchecking.de, checkit.at, saferparty.ch",
+    "Drug-Checking nutzen: Viele 'Ecstasy'-Pillen enthalten Amphetamin, PMA/PMMA oder Fentanyl-Analogika",
     "5-HTP: Manche Menschen nehmen es erst 24 Std. NACH dem Konsum (nicht davor) — der Grund: vorherige Einnahme kann das Serotoninsyndrom-Risiko erhöhen. Bitte informiere dich individuell oder frage eine Fachkraft.",
     "Nie allein konsumieren — bei Hitzschlag oder Krämpfen sofort 112 rufen"
   ], interactions:[
@@ -150,7 +150,7 @@ const SUB_INFO = {
     "Antidepressiva (SSRI/SNRI) ⚠️ Erhöhtes Krampfanfallrisiko"
   ] },
   Opioide: { risk:"sehr hoch", riskColor:"#E06B8A", onset:"Variabel: Sofort (i.v.) / 5–15 Min. (nasal) / 15–45 Min. (oral)", duration:"3–8 Std. (substanzabhängig)", safer:[
-    "Naloxon (Narcan/Nyxoid) IMMER griffbereit haben und alle anwesenden Personen einweisen — erhältlich in Apotheken ohne Rezept sowie bei Drogenhilfe- und Needle-Exchange-Stellen",
+    "Naloxon (Narcan/Nyxoid) IMMER griffbereit haben und alle anwesenden Personen in die Anwendung einweisen",
     "NIE allein konsumieren — Atemdepression führt lautlos zur Bewusstlosigkeit, ohne Hilfe ist sie tödlich",
     "Toleranzpause = akute Lebensgefahr: Nach wenigen Tagen Pause die alte Dosis NICHT verwenden — immer mit 25–50% neu starten",
     "Sterile Utensilien bei i.v.-Konsum: Hepatitis C, HIV und Herzklappenentzündung drohen bei Nadeltausch",
@@ -249,7 +249,7 @@ const SUB_INFO = {
     "Nie nachlegen vor vollständigem Wirkungsende — durch Kumulation droht plötzlicher Bewusstseinsverlust ohne Vorwarnung",
     "Mind. 2 Std. Zeitabstand zwischen Dosierungen einhalten — auch wenn keine Wirkung mehr spürbar ist",
     "NIE allein konsumieren: Einschlafen und Aspirieren ist die häufigste Todesursache — Begleitperson muss Zeitintervalle dokumentieren",
-    "Notfallprotokoll: Person nicht weckbar → stabile Seitenlage, sofort 112. Beim Notruf Symptome beschreiben. Sobald Rettungsdienst vor Ort: ehrlich angeben, was konsumiert wurde",
+    "Notfallprotokoll: Person nicht weckbar → stabile Seitenlage, sofort 112 — Rettungsdienst vollständig informieren (Entkriminalisierung bei Hilfe)",
     "Verdünnt konsumieren: Auf mindestens das 5–10-fache Volumen mit Wasser oder Saft verdünnen, niemals pur"
   ], interactions:[
     "Alkohol ⚠️ LEBENSGEFAHR: Selbst sehr kleine Alkoholmengen potenzieren die GHB-Wirkung massiv — häufigste Todesursache",
@@ -261,7 +261,7 @@ const SUB_INFO = {
     "Antidepressiva / Schlafmittel ⚠️ Additive dämpfende Wirkung — dosisunabhängige Atemdepression möglich"
   ] },
   "Research Chemicals": { risk:"sehr hoch / unbekannt", riskColor:"#E06B8A", onset:"Stark variabel — oft 20–90 Min., manche RC-Stimulanzien ab 5 Min.", duration:"Stark variabel — 2 bis über 24 Std. je nach Substanzklasse", safer:[
-    "Drug-Checking ist zwingend: Identität, Reinheit und Gehalt mit Reagenzien-Kit (z.B. Marquis, Mecke, Folin) oder bei einer Drug-Checking-Stelle überprüfen — Anlaufstellen: drugchecking.de (DE), checkit.at (AT), saferparty.ch (CH).",
+    "Drug-Checking ist zwingend: Identität, Reinheit und Gehalt mit Reagenzien-Kit (z.B. Marquis, Mecke, Folin) oder bei einer Drogenchecking-Stelle überprüfen — viele RC-Proben enthalten Streckmittel oder Fehlsubstitutionen.",
     "Dosierung mit Feinwaage (0,001 g Auflösung): Aktive Dosen liegen bei vielen RCs im einstelligen Milligramm-Bereich — kleine Abweichungen können massive Wirkungsunterschiede bedeuten.",
     "Onset täuscht: Viele RCs haben verzögerte oder stufenweise Onsets — niemals vor Ablauf von 2 Stunden nachlegen, auch wenn noch keine Wirkung spürbar.",
     "Erster Test immer mit 5–10 % der vermuteten Wirkdosis (Allergy-Test): Unbekannte Substanzen können idiosynkratische Reaktionen auslösen, die bei kleinen Mengen beherrschbar sind.",
@@ -270,7 +270,7 @@ const SUB_INFO = {
     "Synthetische Cannabinoide gesondert: Wirkung nicht mit Cannabis vergleichbar — 100× stärker, kein Ceiling-Effekt, häufige Krampfanfälle und kardiovaskuläre Notfälle in klinischen Berichten.",
     "NBOMe-Klasse: Niemals oral — aktiv nur sublingual/nasal; Papierstrips nicht mit LSD verwechseln (LSD ist oral aktiv, NBOMe-Verbindungen nicht); Überdosierung durch Schlucken war mehrfach tödlich.",
     "Rechtsstatus prüfen: Die meisten RCs fallen unter das NpSG (Neue-psychoaktive-Stoffe-Gesetz) — Besitz und Erwerb sind in Deutschland strafbar.",
-    "Im Notfall: sofort 112 rufen, Symptome beschreiben. Sobald der Rettungsdienst vor Ort ist, ehrlich angeben, was konsumiert wurde — das verbessert die Behandlung entscheidend."
+    "Im Notfall: Rettungsdienst vollständig informieren, welche Substanz konsumiert wurde — das verbessert die Behandlung und ist durch Straffreiheits-Klauseln bei Hilfeleistung abgesichert."
   ], interactions:[
     "Alkohol ⚠️ Unvorhersehbare Wechselwirkungen — je nach RC-Klasse Atemdepression (Depressiva-RC) oder Herzbelastung (Stimulanzien-RC)",
     "MDMA ⚠️ Serotoninsyndrom-Risiko bei Entaktogen-RCs (z.B. 4-MMC/Mephedron) — schwere Hyperthermie und Krampfanfälle",
@@ -533,8 +533,8 @@ const KB_MODULES = [
     tagline:"Pragmatische Schadensminimierung für den realen Alltag.",
     sections:[
       { heading:"Safer Use ≠ sicherer Konsum", body:"Es gibt keinen risikofreien Substanzkonsum. Safer Use anerkennt das und zielt darauf ab, die Wahrscheinlichkeit und Schwere negativer Folgen zu verringern. Es ist eine Haltung: bewusst, informiert und ehrlich mit dir selbst." },
-      { heading:"Universelle Regeln", body:"• Kenne deine Substanz: Drug-Checking nutzen (drugchecking.de, checkit.at, saferparty.ch). • Dosierung: Niedrig starten, nicht nachlegen vor Wirkungseintritt. • Setting: Sicherer Ort, Vertrauensperson, kein Mischkonsum. • Selbstfürsorge: Essen, Wasser, Schlaf — vor und nach dem Konsum. • Pausen: Feste konsumfreie Tage und Wochen einplanen." },
-      { heading:"Substanzspezifische Tipps", body:"Jede Substanz hat eigene Safer-Use-Regeln. Für nasalen Konsum: eigenes Röhrchen (Hepatitis-Schutz). Für MDMA: 6-Wochen-Regel und max. 1.5 mg/kg Körpergewicht. Für Opioide: Naloxon griffbereit (Apotheke, kein Rezept nötig), nie allein. Nutze die Substanzinfos in dieser App für substanzspezifische Details." },
+      { heading:"Universelle Regeln", body:"• Kenne deine Substanz: Drug-Checking nutzen, Inhalt prüfen. • Dosierung: Niedrig starten, nicht nachlegen vor Wirkungseintritt. • Setting: Sicherer Ort, Vertrauensperson, kein Mischkonsum. • Selbstfürsorge: Essen, Wasser, Schlaf — vor und nach dem Konsum. • Pausen: Feste konsumfreie Tage und Wochen einplanen." },
+      { heading:"Substanzspezifische Tipps", body:"Jede Substanz hat eigene Safer-Use-Regeln. Für nasalen Konsum: eigenes Röhrchen (Hepatitis-Schutz). Für MDMA: 12-Wochen-Regel und max. 1,3 mg/kg Körpergewicht. Für Opioide: Naloxon griffbereit, nie allein. Nutze die Substanzinfos in dieser App für substanzspezifische Details." },
       { heading:"Logging als Safer Use", body:"Das Führen eines Konsumtagebuchs ist selbst eine Form von Safer Use. Es schärft das Bewusstsein, macht Muster sichtbar und unterstützt dich dabei, informierte Entscheidungen zu treffen. Jeder Eintrag ist ein Akt der Selbstfürsorge." },
     ],
     reflection:{ q:"Welche Safer-Use-Regel aus diesem Modul möchtest du bei deinem nächsten Konsum konkret anwenden?", placeholder:"z.B. Ich nehme beim nächsten Mal nur die Hälfte…" },
@@ -603,11 +603,11 @@ const KB_MODULES = [
   { id:"recht", icon:"⚖️", title:"Recht & Gesetz", color:"#8899AA", readMin:6, linkTo:"privacy", linkLabel:"→ Datenschutz & Info",
     tagline:"Was du wissen solltest — nüchtern betrachtet.",
     sections:[
-      { heading:"Cannabis: Teillegalisierung in Deutschland (KCanG)", body:"Seit dem 1. April 2024 ist Cannabis für Erwachsene ab 18 Jahren in Deutschland teillegalisiert — geregelt durch das Konsumcannabisgesetz (KCanG, BGBl. 2024 I Nr. 109). 'Teillegalisiert' bedeutet: der Besitz und Eigenanbau sind unter bestimmten Bedingungen straflos, nicht aber schrankenlos erlaubt. Was Erwachsene (ab 18) dürfen: Besitz bis zu 25 g Cannabis in der Öffentlichkeit sowie bis zu 50 g in der privaten Wohnung. Eigenanbau von maximal 3 weiblichen blühenden Pflanzen zum Eigenbedarf. Mitgliedschaft in Cannabis Social Clubs (CSC) mit kontrollierter Weitergabe bis 25 g/Tag, 50 g/Monat. Was weiterhin verboten ist: Erwerb und Weitergabe außerhalb lizenzierter Wege (Schwarzmarkt), Besitz über den Freigrenzen, Konsum in der Öffentlichkeit im 100-m-Schutzbereich von Schulen, Kitas, Spielplätzen, Jugendeinrichtungen und Sportstätten sowie in Fußgängerzonen zwischen 7 und 20 Uhr. Quelle: KCanG; BMG, bundesgesundheitsministerium.de/cannabis." },
+      { heading:"Cannabis: Teillegalisierung in Deutschland (KCanG)", body:"Seit dem 1. April 2024 ist Cannabis für Erwachsene ab 18 Jahren in Deutschland teillegalisiert — geregelt durch das Konsumcannabisgesetz (KCanG, BGBl. 2024 I Nr. 109). 'Teillegalisiert' bedeutet: der Besitz und Eigenanbau sind unter bestimmten Bedingungen straflos, nicht aber schrankenlos erlaubt. Was Erwachsene (ab 18) dürfen: Besitz bis zu 25 g Cannabis in der Öffentlichkeit sowie bis zu 50 g in der privaten Wohnung. Eigenanbau von maximal 3 weiblichen blühenden Pflanzen zum Eigenbedarf. Mitgliedschaft in Cannabis Social Clubs (CSC) mit kontrollierter Weitergabe bis 25 g/Tag, 50 g/Monat. Besonderheiten für 18- bis 21-Jährige: Für diese Altersgruppe gilt eine geringere Abgabegrenze von 30 g/Monat über CSCs sowie eine THC-Obergrenze von 10 % bei der Abgabe. Was weiterhin verboten ist: Erwerb und Weitergabe außerhalb lizenzierter Wege (Schwarzmarkt), Besitz über den Freigrenzen, Konsum in der Öffentlichkeit im 100-m-Schutzbereich von Schulen, Kitas, Spielplätzen, Jugendeinrichtungen und Sportstätten sowie in Fußgängerzonen zwischen 7 und 20 Uhr. Wichtig — Geltungsbereich: Die Teillegalisierung bezieht sich ausschließlich auf natürliches Cannabis (Cannabispflanze). Andere Cannabinoide fallen weiterhin unter das BtMG. Darüber hinaus sind bei psychoaktiven Substanzen generell weitere Gesetzestexte zu beachten — insbesondere das Neue-Psychoaktive-Stoffe-Gesetz (NpSG) und das Arzneimittelgesetz (AMG). Quelle: KCanG; BMG, bundesgesundheitsministerium.de/cannabis." },
       { heading:"Jugendschutz — absolute Grenze", body:"Für Minderjährige unter 18 Jahren ändert sich durch das KCanG nichts: Besitz, Erwerb und Konsum von Cannabis bleiben vollständig strafbar. Die Weitergabe von Cannabis an Minderjährige ist ein eigenständiger Straftatbestand (§ 34 Abs. 1 Nr. 1 KCanG) und kann mit Freiheitsstrafe bis zu 3 Jahren bestraft werden. Cannabis Social Clubs sind für unter 18-Jährige gesperrt. Die verschärften Konsumverbote in Schutzzonen gelten ausdrücklich zum Schutz junger Menschen — und gelten auch für Erwachsene, wenn Minderjährige anwesend sind." },
       { heading:"BtMG — alle anderen Substanzen", body:"Für alle nicht-cannabinoiden Substanzen gilt weiterhin das Betäubungsmittelgesetz (BtMG). Es unterscheidet zwischen Besitz, Erwerb, Handel und Herstellung illegaler Substanzen. Schon der Besitz kann strafbar sein — das Verfahren kann bei 'geringer Menge' eingestellt werden (§ 31a BtMG), was als 'gering' gilt, variiert nach Bundesland und Substanz erheblich. Substanzen wie MDMA, Kokain, Amphetamine, Opioide und GHB/GBL sind weiterhin vollständig verboten." },
       { heading:"Führerschein & Fahrerlaubnis", body:"Das Fahren unter Cannabiseinfluss ist durch das KCanG nicht legalisiert worden. Seit Juni 2024 gilt ein neuer THC-Grenzwert von 3,5 ng/ml im Blutserum (§ 24a Abs. 1a StVG) — darunter ist keine Ordnungswidrigkeit gegeben, wenn kein Mischkonsum mit Alkohol vorliegt. Wichtig: THC kann nach dem Konsum noch stundenlang über dem Grenzwert liegen, bei regelmäßigem Konsum sogar tagelang. Für Fahranfänger:innen in der Probezeit und unter 21 Jahren gilt Null-Toleranz (§ 24c StVG). Die Führerscheinstelle kann unabhängig vom Strafgericht eine MPU anordnen — bei bekannt gewordenem regelmäßigen Konsum. Bei anderen BtM-Substanzen ist jeder Nachweis im Blut eine Ordnungswidrigkeit ohne Grenzwert." },
-      { heading:"Drogennotfall & Straffreiheit", body:"Bei einem Drogennotfall bist du NICHT strafbar, wenn du den Rettungsdienst rufst — auch wenn nicht-legale Substanzen im Spiel sind. Das Unterlassen von Hilfe ist dagegen strafbar (§ 323c StGB). Im Notfall gilt: IMMER 112 rufen und ehrlich angeben, was konsumiert wurde. Der Rettungsdienst interessiert sich für Gesundheit, nicht für Strafverfolgung." },
+      { heading:"Drogennotfall & Straffreiheit", body:"Bei einem Drogennotfall bist du NICHT strafbar, wenn du den Rettungsdienst rufst — auch wenn nicht-legale Substanzen im Spiel sind. Das Unterlassen von Hilfe ist dagegen strafbar (§ 323c StGB). Im Notfall IMMER 112 rufen. Beim Notruf reicht es, die Symptome zu beschreiben — z. B. 'Person ist bewusstlos und atmet flach' — ohne Substanzen zu erwähnen. Sobald der Rettungsdienst vor Ort ist, unbedingt ehrlich angeben, was konsumiert wurde: Das verbessert die Behandlung entscheidend und der Rettungsdienst ist zur Verschwiegenheit verpflichtet." },
       { heading:"Patientenrechte", body:"Du hast ein Recht auf ärztliche Schweigepflicht — auch wenn du über Substanzkonsum sprichst. Ärzte sind an die Schweigepflicht gebunden (§ 203 StGB). Ausnahme: unmittelbare Gefahr für Dritte. Du hast ein Recht auf Substitutionstherapie, auf diskriminierungsfreie Versorgung und auf Einsicht in deine Akte (DSGVO). Diese Informationen dienen der Orientierung — rechtliche Einzelfragen klärst du am besten mit einer anerkannten Beratungsstelle." },
     ],
     reflection:{ q:"Gibt es einen rechtlichen Aspekt — z. B. Besitzgrenzen, Führerschein oder Jugendschutz —, der dich persönlich betrifft? Was wäre ein erster konkreter Schritt zur Klärung?", placeholder:"z.B. Ich möchte die KCanG-Regelungen für meinen Alltag nochmal nachlesen…" },
@@ -738,6 +738,85 @@ const calcGoalProgress = (goals, logs) => {
   return { totalDays, cleanInRange, target: goals.target, pct: Math.min(100, Math.round(cleanInRange / goals.target * 100)) };
 };
 
+// ─── Feature Tips ───
+const FEATURE_TIPS = {
+  log: {
+    icon: "📝", title: "Dose-Log",
+    text: "Hier trägst du ein, was du konsumiert hast — Substanz, Menge, Setting und Stimmung. Die App erkennt automatisch riskante Kombinationen und zeigt dir eine Warnung. Jeder Eintrag ist ein Akt der Selbstfürsorge.",
+    color: "#9B7ECF",
+  },
+  planer: {
+    icon: "⏱️", title: "Dose-Planer",
+    text: "Plane deinen Konsum im Voraus: Substanz, Menge und Zeitintervalle festlegen, bevor es losgeht. Der Pre-Flight-Check hilft dir, Set & Setting bewusst zu reflektieren. So behältst du die Kontrolle.",
+    color: "#9B7ECF",
+  },
+  goals: {
+    icon: "🎯", title: "Ziele",
+    text: "Markiere konsumfreie Tage, verfolge deinen Streak und setze dir realistische Ziele — ob Abstinenz oder Reduktion. Kleine Schritte zählen genauso wie große.",
+    color: "#F2D388",
+  },
+  skillbox: {
+    icon: "🧰", title: "Skill-Box",
+    text: "Interaktive Übungen für den Moment des Suchtdrucks: Atemtechniken, Grounding-Übungen und Akuthilfe. Auch ohne akuten Druck trainierbar — je öfter geübt, desto zugänglicher im Ernstfall.",
+    color: "#E06B8A",
+  },
+  wissen: {
+    icon: "🧬", title: "Wissensdatenbank",
+    text: "12 kurze Module zu Neurobiologie, Safer Use, Recht und Selbstfürsorge — wertfrei und evidenzbasiert. Lies in deinem Tempo, was dich interessiert. Kein Zwang, keine Reihenfolge.",
+    color: "#6BCB77",
+  },
+  analysis: {
+    icon: "📊", title: "Muster-Analyse",
+    text: "Dein persönliches Bild: Wann konsumierst du? Was ist der häufigste Trigger? Wie hängen Stimmung und Konsum zusammen? Die Analyse basiert ausschließlich auf deinen eigenen Einträgen.",
+    color: "#8899AA",
+  },
+};
+
+const FeatureTip = ({ featureId }) => {
+  const tip = FEATURE_TIPS[featureId];
+  if (!tip) return null;
+  const storageKey = `dd_tip_seen_${featureId}`;
+  const [visible, setVisible] = React.useState(() => {
+    try { return !JSON.parse(localStorage.getItem(storageKey)); } catch { return true; }
+  });
+  const close = () => {
+    try { localStorage.setItem(storageKey, JSON.stringify(true)); } catch {}
+    setVisible(false);
+  };
+  if (!visible) return null;
+  return (
+    <div
+      className="animate-fadeIn"
+      style={{
+        borderRadius: 16,
+        background: `${tip.color}14`,
+        border: `1.5px solid ${tip.color}44`,
+        padding: "12px 14px",
+        marginBottom: 16,
+        display: "flex",
+        gap: 10,
+        alignItems: "flex-start",
+      }}
+    >
+      <span style={{ fontSize: 20, lineHeight: 1.4, flexShrink: 0 }}>{tip.icon}</span>
+      <div style={{ flex: 1 }}>
+        <p style={{ fontSize: 13, fontWeight: 700, color: "var(--tx)", marginBottom: 3 }}>{tip.title}</p>
+        <p style={{ fontSize: 12, color: "var(--tx2)", lineHeight: 1.6 }}>{tip.text}</p>
+      </div>
+      <button
+        onClick={close}
+        aria-label="Hinweis schließen"
+        style={{
+          flexShrink: 0, width: 24, height: 24, borderRadius: "50%",
+          background: `${tip.color}22`, border: "none",
+          color: "var(--tx2)", fontSize: 13, fontWeight: 700,
+          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+        }}
+      >✕</button>
+    </div>
+  );
+};
+
 // ═══════════════════════════════════════
 // ─── MAIN APP ─────────────────────────
 // ═══════════════════════════════════════
@@ -756,7 +835,8 @@ function DoseDiary() {
   const [fade, setFade] = useState(true);
   const [onboarded, setOnboarded] = useState(null); // null = loading, false = show onboarding, true = done
   const [locked, setLocked] = useState(false);       // PIN-Sperre aktiv?
-  const [onboardStep, setOnboardStep] = useState(0); // 0=Alterscheck+Disclaimer, 1=Substanzauswahl, 2=Dashboard-Tour
+  const [onboardStep, setOnboardStep] = useState(0); // 0=age+disclaimer, 1=privacy, 2=substances, 3=features intro, 4=wissensdatenbank
+  const [tourIdx, setTourIdx] = useState(0);
   // Goals-UI States auf App-Level → überleben saveGoals-Re-render
   const [retroCleanOpen, setRetroCleanOpen] = useState(false);
   const [milestonePopup, setMilestonePopup] = useState(null); // {id, title, icon, color, popup}
@@ -869,6 +949,7 @@ function DoseDiary() {
     await S.set("dd_skillbox", { seenIntro: false, feedback: {}, emergencyContact: "" });
     await S.set("dd_planers", []);
     await S.set("dd_challenge_count", 0);
+    await S.set("dd_meds", []);
     setMoods([]); setLogs([]);
     setGoals({ cleanDays:[], target:null, targetSubs:[], startDate:null, goalType:"clean", maxPerWeek:null });
     setPrefs({ mySubs: [] });
@@ -883,7 +964,6 @@ function DoseDiary() {
     await S.set("dd_onboarded", false);
     setOnboarded(false);
     setOnboardStep(0);
-    setTourIdx(0);
   };
 
   // ──── CSS Variables ────
@@ -1187,20 +1267,22 @@ function DoseDiary() {
         @media(prefers-reduced-motion:reduce){.ob-enter,.ob-pulse{animation:none!important;transform:none!important}}
       `}</style>
 
-      {/* ─── Top Progress Bar ─── */}
+      {/* ─── Top Progress Bar (nur für Schritte 0+1) ─── */}
+      {onboardStep < 2 && (
       <div className="px-6 pt-5 pb-2">
         <div className="flex items-center justify-between mb-2">
-          <span style={{fontSize:13,fontWeight:600,color:"var(--tx2)"}}>Schritt {onboardStep + 1} von 5</span>
-          <span style={{fontSize:13,fontWeight:700,color:"var(--acc)"}}>{Math.round((onboardStep + 1) / 5 * 100)}%</span>
+          <span style={{fontSize:13,fontWeight:600,color:"var(--tx2)"}}>Schritt {onboardStep + 1} von 2</span>
+          <span style={{fontSize:13,fontWeight:700,color:"var(--acc)"}}>{Math.round((onboardStep + 1) / 2 * 100)}%</span>
         </div>
         <div className="w-full h-2 rounded-full" style={{background:"var(--bdr)"}}>
-          <div className="h-2 rounded-full transition-all duration-500 ease-out" style={{width:`${(onboardStep + 1) / 5 * 100}%`,background:"var(--acc)"}} />
+          <div className="h-2 rounded-full transition-all duration-500 ease-out" style={{width:`${(onboardStep + 1) / 2 * 100}%`,background:"var(--acc)"}} />
         </div>
       </div>
+      )}
 
       {/* ─── Step Content ─── */}
-      <div key={onboardStep} className="flex-1 flex flex-col px-6 py-4 ob-enter" style={{minHeight:0}}>
-        <div className="flex-1 overflow-y-auto" style={{paddingBottom:16}}>
+      <div key={onboardStep} className={onboardStep === 2 ? "flex-1 flex flex-col ob-enter" : "flex-1 flex flex-col px-6 py-4 ob-enter"} style={{minHeight:0}}>
+        <div className="flex-1 overflow-y-auto" style={{paddingBottom: onboardStep === 2 ? 0 : 16}}>
 
         {/* ═══ Step 0: Willkommen & Alterscheck ═══ */}
         {onboardStep === 0 && (
@@ -1208,85 +1290,88 @@ function DoseDiary() {
             <div className="text-center pt-2">
               <div className="w-20 h-20 rounded-3xl mx-auto flex items-center justify-center text-4xl mb-4 ob-pulse" style={{background:"var(--acc)15",boxShadow:"0 8px 30px rgba(155,126,207,0.15)"}}>🌿</div>
               <h1 style={{fontSize:26,fontWeight:800,fontFamily:"var(--fontD)",lineHeight:1.2}}>DoseDiary</h1>
-              <p style={{fontSize:15,color:"var(--tx2)",marginTop:8,lineHeight:1.5}}>Dein privater Begleiter fuer bewussten Umgang.</p>
+              <p style={{fontSize:15,color:"var(--tx2)",marginTop:8,lineHeight:1.5}}>Dein privater Begleiter für bewussten Umgang.</p>
             </div>
 
+            {/* ── Altershinweis ── */}
             <div className="rounded-2xl p-5" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{background:"#E06B8A18"}}>🔞</div>
                 <p style={{fontSize:16,fontWeight:700,color:"var(--tx)"}}>Ab 18 Jahren</p>
               </div>
               <p style={{fontSize:14,color:"var(--tx2)",lineHeight:1.7}}>
-                Diese App enthaelt Informationen ueber psychoaktive Substanzen. Sie dient der Schadensminimierung — nicht der Anleitung zum Konsum.
+                Diese App enthält Informationen über psychoaktive Substanzen. Sie dient der Schadensminimierung — nicht der Anleitung zum Konsum.
               </p>
             </div>
 
-            {/* ── Pflicht-Disclaimer (MDR-Abgrenzung) ── */}
-            <div className="rounded-2xl p-5 space-y-3" style={{background:"#E06B8A10",border:"2px solid #E06B8A55"}}>
-              <div className="flex items-center gap-2 mb-1">
-                <span style={{fontSize:18}}>⚖️</span>
-                <p style={{fontSize:14,fontWeight:800,color:"#E06B8A",letterSpacing:"0.01em"}}>Wichtiger rechtlicher Hinweis</p>
-              </div>
-              <p style={{fontSize:13,fontWeight:700,color:"var(--tx)",lineHeight:1.6}}>
-                DoseDiary ist kein Medizinprodukt im Sinne der EU-Medizinprodukteverordnung (MDR 2017/745).
-              </p>
-              <p style={{fontSize:13,color:"var(--tx2)",lineHeight:1.7}}>
-                Die App bietet <strong style={{color:"var(--tx)"}}>keine medizinischen Diagnosen</strong>, <strong style={{color:"var(--tx)"}}>keine Therapievorschläge</strong> und <strong style={{color:"var(--tx)"}}>keine Dosierungsempfehlungen</strong> für den Konsum psychoaktiver Substanzen.
-              </p>
-              <div className="space-y-2 pt-1">
-                {[
-                  { icon:"📓", text:"DoseDiary ist ein Selbstreflexions- und Informationstagebuch zur Förderung der Konsumkompetenz." },
-                  { icon:"ℹ️", text:"Alle Substanz- und Wechselwirkungsinfos dienen ausschließlich der Schadensminimierung (Harm Reduction) und ersetzen keinen ärztlichen Rat." },
-                  { icon:"🚑", text:"Bei medizinischen Notfällen: Notruf 112. Die App ist kein Ersatz für Notfallhilfe." },
-                  { icon:"👤", text:"Die Nutzung erfolgt freiwillig und auf eigene Verantwortung." },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-3 items-start">
-                    <span className="text-sm shrink-0 mt-0.5">{item.icon}</span>
-                    <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6}}>{item.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ═══ Step 1: Datenschutz ═══ */}
-        {onboardStep === 1 && (
-          <div className="space-y-5">
-            <div className="text-center pt-2">
-              <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-3" style={{background:"#6BCB7715"}}>🔒</div>
-              <h2 style={{fontSize:22,fontWeight:800,fontFamily:"var(--fontD)"}}>Deine Daten gehoeren dir</h2>
-              <p style={{fontSize:15,color:"var(--tx2)",marginTop:6}}>Nichts verlaesst dein Geraet. Versprochen.</p>
-            </div>
-            <div className="space-y-3">
-              {[
-                { icon:"📱", title:"Alles bleibt lokal", text:"Deine Daten sind nur auf deinem Geraet gespeichert.", color:"#6BCB77" },
-                { icon:"👤", title:"Kein Account noetig", text:"Kein Login, keine E-Mail. Sofort starten.", color:"var(--acc)" },
-                { icon:"🛡️", title:"Null Tracking", text:"Keine Werbung, keine Cookies, keine Cloud.", color:"#F2D388" },
-                { icon:"🗑️", title:"Jederzeit loeschbar", text:"Du kannst alle Daten mit einem Klick entfernen.", color:"#E06B8A" },
-              ].map((item, i) => (
-                <div key={i} className="rounded-2xl px-4 py-4 flex gap-4 items-center" style={{background:"var(--card)",border:`1px solid ${item.color}25`}}>
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0" style={{background:`${item.color}12`}}>{item.icon}</div>
-                  <div className="flex-1">
-                    <p style={{fontSize:15,fontWeight:700,color:"var(--tx)"}}>{item.title}</p>
-                    <p style={{fontSize:13,color:"var(--tx2)",marginTop:2,lineHeight:1.5}}>{item.text}</p>
-                  </div>
+            {/* ── Rechtliche Hinweise (Dropdown) ── */}
+            <details className="rounded-2xl overflow-hidden" style={{background:"#E06B8A10",border:"2px solid #E06B8A55"}}>
+              <summary className="px-5 py-4 cursor-pointer flex items-center justify-between" style={{listStyle:"none"}}>
+                <div className="flex items-center gap-2">
+                  <span style={{fontSize:18}}>⚖️</span>
+                  <p style={{fontSize:14,fontWeight:800,color:"#E06B8A",letterSpacing:"0.01em"}}>Rechtliche Hinweise</p>
                 </div>
-              ))}
-            </div>
-            <details className="rounded-xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-              <summary className="px-4 py-2.5 cursor-pointer flex items-center justify-between" style={{fontSize:13,fontWeight:600,color:"var(--tx2)"}}>
-                <span>⚖️ DSGVO-Details</span><span style={{fontSize:11}}>Mehr erfahren ▾</span>
+                <span style={{fontSize:12,color:"var(--tx2)"}}>Mehr ▾</span>
               </summary>
-              <div className="px-4 pb-3">
-                <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6}}>Rechtsgrundlage: Art. 6(1)(a) DSGVO (Einwilligung). Loeschung jederzeit moeglich gemaess Art. 17 DSGVO. Keine Datenweitergabe an Dritte. Kein Serververkehr. Keine Analyse-Tools.</p>
+              <div className="px-5 pb-4 space-y-3">
+                <p style={{fontSize:13,fontWeight:700,color:"var(--tx)",lineHeight:1.6}}>
+                  DoseDiary ist kein Medizinprodukt im Sinne der EU-Medizinprodukteverordnung (MDR 2017/745).
+                </p>
+                <p style={{fontSize:13,color:"var(--tx2)",lineHeight:1.7}}>
+                  Die App bietet <strong style={{color:"var(--tx)"}}>keine medizinischen Diagnosen</strong>, <strong style={{color:"var(--tx)"}}>keine Therapievorschläge</strong> und <strong style={{color:"var(--tx)"}}>keine Dosierungsempfehlungen</strong> für den Konsum psychoaktiver Substanzen.
+                </p>
+                <div className="space-y-2 pt-1">
+                  {[
+                    { icon:"📓", text:"DoseDiary ist ein Selbstreflexions- und Informationstagebuch zur Förderung der Konsumkompetenz." },
+                    { icon:"ℹ️", text:"Alle Substanz- und Wechselwirkungsinfos dienen ausschließlich der Schadensminimierung (Harm Reduction) und ersetzen keinen ärztlichen Rat." },
+                    { icon:"🚑", text:"Bei medizinischen Notfällen: Notruf 112. Die App ist kein Ersatz für Notfallhilfe." },
+                    { icon:"👤", text:"Die Nutzung erfolgt freiwillig und auf eigene Verantwortung." },
+                  ].map((item, i) => (
+                    <div key={i} className="flex gap-3 items-start">
+                      <span className="text-sm shrink-0 mt-0.5">{item.icon}</span>
+                      <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6}}>{item.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </details>
+
+            {/* ── Datenschutz (Dropdown) ── */}
+            <details className="rounded-2xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+              <summary className="px-5 py-4 cursor-pointer flex items-center justify-between" style={{listStyle:"none"}}>
+                <div className="flex items-center gap-2">
+                  <span style={{fontSize:18}}>🔒</span>
+                  <p style={{fontSize:14,fontWeight:700,color:"var(--tx)"}}>Datenschutz</p>
+                </div>
+                <span style={{fontSize:12,color:"var(--tx2)"}}>Mehr ▾</span>
+              </summary>
+              <div className="px-5 pb-4 space-y-3">
+                <div className="space-y-2 pt-1">
+                  {[
+                    { icon:"📱", title:"Alles bleibt lokal", text:"Deine Daten sind nur auf deinem Gerät gespeichert.", color:"#6BCB77" },
+                    { icon:"👤", title:"Kein Account nötig", text:"Kein Login, keine E-Mail. Sofort starten.", color:"var(--acc)" },
+                    { icon:"🛡️", title:"Null Tracking", text:"Keine Werbung, keine Cookies, keine Cloud.", color:"#F2D388" },
+                    { icon:"🗑️", title:"Jederzeit löschbar", text:"Du kannst alle Daten mit einem Klick entfernen.", color:"#E06B8A" },
+                  ].map((item, i) => (
+                    <div key={i} className="rounded-xl px-3 py-3 flex gap-3 items-center" style={{background:"var(--card2)"}}>
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0" style={{background:`${item.color}18`}}>{item.icon}</div>
+                      <div className="flex-1">
+                        <p style={{fontSize:13,fontWeight:700,color:"var(--tx)"}}>{item.title}</p>
+                        <p style={{fontSize:12,color:"var(--tx2)",marginTop:1,lineHeight:1.5}}>{item.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p style={{fontSize:12,color:"var(--tx2)",lineHeight:1.6,paddingTop:4}}>Rechtsgrundlage: Art. 6(1)(a) DSGVO (Einwilligung). Löschung jederzeit möglich gemäß Art. 17 DSGVO. Keine Datenweitergabe an Dritte. Kein Serververkehr. Keine Analyse-Tools.</p>
               </div>
             </details>
           </div>
         )}
 
-        {/* ═══ Step 2: Substanz-Auswahl (Grid) ═══ */}
-        {onboardStep === 2 && (() => {
+
+
+        {/* ═══ Step 1: Substanz-Auswahl (Grid) ═══ */}
+        {onboardStep === 1 && (() => {
           const sel = prefs.mySubs || [];
           const toggle = (id) => {
             const next = sel.includes(id) ? sel.filter(x => x !== id) : [...sel, id];
@@ -1337,130 +1422,148 @@ function DoseDiary() {
           );
         })()}
 
-        {/* ═══ Step 3: Features ═══ */}
-        {onboardStep === 3 && (
-          <div className="space-y-4">
-            <div className="text-center pt-2">
-              <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-3" style={{background:"#F2D38815"}}>💡</div>
-              <h2 style={{fontSize:22,fontWeight:800,fontFamily:"var(--fontD)"}}>Deine Werkzeuge</h2>
-              <p style={{fontSize:14,color:"var(--tx2)",marginTop:6}}>Fünf Tools, die dich im Alltag begleiten.</p>
-            </div>
-            <div className="space-y-2">
-              {[
-                { icon:"😊", title:"Mood-Check-in", desc:"Einmal am Tag: Wie geht es dir? So erkennst du Muster zwischen Stimmung und Konsum.", color:"#6BCB77" },
-                { icon:"📝", title:"Dose-Log", desc:"Trage Substanz, Menge und Setting ein. Die App warnt dich bei riskanten Kombinationen.", color:"var(--acc)" },
-                { icon:"🌟", title:"Clean Days & Ziele", desc:"Feiere konsumfreie Tage und setze dir realistische Ziele.", color:"#F2D388" },
-                { icon:"⏱️", title:"Dose-Planer", desc:"Setze dir feste Zeitintervalle für den Abend. Die App hilft dir, Pausen einzuhalten und dein persönliches Limit nicht zu überschreiten.", color:"#9B7ECF" },
-                { icon:"🧰", title:"Skill-Box", desc:"Interaktive Übungen gegen Suchtdruck — von Atemübungen bis Akuthilfe.", color:"#E06B8A" },
-              ].map((f, i) => (
-                <div key={i} className="rounded-2xl px-3 py-3 flex gap-3 items-center" style={{background:"var(--card)",border:`1px solid ${f.color}30`}}>
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0" style={{background:`${f.color}15`}}>{f.icon}</div>
-                  <div className="flex-1">
-                    <p style={{fontSize:14,fontWeight:700,color:"var(--tx)"}}>{f.title}</p>
-                    <p style={{fontSize:12,color:"var(--tx2)",marginTop:2,lineHeight:1.5}}>{f.desc}</p>
+        {/* ═══ Step 2: Dashboard-Tour ═══ */}
+        {onboardStep === 2 && (() => {
+          const TOUR = [
+            { id:"mood",    label:"Mood-Board",       emoji:"😊", color:"#6BCB77",  bubble:"Jeden Tag einmal einchecken: Wie geht's dir? So erkennst du Muster zwischen Stimmung und Konsum.", highlight:"tour-mood" },
+            { id:"log",     label:"Loggen",            emoji:"📝", color:"#9B7ECF",  bubble:"Trage hier ein, was du konsumiert hast — Substanz, Menge, Setting. Die App warnt dich bei riskanten Kombinationen.", highlight:"tour-log" },
+            { id:"planer",  label:"Planen",            emoji:"⏱️", color:"#9B7ECF",  bubble:"Plane deinen Abend im Voraus: Setze dir Zeitintervalle und ein persönliches Limit — bevor der Konsum beginnt.", highlight:"tour-planer" },
+            { id:"goals",   label:"Ziele",             emoji:"🎯", color:"#F2D388",  bubble:"Markiere konsumfreie Tage, setze dir realistische Ziele und beobachte deinen Fortschritt.", highlight:"tour-goals" },
+            { id:"skills",  label:"Skills",            emoji:"🧰", color:"#E06B8A",  bubble:"Interaktive Übungen für den Moment des Suchtdrucks — Atemübungen, Grounding-Techniken und mehr.", highlight:"tour-skills" },
+            { id:"wissen",  label:"Wissen",            emoji:"🧬", color:"#6BCB77",  bubble:"12 kurze Module zu Neurobiologie, Substanzen, Recht und Selbstfürsorge — lies was dich interessiert, wann du willst.", highlight:"tour-wissen" },
+            { id:"report",  label:"Meine Auswertungen",emoji:"📊", color:"#8899AA",  bubble:"Wochenbericht, Konsummuster und Stimmungsverläufe — dein persönliches Bild auf einen Blick.", highlight:"tour-report" },
+          ];
+          const current = TOUR[tourIdx];
+          const isLast = tourIdx === TOUR.length - 1;
+
+          return (
+            <div style={{position:"relative", height:"100%", minHeight:"100vh", background:"var(--bg)", overflow:"hidden"}}>
+
+              {/* Dimming overlay */}
+              <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.55)",zIndex:10,pointerEvents:"none"}} />
+
+              {/* ── Simulated Dashboard ── */}
+              <div style={{position:"absolute",inset:0,overflowY:"auto",zIndex:5,padding:"16px 16px 200px"}}>
+
+                {/* Date */}
+                <p className="text-xs text-center pt-1 opacity-50 mb-4" style={{color:"var(--tx)"}}>
+                  {new Date().toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"})}
+                </p>
+
+                {/* Mood card */}
+                <div id="tour-mood" className="rounded-2xl p-4 mb-3" style={{background:"var(--card)",border:`1px solid ${current.id==="mood" ? current.color : "var(--bdr)"}`,boxShadow: current.id==="mood" ? `0 0 0 3px ${current.color}55` : "none",position:"relative",zIndex: current.id==="mood" ? 20 : 5,transition:"box-shadow 0.3s,border 0.3s"}}>
+                  <p className="text-sm font-bold text-center mb-3" style={{color:"var(--tx)"}}>Wie geht es dir gerade?</p>
+                  <div className="flex justify-between gap-1">
+                    {[{emoji:"😊",label:"Gut"},{emoji:"🙂",label:"Okay"},{emoji:"😐",label:"Neutral"},{emoji:"😔",label:"Mies"},{emoji:"😣",label:"Krise"}].map((m,i) => (
+                      <div key={i} className="flex flex-col items-center gap-1 flex-1 py-2 rounded-xl" style={{background:"var(--card2)"}}>
+                        <span style={{fontSize:22}}>{m.emoji}</span>
+                        <span style={{fontSize:9,color:"var(--tx2)"}}>{m.label}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {/* ═══ Step 4: Wissensdatenbank ═══ */}
-        {onboardStep === 4 && (
-          <div className="space-y-5">
-            <div className="text-center pt-2">
-              <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-3xl mb-3" style={{background:"var(--acc)15"}}>🧬</div>
-              <h2 style={{fontSize:22,fontWeight:800,fontFamily:"var(--fontD)"}}>Wissensdatenbank</h2>
-              <p style={{fontSize:15,color:"var(--tx2)",marginTop:6}}>12 kompakte Module — lies was dich interessiert.</p>
-            </div>
+                {/* Action buttons row 1 */}
+                <p className="text-xs font-bold mb-2 px-1" style={{color:"var(--tx2)"}}>WAS MÖCHTEST DU TUN?</p>
+                <div className="flex gap-2 justify-center mb-2">
+                  {[{icon:"📝",label:"Loggen",id:"log"},{icon:"⏱️",label:"Planen",id:"planer"}].map(a => (
+                    <div key={a.id} id={`tour-${a.id}`} className="rounded-2xl py-4 flex flex-col items-center gap-2"
+                      style={{background:"var(--card)",border:`1px solid ${(current.id===a.id) ? current.color : "var(--bdr)"}`,boxShadow:(current.id===a.id)?`0 0 0 3px ${current.color}55`:"none",width:"calc(50% - 4px)",position:"relative",zIndex:(current.id===a.id)?20:5,transition:"box-shadow 0.3s,border 0.3s"}}>
+                      <span style={{fontSize:26}}>{a.icon}</span>
+                      <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>{a.label}</span>
+                    </div>
+                  ))}
+                </div>
+                {/* Action buttons row 2 */}
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  {[{icon:"🎯",label:"Ziele",id:"goals"},{icon:"🧰",label:"Skills",id:"skills"},{icon:"🧬",label:"Wissen",id:"wissen"}].map(a => (
+                    <div key={a.id} id={`tour-${a.id}`} className="rounded-2xl py-4 flex flex-col items-center gap-2"
+                      style={{background:"var(--card)",border:`1px solid ${(current.id===a.id)?current.color:"var(--bdr)"}`,boxShadow:(current.id===a.id)?`0 0 0 3px ${current.color}55`:"none",position:"relative",zIndex:(current.id===a.id)?20:5,transition:"box-shadow 0.3s,border 0.3s"}}>
+                      <span style={{fontSize:26}}>{a.icon}</span>
+                      <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>{a.label}</span>
+                    </div>
+                  ))}
+                </div>
 
-            <div className="rounded-2xl p-4" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-              <div className="grid grid-cols-4 gap-2 mb-4">
-                {KB_MODULES.slice(0, 8).map(m => (
-                  <div key={m.id} className="h-12 rounded-xl flex flex-col items-center justify-center gap-0.5" style={{background:`${m.color}10`}}>
-                    <span style={{fontSize:18}}>{m.icon}</span>
-                    <span style={{fontSize:8,color:m.color,fontWeight:600}}>{m.title.split(" ")[0]}</span>
+                {/* Report card */}
+                <div id="tour-report" className="rounded-2xl p-4" style={{background:"var(--card)",border:`1px solid ${current.id==="report"?current.color:"var(--bdr)"}`,boxShadow:current.id==="report"?`0 0 0 3px ${current.color}55`:"none",position:"relative",zIndex:current.id==="report"?20:5,transition:"box-shadow 0.3s,border 0.3s"}}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span style={{fontSize:18}}>📊</span>
+                    <p style={{fontSize:14,fontWeight:700,color:"var(--tx)"}}>Meine Auswertungen</p>
                   </div>
-                ))}
+                  <div className="grid grid-cols-3 gap-2">
+                    {[{label:"Einträge",val:"—"},{label:"Clean Days",val:"—"},{label:"Ø Stimmung",val:"—"}].map((s,i)=>(
+                      <div key={i} className="rounded-xl p-2 text-center" style={{background:"var(--card2)"}}>
+                        <p style={{fontSize:18,fontWeight:800,color:"var(--acc)"}}>{s.val}</p>
+                        <p style={{fontSize:9,color:"var(--tx2)",marginTop:2}}>{s.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <p style={{fontSize:14,color:"var(--tx2)",lineHeight:1.7}}>
-                Von Neurobiologie bis Recht & Gesetz — fundiertes Wissen in 3-5 Minuten pro Modul.
-              </p>
-            </div>
 
-            <div className="space-y-2">
-              {[
-                { icon:"🎓", text:"Wertfrei und evidenzbasiert" },
-                { icon:"⏱️", text:"Snackable: 3-5 Minuten pro Modul" },
-                { icon:"💭", text:"Reflexionsfragen fuer deine Selbstarbeit" },
-                { icon:"🔗", text:"Direkt verlinkt mit den App-Tools" },
-                { icon:"🆓", text:"Kein Zwang — lies in deinem Tempo" },
-                { icon:"⚖️", text:"Alle Inhalte dienen der Schadensminimierung — kein Ersatz für Fachberatung" },
-              ].map((t,i) => (
-                <div key={i} className="flex items-center gap-3 px-1">
-                  <span style={{fontSize:16}}>{t.icon}</span>
-                  <p style={{fontSize:14,color:"var(--tx2)",lineHeight:1.5}}>{t.text}</p>
+              {/* ── Speech Bubble + Controls ── */}
+              <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,zIndex:30,padding:"0 16px 24px"}}>
+                {/* Bubble */}
+                <div className="rounded-2xl p-4 mb-3" style={{background:"var(--card)",border:`2px solid ${current.color}`,boxShadow:`0 8px 32px rgba(0,0,0,0.4)`}}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span style={{fontSize:22}}>{current.emoji}</span>
+                    <p style={{fontSize:15,fontWeight:800,color:"var(--tx)"}}>{current.label}</p>
+                    <span style={{marginLeft:"auto",fontSize:11,color:"var(--tx2)"}}>{tourIdx+1} / {TOUR.length}</span>
+                  </div>
+                  <p style={{fontSize:13,color:"var(--tx2)",lineHeight:1.65}}>{current.bubble}</p>
+                  {/* Dot indicators */}
+                  <div className="flex justify-center gap-1.5 mt-3">
+                    {TOUR.map((_,i) => (
+                      <div key={i} style={{width: i===tourIdx?18:6, height:6, borderRadius:3, background: i===tourIdx ? current.color : "var(--bdr)", transition:"all 0.3s"}} />
+                    ))}
+                  </div>
                 </div>
-              ))}
+                {/* Button */}
+                {isLast ? (
+                  <button onClick={async () => { await savePrefs({ ...prefs, mySubs: prefs.mySubs || [] }); await completeOnboarding(); }}
+                    className="w-full rounded-2xl font-bold transition-all hover:scale-[1.01] active:scale-[0.98]"
+                    style={{background:"var(--acc)",color:"#fff",boxShadow:"0 4px 20px rgba(155,126,207,0.3)",fontSize:16,minHeight:52,padding:"14px 24px"}}>
+                    ✓ App starten
+                  </button>
+                ) : (
+                  <button onClick={() => setTourIdx(t => t+1)}
+                    className="w-full rounded-2xl font-bold transition-all hover:scale-[1.01] active:scale-[0.98]"
+                    style={{background:current.color,color:"#fff",boxShadow:`0 4px 20px ${current.color}55`,fontSize:16,minHeight:52,padding:"14px 24px"}}>
+                    Weiter →
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         </div>{/* end scrollable area */}
 
         {/* ─── Fixed bottom buttons ─── */}
         <div className="shrink-0 pt-2 pb-2 space-y-2">
           {onboardStep === 0 && (
-            <button onClick={() => setOnboardStep(1)} aria-label="Weiter zu Datenschutz" className="w-full rounded-2xl font-bold transition-all hover:scale-[1.01] active:scale-[0.98]"
+            <button onClick={() => setOnboardStep(1)} aria-label="Weiter zu Substanzauswahl" className="w-full rounded-2xl font-bold transition-all hover:scale-[1.01] active:scale-[0.98]"
               style={{background:"var(--acc)",color:"#fff",boxShadow:"0 4px 20px rgba(155,126,207,0.3)",fontSize:16,minHeight:52,padding:"14px 24px"}}>
               Ich bin 18+ — Weiter
             </button>
           )}
-          {onboardStep === 1 && (<>
-            <button onClick={() => setOnboardStep(2)} aria-label="Weiter zu Substanzauswahl" className="w-full rounded-2xl font-bold transition-all hover:scale-[1.01] active:scale-[0.98]"
-              style={{background:"var(--acc)",color:"#fff",fontSize:16,minHeight:52,padding:"14px 24px"}}>
-              Verstanden — Weiter
-            </button>
-            <button onClick={() => setOnboardStep(0)} className="w-full rounded-xl"
-              style={{color:"var(--tx2)",fontSize:14,minHeight:44,padding:"10px 24px"}}>
-              ← Zurueck
-            </button>
-          </>)}
-          {onboardStep === 2 && (() => {
+
+          {onboardStep === 1 && (() => {
             const sel = prefs.mySubs || [];
             return (<>
-              <button onClick={async () => { await savePrefs({ ...prefs, mySubs: sel }); setOnboardStep(3); }} disabled={sel.length === 0}
+              <button onClick={async () => { await savePrefs({ ...prefs, mySubs: sel }); setOnboardStep(2); }} disabled={sel.length === 0}
                 className="w-full rounded-2xl font-bold transition-all disabled:opacity-40 hover:scale-[1.01] active:scale-[0.98]"
                 style={{background:sel.length>0?"var(--acc)":"var(--bdr)",color:sel.length>0?"#fff":"var(--tx2)",fontSize:16,minHeight:52,padding:"14px 24px"}}>
                 {sel.length === 0 ? "Bitte mindestens 1 waehlen" : `Weiter (${sel.length} gewaehlt)`}
               </button>
-              <button onClick={() => setOnboardStep(1)} className="w-full rounded-xl"
+              <button onClick={() => setOnboardStep(0)} className="w-full rounded-xl"
                 style={{color:"var(--tx2)",fontSize:14,minHeight:44,padding:"10px 24px"}}>
                 ← Zurueck
               </button>
             </>);
           })()}
-          {onboardStep === 3 && (<>
-            <button onClick={() => setOnboardStep(4)} aria-label="Weiter zu Wissensdatenbank" className="w-full rounded-2xl font-bold transition-all hover:scale-[1.01] active:scale-[0.98]"
-              style={{background:"var(--acc)",color:"#fff",fontSize:16,minHeight:52,padding:"14px 24px"}}>
-              Weiter
-            </button>
-            <button onClick={() => setOnboardStep(2)} className="w-full rounded-xl"
-              style={{color:"var(--tx2)",fontSize:14,minHeight:44,padding:"10px 24px"}}>
-              ← Zurueck
-            </button>
-          </>)}
-          {onboardStep === 4 && (<>
-            <button onClick={async () => { await savePrefs({ ...prefs, mySubs: prefs.mySubs || [] }); await completeOnboarding(); }}
-              className="w-full rounded-2xl font-bold transition-all hover:scale-[1.01] active:scale-[0.98]"
-              style={{background:"var(--acc)",color:"#fff",boxShadow:"0 4px 20px rgba(155,126,207,0.3)",fontSize:16,minHeight:52,padding:"14px 24px"}}>
-              ✓ App starten
-            </button>
-            <button onClick={() => setOnboardStep(3)} className="w-full rounded-xl"
-              style={{color:"var(--tx2)",fontSize:14,minHeight:44,padding:"10px 24px"}}>
-              ← Zurueck
-            </button>
-          </>)}
+
         </div>
       </div>
     </div>
@@ -1505,8 +1608,7 @@ function DoseDiary() {
     const ACTIONS = [
       { icon:"📝", label:"Loggen",    id:"log"    },
       { icon:"⏱️", label:"Planen",    id:"planer" },
-      { icon:"🌟", label:"Clean",     id:"goals"  },
-      { icon:"🎯", label:"Ziel",      id:"goals"  },
+      { icon:"🎯", label:"Ziele",     id:"goals"  },
       { icon:"🧰", label:"Skills",    id:"skillbox"},
       { icon:"🧬", label:"Wissen",    id:"wissen" },
     ];
@@ -1576,8 +1678,18 @@ function DoseDiary() {
       {/* ── Was möchtest du tun? ── */}
       <div>
         <p className="text-xs font-bold mb-3 px-1" style={{color:"var(--tx2)"}}>WAS MÖCHTEST DU TUN?</p>
+        <div className="flex gap-2 justify-center mb-2">
+          {ACTIONS.slice(0,2).map(a => (
+            <button key={a.label} onClick={() => nav(a.id)}
+              className="rounded-2xl py-4 flex flex-col items-center gap-2 transition-all active:scale-95"
+              style={{background:"var(--card)",border:"1px solid var(--bdr)",width:"calc(50% - 4px)"}}>
+              <span style={{fontSize:26}}>{a.icon}</span>
+              <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>{a.label}</span>
+            </button>
+          ))}
+        </div>
         <div className="grid grid-cols-3 gap-2">
-          {ACTIONS.map(a => (
+          {ACTIONS.slice(2).map(a => (
             <button key={a.label} onClick={() => nav(a.id)}
               className="rounded-2xl py-4 flex flex-col items-center gap-2 transition-all active:scale-95"
               style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
@@ -1753,14 +1865,48 @@ function DoseDiary() {
         </div>
       )}
 
-      {/* ── Meine Auswertungen ── */}
-      <button onClick={() => nav("analysis")}
-        className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-all active:scale-[0.99]"
-        style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-        <span style={{fontSize:18}}>📊</span>
-        <span className="flex-1 text-sm font-bold text-left" style={{color:"var(--tx)"}}>Meine Auswertungen</span>
-        <span style={{fontSize:16,color:"var(--tx2)"}}>›</span>
-      </button>
+      {/* ── Meine Auswertungen (Dropdown) ── */}
+      {(() => {
+        const [open, setOpen] = useState(false);
+        return (
+          <div className="rounded-2xl overflow-hidden" style={{border:"1px solid var(--bdr)"}}>
+            <button onClick={() => setOpen(o => !o)}
+              className="w-full flex items-center gap-3 px-4 py-4 transition-all active:scale-[0.99]"
+              style={{background:"var(--card)"}}>
+              <span style={{fontSize:18}}>📊</span>
+              <span className="flex-1 text-sm font-bold text-left" style={{color:"var(--tx)"}}>Meine Auswertungen</span>
+              <span className="text-xs transition-all duration-200" style={{
+                color:"var(--tx2)",
+                transform: open ? "rotate(90deg)" : "rotate(0deg)",
+                display:"inline-block",
+                fontSize:16,
+              }}>›</span>
+            </button>
+            {open && (
+              <div className="animate-fadeIn" style={{borderTop:"1px solid var(--bdr)"}}>
+                {[
+                  { icon:"📋", label:"Log-Verlauf",      id:"loghistory" },
+                  { icon:"📈", label:"Craving-Kurve",     id:"craving"   },
+                  { icon:"💚", label:"Stimmungsverlauf",  id:"moodtl"    },
+                  { icon:"📊", label:"Muster-Analyse",    id:"analysis"  },
+                  { icon:"📝", label:"Wochenbericht",     id:"report"    },
+                ].map((item, i, arr) => (
+                  <button key={item.id} onClick={() => nav(item.id)}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 transition-all active:scale-[0.99]"
+                    style={{
+                      background:"var(--card2)",
+                      borderBottom: i < arr.length - 1 ? "1px solid var(--bdr)" : "none",
+                    }}>
+                    <span style={{fontSize:16,flexShrink:0}}>{item.icon}</span>
+                    <span className="flex-1 text-sm font-medium text-left" style={{color:"var(--tx)"}}>{item.label}</span>
+                    <span style={{fontSize:14,color:"var(--tx2)"}}>›</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
     );
   };
@@ -1982,6 +2128,9 @@ function DoseDiary() {
           );
         })()}
 
+        {/* Medikamenten-Warnung */}
+
+
         {isBehavior ? (
           <div>
             <label className="text-xs font-medium mb-2 block" style={{color:"var(--tx2)"}}>Dauer (optional)</label>
@@ -2135,113 +2284,480 @@ function DoseDiary() {
 
     return null;
   };
-  const Analysis = () => {
-    const [range, setRange] = React.useState("week");
-    const now = new Date();
-    const cutoff = range === "week"
-      ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
-      : range === "month"
-      ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 29)
-      : new Date(0);
-    const fLogs  = logs.filter(l => new Date(l.date) >= cutoff);
-    const fMoods = moods.filter(m => new Date(m.date) >= cutoff);
-    const rangeLabel = range === "week" ? "7 Tage" : range === "month" ? "30 Tage" : "Gesamt";
-    const hasLogs = fLogs.length > 0;
-    const avgMoodVal = fMoods.length ? fMoods.reduce((s,m) => s+m.value,0)/fMoods.length : null;
-    const avgMoodEmoji = avgMoodVal ? (MOODS.find(m => m.value === Math.round(avgMoodVal))?.emoji||"–") : null;
-    const topSub  = hasLogs ? mostCommon(fLogs.map(l => l.substance)) : null;
-    const bd = byDay(fLogs);
-    const topDay  = hasLogs ? Object.entries(bd).sort((a,b) => b[1]-a[1])[0]?.[0] : null;
-    const bt = byTime(fLogs);
-    const topTime = hasLogs ? Object.entries(bt).sort((a,b) => b[1]-a[1])[0]?.[0] : null;
-    const streak  = calcStreak(goals.cleanDays||[], logs);
-    const longest = calcLongestStreak(goals.cleanDays||[]);
-    const trendDays = range === "week" ? 7 : range === "month" ? 30 : 14;
-    const trend = moodTrend(moods, trendDays);
-    const trendFilled = trend.filter(t => t.value !== null);
-    const DAYS = ["Mo","Di","Mi","Do","Fr","Sa","So"];
-    if (logs.length === 0 && moods.length === 0) return (
-      <div className="text-center py-16 space-y-4">
-        <p style={{fontSize:48}}>📊</p>
-        <p className="font-bold text-base" style={{color:"var(--tx)"}}>Noch keine Daten</p>
-        <p className="text-sm leading-relaxed px-4" style={{color:"var(--tx2)"}}>Starte mit dem Dose-Log oder einem täglichen Mood-Check-in.</p>
-        <button onClick={() => nav("log")} className="mx-auto block px-6 py-3 rounded-2xl text-sm font-bold" style={{background:"var(--acc)",color:"#fff"}}>📝 Zum Dose-Log</button>
+
+
+  // ═══════════════════════════════════════════════
+  // ─── LOG HISTORY (Full log with filter + delete) ───
+  // ═══════════════════════════════════════════════
+  const LogHistory = () => {
+    const [filter, setFilter] = useState("all");
+    const [expandId, setExpandId] = useState(null);
+    const [confirmDel, setConfirmDel] = useState(null);
+
+    const sorted = [...logs].sort((a,b) => new Date(b.date)-new Date(a.date));
+    const uniqueSubs = [...new Set(logs.map(l=>l.substance))];
+    const filtered = filter==="all" ? sorted : sorted.filter(l=>l.substance===filter);
+
+    // Group by date
+    const grouped = {};
+    filtered.forEach(l => {
+      const d = new Date(l.date).toLocaleDateString("de-DE",{weekday:"short",day:"numeric",month:"short"});
+      if (!grouped[d]) grouped[d]=[];
+      grouped[d].push(l);
+    });
+
+    const deleteEntry = async (id) => {
+      await save("dd_logs", setLogs, logs.filter(l=>l.id!==id));
+      setConfirmDel(null); setExpandId(null);
+    };
+
+    if (logs.length===0) return (
+      <div className="text-center py-16 space-y-3">
+        <p className="text-4xl">📋</p>
+        <p className="font-medium" style={{color:"var(--tx)"}}>Noch keine Einträge</p>
+        <p className="text-xs" style={{color:"var(--tx2)"}}>Starte mit deinem ersten Log-Eintrag.</p>
+        <Btn onClick={()=>nav("log")} small>📝 Zum Dose-Log</Btn>
       </div>
     );
+
     return (
       <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <p className="text-xs" style={{color:"var(--tx2)"}}>{logs.length} Einträge gesamt</p>
+          <button onClick={()=>nav("log")} className="text-xs font-semibold px-3 py-1.5 rounded-lg" style={{background:"var(--acc)",color:"#fff"}}>+ Neuer Eintrag</button>
+        </div>
+
+        {/* Filter */}
+        {uniqueSubs.length > 1 && (
+          <div className="flex flex-wrap gap-1.5">
+            <button onClick={()=>setFilter("all")} className="px-2.5 py-1 rounded-full text-xs font-medium transition-all" style={{background:filter==="all"?"var(--acc)":"var(--card)",color:filter==="all"?"#fff":"var(--tx2)",border:`1px solid ${filter==="all"?"var(--acc)":"var(--bdr)"}`}}>Alle</button>
+            {uniqueSubs.map(s=>(
+              <button key={s} onClick={()=>setFilter(filter===s?"all":s)} className="px-2.5 py-1 rounded-full text-xs font-medium transition-all" style={{background:filter===s?"var(--acc)":"var(--card)",color:filter===s?"#fff":"var(--tx2)",border:`1px solid ${filter===s?"var(--acc)":"var(--bdr)"}`}}>{subEmoji(s)} {s}</button>
+            ))}
+          </div>
+        )}
+
+        {/* Grouped entries */}
+        {Object.entries(grouped).map(([day, entries]) => (
+          <div key={day}>
+            <p className="text-xs font-bold mb-1.5 px-1" style={{color:"var(--tx2)"}}>{day}</p>
+            <div className="space-y-1.5">
+              {entries.map(l => (
+                <div key={l.id} className="rounded-xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+                  <button onClick={()=>setExpandId(expandId===l.id?null:l.id)} className="w-full px-4 py-3 flex items-center gap-3 text-left">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm" style={{background:"var(--acc)12"}}>{subEmoji(l.substance)}</div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate" style={{color:"var(--tx)"}}>{l.substance}</p>
+                      <p className="text-xs" style={{color:"var(--tx2)"}}>{l.amount?`${l.amount} ${l.unit} · `:""}{l.setting}</p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-xs" style={{color:"var(--tx2)"}}>{new Date(l.date).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})}</p>
+                      <p className="text-xs" style={{color:l.craving>6?"#E06B8A":l.craving>3?"#F2D388":"#6BCB77"}}>⚡ {l.craving}/10</p>
+                    </div>
+                  </button>
+                  {expandId===l.id && (
+                    <div className="px-4 pb-3 pt-1 animate-fadeIn" style={{borderTop:"1px solid var(--bdr)"}}>
+                      {l.note && <div className="rounded-lg p-2.5 mb-2" style={{background:"var(--card2)"}}><p className="text-xs font-bold mb-0.5" style={{color:"var(--tx2)"}}>📝 Notiz</p><p className="text-xs leading-relaxed" style={{color:"var(--tx)"}}>{l.note}</p></div>}
+                      <div className="flex items-center gap-3 text-xs mb-2 flex-wrap" style={{color:"var(--tx2)"}}>
+                        <span>📍 {l.setting}</span>
+                        <span>🕐 {new Date(l.date).toLocaleString("de-DE",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</span>
+                        {l.retroactive && <span className="px-1.5 py-0.5 rounded text-xs" style={{background:"var(--acc)12",color:"var(--acc)",fontSize:9}}>nachgetragen</span>}
+                      </div>
+                      {confirmDel===l.id ? (
+                        <div className="flex gap-2">
+                          <button onClick={()=>setConfirmDel(null)} className="flex-1 py-2 rounded-lg text-xs" style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>Abbrechen</button>
+                          <button onClick={()=>deleteEntry(l.id)} className="flex-1 py-2 rounded-lg text-xs font-bold" style={{background:"#E06B8A",color:"#fff"}}>Endgültig löschen</button>
+                        </div>
+                      ) : (
+                        <button onClick={()=>setConfirmDel(l.id)} aria-label="Eintrag löschen" className="text-xs font-medium" style={{color:"#E06B8A",minHeight:44,minWidth:44}}><span aria-hidden="true">🗑️ </span>Eintrag löschen</button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // ═══════════════════════════════════════════════
+  // ─── MOOD TIMELINE (Visual mood history) ───
+  // ═══════════════════════════════════════════════
+  const MoodTimeline = () => {
+    const [range, setRange] = useState(30); // 7, 14, 30
+    const trend = moodTrend(moods, range);
+    const filled = trend.filter(t => t.value !== null);
+
+    if (moods.length < 2) return (
+      <div className="text-center py-16 space-y-3">
+        <p className="text-4xl">💚</p>
+        <p className="font-medium" style={{color:"var(--tx)"}}>Noch zu wenig Daten</p>
+        <p className="text-xs" style={{color:"var(--tx2)"}}>Mache täglich einen Mood-Check-in auf dem Dashboard.</p>
+      </div>
+    );
+
+    const avg = filled.length ? (filled.reduce((s,t) => s+t.value, 0)/filled.length).toFixed(1) : "–";
+    const best = filled.length ? Math.max(...filled.map(t=>t.value)) : 0;
+    const worst = filled.length ? Math.min(...filled.map(t=>t.value)) : 0;
+    const bestDay = filled.find(t=>t.value===best);
+    const worstDay = filled.find(t=>t.value===worst);
+
+    // Mood distribution
+    const dist = [0,0,0,0,0];
+    filled.forEach(t => { if(t.value>=1&&t.value<=5) dist[t.value-1]++; });
+
+    return (
+      <div className="space-y-5">
+        {/* Range selector */}
         <div className="flex rounded-xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-          {[{v:"week",l:"Woche"},{v:"month",l:"Monat"},{v:"all",l:"Gesamt"}].map(r => (
-            <button key={r.v} onClick={() => setRange(r.v)} className="flex-1 py-2.5 text-xs font-semibold transition-all" style={{background:range===r.v?"var(--acc)":"transparent",color:range===r.v?"#fff":"var(--tx2)"}}>{r.l}</button>
+          {[{v:7,l:"7 Tage"},{v:14,l:"14 Tage"},{v:30,l:"30 Tage"}].map(r=>(
+            <button key={r.v} onClick={()=>setRange(r.v)} className="flex-1 py-2 text-xs font-semibold transition-all" style={{background:range===r.v?"var(--acc)":"transparent",color:range===r.v?"#fff":"var(--tx2)"}}>{r.l}</button>
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl p-4 flex flex-col gap-1" style={{background:"var(--card)",border:"1px solid #F2D38844"}}>
-            <span style={{fontSize:22}}>🔥</span>
-            <p style={{fontSize:26,fontWeight:800,color:"#F2D388",fontFamily:"var(--fontD)",lineHeight:1}}>{streak}</p>
-            <p style={{fontSize:11,color:"var(--tx2)"}}>Aktuelle Streak</p>
+
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-2">
+          <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+            <p className="text-xl font-bold" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{avg}</p>
+            <p className="text-xs" style={{color:"var(--tx2)"}}>Ø Mood</p>
           </div>
-          <div className="rounded-2xl p-4 flex flex-col gap-1" style={{background:"var(--card)",border:"1px solid #6BCB7744"}}>
-            <span style={{fontSize:22}}>🏆</span>
-            <p style={{fontSize:26,fontWeight:800,color:"#6BCB77",fontFamily:"var(--fontD)",lineHeight:1}}>{longest}</p>
-            <p style={{fontSize:11,color:"var(--tx2)"}}>Längste Streak</p>
+          <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+            <p className="text-xl font-bold" style={{color:"#6BCB77",fontFamily:"var(--fontD)"}}>{filled.length}</p>
+            <p className="text-xs" style={{color:"var(--tx2)"}}>Check-ins</p>
+          </div>
+          <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+            <p className="text-xl font-bold" style={{color:"#F2D388",fontFamily:"var(--fontD)"}}>{range - filled.length}</p>
+            <p className="text-xs" style={{color:"var(--tx2)"}}>Verpasst</p>
           </div>
         </div>
-        <Card ariaLabel="Stimmungsverlauf">
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-bold" style={{color:"var(--tx)"}}>😊 Stimmung</p>
-            {avgMoodVal && <span style={{fontSize:13,fontWeight:700,color:"var(--acc)"}}>{avgMoodEmoji} Ø {avgMoodVal.toFixed(1)}</span>}
+
+        {/* Simple Emoji List */}
+        <Card>
+          <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📅 Verlauf</h3>
+          <div className="space-y-1.5">
+            {trend.filter(t => t.value !== null).slice().reverse().map((t, i) => (
+              <div key={i} className="flex items-center gap-3 py-1">
+                <span className="text-lg w-8 text-center">{t.emoji}</span>
+                <span className="text-xs" style={{color:"var(--tx2)"}}>{t.ds}</span>
+                <span className="text-xs font-medium ml-auto" style={{color: t.value >= 4 ? "#6BCB77" : t.value === 3 ? "#F2D388" : "#E06B8A"}}>
+                  {MOODS.find(m => m.value === t.value)?.label}
+                </span>
+              </div>
+            ))}
+            {trend.filter(t => t.value !== null).length === 0 && <p className="text-xs text-center py-4" style={{color:"var(--tx2)"}}>Keine Daten für diesen Zeitraum.</p>}
           </div>
-          {trendFilled.length < 2 ? (
-            <p className="text-xs text-center py-3" style={{color:"var(--tx2)"}}>Noch zu wenig Check-ins.</p>
-          ) : (
-            <div className="flex items-end gap-0.5" style={{height:52}}>
-              {trend.map((t, i) => {
-                const h = t.value ? Math.round((t.value/5)*44)+8 : 4;
-                const col = t.value ? (MOODS.find(m => m.value===t.value)?.color||"var(--acc)") : "var(--bdr)";
-                return (
-                  <div key={i} className="flex flex-col items-center flex-1 gap-0.5">
-                    <div className="w-full rounded-t-sm" style={{height:h,background:col,opacity:t.isToday?1:0.7}} />
-                    {trend.length <= 14 && <span style={{fontSize:7,color:"var(--tx2)",lineHeight:1}}>{t.label}</span>}
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </Card>
-        {hasLogs ? (
-          <Card ariaLabel={`Konsummuster – ${rangeLabel}`}>
-            <p className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📊 Konsummuster · {rangeLabel}</p>
-            <Row l="💊 Häufigste Substanz" r={topSub ? `${subEmoji(topSub)} ${topSub}` : "–"} />
-            <Row l="📅 Häufigster Tag"     r={topDay||"–"} />
-            <Row l="🕐 Tageszeit"          r={topTime||"–"} />
-            <Row l="📝 Einträge gesamt"    r={fLogs.length} />
-          </Card>
-        ) : (
-          <Card><p className="text-xs text-center py-4" style={{color:"var(--tx2)"}}>Noch keine Log-Einträge für diesen Zeitraum.</p></Card>
-        )}
-        {hasLogs && (
-          <Card ariaLabel="Konsum nach Wochentag">
-            <p className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📅 Wochentage</p>
-            <div className="flex items-end justify-between gap-1" style={{height:80}}>
-              {DAYS.map(d => {
-                const c = bd[d]||0;
-                const mx = Math.max(...Object.values(bd),1);
-                return (
-                  <div key={d} className="flex flex-col items-center gap-1 flex-1">
-                    {c > 0 && <span className="text-xs font-bold" style={{color:"var(--acc)",fontSize:10}}>{c}</span>}
-                    <div className="w-full rounded-t-lg" style={{height:`${Math.max(c/mx*60,3)}px`,background:c===mx?"var(--acc)":"var(--acc)44"}} />
-                    <span style={{fontSize:9,color:"var(--tx2)"}}>{d}</span>
-                  </div>
-                );
-              })}
+
+        {/* Distribution */}
+        <Card>
+          <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📊 Verteilung</h3>
+          {MOODS.slice().reverse().map((m,i) => {
+            const count = dist[m.value-1];
+            const pct = filled.length ? Math.round(count/filled.length*100) : 0;
+            return (
+              <div key={m.value} className="flex items-center gap-3 mb-2">
+                <span className="text-lg w-8 text-center">{m.emoji}</span>
+                <span className="text-xs w-12" style={{color:"var(--tx2)"}}>{m.label}</span>
+                <div className="flex-1 h-3 rounded-full" style={{background:"var(--bdr)"}}>
+                  <div className="h-3 rounded-full transition-all duration-500" style={{width:`${pct}%`,background:m.color}} />
+                </div>
+                <span className="text-xs font-bold w-8 text-right" style={{color:m.color}}>{count}</span>
+              </div>
+            );
+          })}
+        </Card>
+
+        {/* Best/Worst Days */}
+        {bestDay && worstDay && bestDay !== worstDay && (
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-xl p-3 text-center" style={{background:"#6BCB7710",border:"1px solid #6BCB7733"}}>
+              <p className="text-2xl">{bestDay.emoji}</p>
+              <p className="text-xs font-bold mt-1" style={{color:"#6BCB77"}}>Bester Tag</p>
+              <p className="text-xs" style={{color:"var(--tx2)"}}>{bestDay.ds?.slice(5)}</p>
             </div>
+            <div className="rounded-xl p-3 text-center" style={{background:"#E06B8A10",border:"1px solid #E06B8A33"}}>
+              <p className="text-2xl">{worstDay.emoji}</p>
+              <p className="text-xs font-bold mt-1" style={{color:"#E06B8A"}}>Schwierigster Tag</p>
+              <p className="text-xs" style={{color:"var(--tx2)"}}>{worstDay.ds?.slice(5)}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Mood on clean vs consumed */}
+        {(goals.cleanDays?.length||0) > 0 && filled.length >= 5 && (() => {
+          const cleanSet = new Set(goals.cleanDays || []);
+          const logDates = new Set(logs.map(l => l.date.split("T")[0]));
+          const cleanM = filled.filter(t => cleanSet.has(t.ds));
+          const conM = filled.filter(t => logDates.has(t.ds));
+          const avgClean = cleanM.length ? (cleanM.reduce((s,t)=>s+t.value,0)/cleanM.length).toFixed(1) : "–";
+          const avgCon = conM.length ? (conM.reduce((s,t)=>s+t.value,0)/conM.length).toFixed(1) : "–";
+          if (avgClean==="–"&&avgCon==="–") return null;
+          return (
+            <Card>
+              <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>💡 Mood-Vergleich</h3>
+              <div className="grid grid-cols-2 gap-3 text-center">
+                <div className="rounded-xl p-3" style={{background:"#6BCB7712"}}>
+                  <p className="text-2xl font-bold" style={{color:"#6BCB77"}}>{avgClean}</p>
+                  <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Ø Cleane Tage</p>
+                </div>
+                <div className="rounded-xl p-3" style={{background:"#E06B8A12"}}>
+                  <p className="text-2xl font-bold" style={{color:"#E06B8A"}}>{avgCon}</p>
+                  <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Ø Konsumtage</p>
+                </div>
+              </div>
+            </Card>
+          );
+        })()}
+      </div>
+    );
+  };
+
+  // ─── PATTERN ANALYSIS ───
+  const Analysis = () => {
+    if (logs.length < 5) return (
+      <div className="text-center py-12 space-y-4">
+        <p className="text-4xl">📊</p>
+        <p className="font-medium" style={{color:"var(--tx)"}}>Noch {5-logs.length} Einträge bis zur Analyse</p>
+        <div className="w-full rounded-full h-2" style={{background:"var(--bdr)"}}><div className="h-2 rounded-full" style={{width:`${logs.length/5*100}%`,background:"var(--acc)"}} /></div>
+      </div>
+    );
+    const bd=byDay(logs), bt=byTime(logs), bs2=bySub(logs);
+    const avgC=logs.reduce((s,l)=>s+(l.craving||0),0)/logs.length;
+    const topDay=Object.entries(bd).sort((a,b)=>b[1]-a[1])[0];
+    const topTime=Object.entries(bt).sort((a,b)=>b[1]-a[1])[0];
+    return (
+      <div className="space-y-5">
+        <Card>
+          <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>🔍 Erkenntnisse</h3>
+          <Row l="📅 Häufigster Tag" r={topDay?.[0]||"–"} /><Row l="🕐 Häufigste Zeit" r={topTime?.[0]||"–"} /><Row l="📍 Häufigstes Setting" r={mostCommon(logs.map(l=>l.setting))} /><Row l="🔥 Ø Craving" r={`${avgC.toFixed(1)}/10`} />
+        </Card>
+        <Card>
+          <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>Substanzverteilung</h3>
+          {Object.entries(bs2).sort((a,b)=>b[1]-a[1]).map(([s,c])=>(
+            <div key={s} className="mb-2"><div className="flex justify-between text-xs mb-1"><span style={{color:"var(--tx)"}}>{subEmoji(s)} {s}</span><span style={{color:"var(--tx2)"}}>{c}× ({Math.round(c/logs.length*100)}%)</span></div>
+            <div className="w-full h-2 rounded-full" style={{background:"var(--bdr)"}}><div className="h-2 rounded-full" style={{width:`${c/logs.length*100}%`,background:"var(--acc)",transition:"width 0.5s"}} /></div></div>
+          ))}
+        </Card>
+        <Card>
+          <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>Wochenrhythmus</h3>
+          <div className="flex items-end justify-between gap-1" style={{height:100}}>
+            {["Mo","Di","Mi","Do","Fr","Sa","So"].map(d=>{const c=bd[d]||0,mx=Math.max(...Object.values(bd),1);return(
+              <div key={d} className="flex flex-col items-center gap-1 flex-1">
+                <span className="text-xs font-bold" style={{color:"var(--acc)"}}>{c||""}</span>
+                <div className="w-full rounded-t-lg" style={{height:`${Math.max(c/mx*70,4)}px`,background:c===mx?"var(--acc)":"var(--acc)44",transition:"height 0.5s"}} />
+                <span className="text-xs" style={{color:"var(--tx2)"}}>{d}</span>
+              </div>
+            );})}
+          </div>
+        </Card>
+      </div>
+    );
+  };
+
+
+  // ═══════════════════════════════════════════════════════════
+  // ─── CRAVING-KURVE (Craving over time with annotations) ───
+  // ═══════════════════════════════════════════════════════════
+  const CravingCurve = () => {
+    const [range, setRange] = useState(14);
+    const now = new Date(); now.setHours(23,59,59);
+    const start = new Date(now); start.setDate(start.getDate() - range + 1); start.setHours(0,0,0,0);
+
+    // Build daily data: avg craving, consumed?, skill used?, clean day?
+    const data = [];
+    const cleanSet = new Set(goals.cleanDays || []);
+    const skillDates = new Set(Object.values(skillbox.feedback||{}).flatMap(arr => arr.map(f => f.date?.split("T")[0])));
+
+    for (let d = new Date(start); d <= now; d.setDate(d.getDate() + 1)) {
+      const ds = dateStr(d);
+      const dayLogs = logs.filter(l => dateStr(l.date) === ds);
+      const avgCraving = dayLogs.length > 0 ? Math.round(dayLogs.reduce((a,l) => a + (l.craving||0), 0) / dayLogs.length * 10) / 10 : null;
+      data.push({
+        ds, day: d.getDate(), month: d.getMonth(),
+        craving: avgCraving,
+        consumed: dayLogs.length > 0,
+        clean: cleanSet.has(ds),
+        skillUsed: skillDates.has(ds),
+      });
+    }
+
+    const maxC = 10;
+    const hasData = data.some(d => d.craving !== null);
+    const chartH = 160;
+    const chartW = Math.max(data.length * 28, 300);
+
+    // Find "wins": high craving but no consumption
+    const wins = data.filter(d => d.craving !== null && d.craving >= 6 && d.clean);
+
+    return (
+      <div className="space-y-5">
+        <div className="text-center">
+          <h2 className="text-lg font-bold" style={{fontFamily:"var(--fontD)",color:"var(--tx)"}}>Craving-Kurve</h2>
+          <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>Dein Suchtdruck im Zeitverlauf</p>
+        </div>
+
+        <div className="flex gap-2 justify-center">
+          {[7,14,30].map(r => (
+            <button key={r} onClick={() => setRange(r)} className="px-3 py-1.5 rounded-lg text-xs font-semibold" style={{background:range===r?"var(--acc)":"var(--card)",color:range===r?"#fff":"var(--tx2)",border:`1px solid ${range===r?"var(--acc)":"var(--bdr)"}`}}>{r} Tage</button>
+          ))}
+        </div>
+
+        {!hasData ? (
+          <Card><p className="text-sm text-center py-4" style={{color:"var(--tx2)"}}>Noch keine Craving-Daten. Logge Eintraege mit Craving-Level, um die Kurve zu fuellen.</p></Card>
+        ) : (
+          <Card>
+            <div className="overflow-x-auto -mx-2">
+              <svg width={chartW} height={chartH + 40} style={{display:"block"}}>
+                {/* Grid lines */}
+                {[0,2.5,5,7.5,10].map(v => (
+                  <g key={v}>
+                    <line x1="0" y1={chartH - (v/maxC)*chartH} x2={chartW} y2={chartH - (v/maxC)*chartH} stroke="var(--bdr)" strokeWidth="1" strokeDasharray="4,4" />
+                    <text x="2" y={chartH - (v/maxC)*chartH - 4} fill="var(--tx2)" fontSize="9">{v}</text>
+                  </g>
+                ))}
+                {/* Bars + line */}
+                {data.map((d, i) => {
+                  const x = i * 28 + 14;
+                  const y = d.craving !== null ? chartH - (d.craving/maxC)*chartH : chartH;
+                  const barH = d.craving !== null ? (d.craving/maxC)*chartH : 0;
+                  const color = d.clean ? "#6BCB77" : d.consumed ? (d.craving > 6 ? "#E06B8A" : "#F2D388") : "var(--bdr)";
+                  return (
+                    <g key={i}>
+                      {d.craving !== null && <rect x={x-8} y={y} width={16} height={barH} rx="4" fill={color} opacity={0.4} />}
+                      {d.craving !== null && <circle cx={x} cy={y} r={d.skillUsed ? 5 : 3.5} fill={color} stroke={d.skillUsed ? "var(--acc)" : "none"} strokeWidth={d.skillUsed ? 2 : 0} />}
+                      <text x={x} y={chartH + 16} textAnchor="middle" fill="var(--tx2)" fontSize="9">{d.day}</text>
+                      {d.clean && <text x={x} y={chartH + 28} textAnchor="middle" fill="#6BCB77" fontSize="8">✓</text>}
+                    </g>
+                  );
+                })}
+                {/* Line connecting points */}
+                <polyline fill="none" stroke="var(--acc)" strokeWidth="2" strokeLinejoin="round" opacity="0.6"
+                  points={data.filter(d=>d.craving!==null).map((d,i,arr) => `${data.indexOf(d)*28+14},${chartH-(d.craving/maxC)*chartH}`).join(" ")} />
+              </svg>
+            </div>
+            <div className="flex items-center gap-4 mt-3 justify-center flex-wrap">
+              <span className="flex items-center gap-1 text-xs" style={{color:"var(--tx2)"}}><span className="w-2.5 h-2.5 rounded-full" style={{background:"#6BCB77"}} /> Clean</span>
+              <span className="flex items-center gap-1 text-xs" style={{color:"var(--tx2)"}}><span className="w-2.5 h-2.5 rounded-full" style={{background:"#F2D388"}} /> Konsum</span>
+              <span className="flex items-center gap-1 text-xs" style={{color:"var(--tx2)"}}><span className="w-2.5 h-2.5 rounded-full" style={{background:"var(--acc)",border:"2px solid var(--acc)"}} /> Skill genutzt</span>
+            </div>
+          </Card>
+        )}
+
+        {/* Wins — self-efficacy highlights */}
+        {wins.length > 0 && (
+          <Card>
+            <h3 className="text-sm font-bold mb-2" style={{color:"#6BCB77"}}>💪 Selbstwirksamkeit</h3>
+            <p className="text-xs leading-relaxed" style={{color:"var(--tx2)"}}>
+              An {wins.length} Tag{wins.length>1?"en":""} hattest du starken Suchtdruck (6+), hast aber nicht konsumiert. Das zeigt echte Staerke.
+            </p>
           </Card>
         )}
       </div>
     );
   };
-;;
+
+  // ═══════════════════════════════════════════════════════════
+  // ─── WOCHENBERICHT (Weekly auto-generated reflection) ─────
+  // ═══════════════════════════════════════════════════════════
+  const WeeklyReport = () => {
+    const [weekOffset, setWeekOffset] = useState(0);
+    const getWeek = (offset) => {
+      const end = new Date(); end.setDate(end.getDate() - offset * 7); end.setHours(23,59,59);
+      const start = new Date(end); start.setDate(start.getDate() - 6); start.setHours(0,0,0,0);
+      return { start, end };
+    };
+    const { start, end } = getWeek(weekOffset);
+    const weekLabel = `${start.toLocaleDateString("de-DE",{day:"numeric",month:"short"})} – ${end.toLocaleDateString("de-DE",{day:"numeric",month:"short"})}`;
+
+    // Week data
+    const wLogs = logs.filter(l => { const d=new Date(l.date); return d>=start && d<=end; });
+    const wMoods = moods.filter(m => { const d=new Date(m.date); return d>=start && d<=end; });
+    const cleanSet = new Set(goals.cleanDays || []);
+    let wClean = 0;
+    for (let d=new Date(start); d<=end; d.setDate(d.getDate()+1)) { if (cleanSet.has(dateStr(d))) wClean++; }
+    const avgMood = wMoods.length > 0 ? Math.round(wMoods.reduce((a,m) => a+m.value, 0) / wMoods.length * 10) / 10 : null;
+    const avgCraving = wLogs.length > 0 ? Math.round(wLogs.reduce((a,l) => a+(l.craving||0), 0) / wLogs.length * 10) / 10 : null;
+    const substances = [...new Set(wLogs.map(l => l.substance))];
+    const skillUses = Object.values(skillbox.feedback||{}).flatMap(arr => arr.filter(f => { const d=new Date(f.date); return d>=start && d<=end; })).length;
+    const kbRead = Object.entries(kbProgress.read||{}).filter(([k,v]) => { const d=new Date(v); return d>=start && d<=end; }).length;
+    const hasData = wLogs.length > 0 || wMoods.length > 0 || wClean > 0;
+
+    return (
+      <div className="space-y-5">
+        <div className="text-center">
+          <h2 className="text-lg font-bold" style={{fontFamily:"var(--fontD)",color:"var(--tx)"}}>Wochenbericht</h2>
+          <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>Dein wochentlicher Spiegel — wertfrei.</p>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <button onClick={() => setWeekOffset(weekOffset+1)} aria-label="Frühere Woche anzeigen" className="px-3 py-2 rounded-lg text-xs font-semibold" style={{background:"var(--card)",color:"var(--tx2)",border:"1px solid var(--bdr)",minHeight:44}}>← Früher</button>
+          <span className="text-sm font-bold" style={{color:"var(--tx)"}}>{weekLabel}</span>
+          <button onClick={() => setWeekOffset(Math.max(0,weekOffset-1))} disabled={weekOffset===0} aria-label="Spätere Woche anzeigen" aria-disabled={weekOffset===0} className="px-3 py-2 rounded-lg text-xs font-semibold" style={{background:"var(--card)",color:weekOffset===0?"var(--bdr)":"var(--tx2)",border:"1px solid var(--bdr)",minHeight:44}}>Später →</button>
+        </div>
+
+        {!hasData ? (
+          <Card><p className="text-sm text-center py-6" style={{color:"var(--tx2)"}}>Keine Daten fuer diese Woche.</p></Card>
+        ) : (<>
+          {/* Summary stats */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+              <p className="text-xl font-bold" style={{color:"#6BCB77",fontFamily:"var(--fontD)"}}>{wClean}</p>
+              <p style={{fontSize:11,color:"var(--tx2)"}}>Clean Days</p>
+            </div>
+            <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+              <p className="text-xl font-bold" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{wLogs.length}</p>
+              <p style={{fontSize:11,color:"var(--tx2)"}}>Log-Eintraege</p>
+            </div>
+            <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+              <p className="text-xl font-bold" style={{color:avgMood>=3?"#6BCB77":avgMood>=2?"#F2D388":"#E06B8A",fontFamily:"var(--fontD)"}}>{avgMood !== null ? avgMood : "–"}</p>
+              <p style={{fontSize:11,color:"var(--tx2)"}}>Ø Stimmung</p>
+            </div>
+            <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+              <p className="text-xl font-bold" style={{color:avgCraving>6?"#E06B8A":avgCraving>3?"#F2D388":"#6BCB77",fontFamily:"var(--fontD)"}}>{avgCraving !== null ? avgCraving : "–"}</p>
+              <p style={{fontSize:11,color:"var(--tx2)"}}>Ø Craving</p>
+            </div>
+          </div>
+
+          {/* Substances used */}
+          {substances.length > 0 && (
+            <Card>
+              <h3 className="text-sm font-bold mb-2" style={{color:"var(--tx)"}}>Konsumierte Substanzen</h3>
+              <div className="flex flex-wrap gap-2">
+                {substances.map(s => {
+                  const count = wLogs.filter(l=>l.substance===s).length;
+                  return <span key={s} className="text-xs px-2.5 py-1 rounded-full" style={{background:"var(--card2)",color:"var(--tx2)"}}>{subEmoji(s)} {s} ({count}x)</span>;
+                })}
+              </div>
+            </Card>
+          )}
+
+          {/* Activity */}
+          <Card>
+            <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>Aktivitaet</h3>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between"><span className="text-xs" style={{color:"var(--tx2)"}}>🧰 Skills genutzt</span><span className="text-xs font-bold" style={{color:"var(--acc)"}}>{skillUses}x</span></div>
+              <div className="flex items-center justify-between"><span className="text-xs" style={{color:"var(--tx2)"}}>🧬 Module gelesen</span><span className="text-xs font-bold" style={{color:"var(--acc)"}}>{kbRead}</span></div>
+              <div className="flex items-center justify-between"><span className="text-xs" style={{color:"var(--tx2)"}}>😊 Mood-Check-ins</span><span className="text-xs font-bold" style={{color:"var(--acc)"}}>{wMoods.length}</span></div>
+            </div>
+          </Card>
+
+          {/* Auto-generated reflection */}
+          <div className="rounded-2xl p-4" style={{background:"linear-gradient(135deg,#9B7ECF08,#6BCB7708)",border:"1px solid var(--bdr)"}}>
+            <p className="text-xs font-bold mb-2" style={{color:"var(--acc)"}}>💭 Reflexion</p>
+            <p className="text-xs leading-relaxed" style={{color:"var(--tx2)"}}>
+              {wClean >= 5 && avgCraving !== null && avgCraving <= 4 ? "Starke Woche — wenig Konsum und moderater Suchtdruck. Was hat dir geholfen?" :
+               wClean >= 5 && avgCraving !== null && avgCraving > 6 ? "Trotz hohem Suchtdruck viele cleane Tage — echte Selbstkontrolle. Denk daran, die Skill-Box zu nutzen." :
+               wLogs.length > 5 ? "Viele Konsumtage diese Woche. Kein Urteil — aber schau dir an, welche Muster du erkennst. Gibt es Trigger?" :
+               wMoods.length === 0 ? "Keine Mood-Daten diese Woche. Taegliche Check-ins helfen, Zusammenhaenge zu erkennen." :
+               "Jede Woche ist ein neuer Anfang. Schau auf das, was du geschafft hast — nicht auf das, was nicht perfekt lief."}
+            </p>
+          </div>
+        </>)}
+      </div>
+    );
+  };
 
   // ═══════════════════════════════════════════════════════════
   // ─── MEDIKAMENTEN-CHECK (Medication interaction setup) ────
@@ -3428,6 +3944,7 @@ function DoseDiary() {
     const [reflectionText, setReflectionText] = useState("");
     const [reflectionSaved, setReflectionSaved] = useState(false);
     const [showReflection, setShowReflection] = useState(false);
+    const [kbPage, setKbPage] = useState(0);
 
     const readCount = Object.keys(kbProgress.read || {}).length;
     const mod = openModule !== null ? KB_MODULES[openModule] : null;
@@ -3566,7 +4083,6 @@ function DoseDiary() {
     // ─── Overview Dashboard — paged grid ───
     const PER_PAGE = 4;
     const totalPages = Math.ceil(KB_MODULES.length / PER_PAGE);
-    const [kbPage, setKbPage] = useState(0);
     const pageModules = KB_MODULES.slice(kbPage * PER_PAGE, (kbPage + 1) * PER_PAGE);
 
     return (
@@ -3919,9 +4435,9 @@ function DoseDiary() {
     mixAlerts.sort((a,b)=>({critical:0,high:1,medium:2}[a.level]??3)-({critical:0,high:1,medium:2}[b.level]??3));
 
     const PRE_FLIGHT = [
-      {icon:"🧠",label:"Set – Innerer Zustand",text:"Ich bin mir meiner aktuellen Gefühlslage bewusst. Wenn ich gerade emotional belastet bin, weiß ich das und habe das in meine Entscheidung einbezogen."},
-      {icon:"🏠",label:"Setting – Umgebung",text:"Ich bin in einer Umgebung, in der ich mich wohlfühle. Ich weiß, wen ich im Notfall kontaktieren kann, und habe meine Verpflichtungen für heute im Blick."},
-      {icon:"💊",label:"Substanz – Wissen",text:"Ich kenne die Substanz und ihre Wirkungsweise. Ich habe die Safer-Use-Hinweise gelesen und meine Dosis bewusst gewählt."},
+      {icon:"🧠",label:"Set – Innerer Zustand",text:"Ich fühle mich emotional stabil und nutze die Substanz nicht, um negative Gefühle zu betäuben."},
+      {icon:"🏠",label:"Setting – Umgebung",text:"Ich bin an einem sicheren Ort, bei Menschen denen ich vertraue, und habe keine wichtigen Termine in den nächsten 24 Stunden."},
+      {icon:"💊",label:"Substanz – Wissen",text:"Ich kenne die Substanz, habe mich über Safer Use informiert und weiß, dass Mischkonsum riskant ist."},
     ];
 
     const openPreflight = () => {
@@ -4046,7 +4562,7 @@ function DoseDiary() {
       </WizardShell>
     );
 
-    // Wizard Step 3: Zeitabstand
+    // Wizard Step 2: Zeitabstand
     if(wiz===3) return (
       <WizardShell step={3} total={4} label="Intervall" onBack={()=>setWiz(2)}>
         <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Zeitabstand zwischen Konsum?</p>
@@ -4077,7 +4593,7 @@ function DoseDiary() {
       </WizardShell>
     );
 
-    // Wizard Step 4: Zusammenfassung
+    // Wizard Step 3: Zusammenfassung
     if(wiz===4) return (
       <WizardShell step={4} total={4} label="Plan starten" onBack={()=>setWiz(3)}>
         <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Dein Plan</p>
@@ -4637,12 +5153,15 @@ function DoseDiary() {
 
   // ═══ VIEWS MAP ═══
   const views = {
-    dashboard:{t:"DoseDiary",c:<Dashboard />}, log:{t:"Dose-Log",c:<DoseLog />},
-    goals:{t:"Ziele & Clean Days",c:<Goals />},
-    analysis:{t:"Muster-Analyse",c:<Analysis />},
-    wissen:{t:"Wissensdatenbank",c:<KnowledgeBase />}, planer:{t:"Dose Planer",c:<DosePlaner />}, badges:{t:"Meilensteine",c:<BadgesView />},
+    dashboard:{t:"DoseDiary",c:<Dashboard />},
+    log:{t:"Dose-Log",c:<><FeatureTip featureId="log" /><DoseLog /></>},
+    goals:{t:"Ziele & Clean Days",c:<><FeatureTip featureId="goals" /><Goals /></>},
+    analysis:{t:"Meine Auswertungen",c:<><FeatureTip featureId="analysis" /><Analysis /></>},
+    wissen:{t:"Wissensdatenbank",c:<><FeatureTip featureId="wissen" /><KnowledgeBase /></>},
+    planer:{t:"Dose Planer",c:<><FeatureTip featureId="planer" /><DosePlaner /></>},
+    badges:{t:"Meilensteine",c:<BadgesView />},
     privacy:{t:"Datenschutz & Info",c:<Privacy />},
-    skillbox:{t:"Skill-Box",c:<SkillBox />},
+    skillbox:{t:"Skill-Box",c:<><FeatureTip featureId="skillbox" /><SkillBox /></>},
   };
 
   const menu = [{id:"dashboard",i:"🏠",l:"Dashboard"},{id:"log",i:"📝",l:"Dose-Log"},{id:"planer",i:"⏱️",l:"Dose Planer"},{id:"goals",i:"🌟",l:"Ziele & Clean Days"},{id:"analysis",i:"📊",l:"Meine Auswertungen"},{id:"wissen",i:"🧬",l:"Wissensdatenbank"},{id:"skillbox",i:"🧰",l:"Skill-Box"},{id:"badges",i:"🏅",l:"Meilensteine"},{id:"privacy",i:"🔒",l:"Datenschutz & Info"}];
