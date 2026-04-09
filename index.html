@@ -305,6 +305,32 @@ const SAFER_TIMERS = {
 };
 
 // ─── Common medications with substance interaction warnings ───
+// ─── XP & Gamification System ────────────────────────────────
+const XP_VALUES = { log_entry:10, clean_day:25, streak_7:50, streak_30:150, streak_100:500 };
+const XP_LEVELS = [
+  { level:1, min:0,    label:"Neuling",    icon:"🌱" },
+  { level:2, min:100,  label:"Beobachter", icon:"👁️" },
+  { level:3, min:300,  label:"Bewusst",    icon:"🧠" },
+  { level:4, min:600,  label:"Achtsam",    icon:"🌿" },
+  { level:5, min:1000, label:"Gefestigt",  icon:"🏔️" },
+  { level:6, min:1500, label:"Meister",    icon:"💎" },
+  { level:7, min:2500, label:"Legende",    icon:"⭐" },
+];
+const calcXP = (logs, cleanDays, streak) => {
+  let xp = (logs?.length || 0) * XP_VALUES.log_entry;
+  xp += (cleanDays?.length || 0) * XP_VALUES.clean_day;
+  if (streak >= 7)   xp += XP_VALUES.streak_7;
+  if (streak >= 30)  xp += XP_VALUES.streak_30;
+  if (streak >= 100) xp += XP_VALUES.streak_100;
+  return xp;
+};
+const getLevel = (xp) => {
+  let cur = XP_LEVELS[0];
+  for (const l of XP_LEVELS) { if (xp >= l.min) cur = l; }
+  return cur;
+};
+const getNextLevel = (xp) => XP_LEVELS.find(l => l.min > xp) || null;
+
 // ─── Badges / Milestones (Gamification light) ───
 // ─── MILESTONES — Verhaltens-Meilensteine ──────────────────────────────────
 const MILESTONES = [
@@ -560,7 +586,7 @@ const KB_MODULES = [
     reflection:{ q:"Was war die Situation bei deinem letzten starken Craving? Welche Strategie hättest du anwenden können?", placeholder:"Beschreibe die Situation und eine mögliche Strategie…" },
   },
 
-  { id:"body", icon:"🥗", title:"Body Repair", color:"#A8D8B9", readMin:5, linkTo:"goals", linkLabel:"→ Clean Days markieren",
+  { id:"body", icon:"🥗", title:"Body Repair", color:"#A8D8B9", readMin:5, linkTo:"dashboard", linkLabel:"→ Clean Days markieren",
     tagline:"Dein Körper verzeiht viel — aber er braucht Material dafür.",
     sections:[
       { heading:"Koerper & Naehrstoffe", body:"Substanzkonsum zehrt an den Reserven des Koerpers: Vitamine, Mineralien, Aminosaeuren. Die Versorgung nach Konsum oder in Erholungsphasen ist kein Luxus, sondern Notfallversorgung. Prioritaet haben B-Vitamine (B1, B6, B12), Magnesium, Vitamin C, Omega-3-Fettsaeuren und ausreichend Protein." },
@@ -570,7 +596,7 @@ const KB_MODULES = [
     ],
     reflection:{ q:"Was ist eine realistische kleine Veraenderung fuer deine Regeneration, die du diese Woche umsetzen koenntest?", placeholder:"z.B. Taeglich 2L Wasser trinken, um 23 Uhr Bildschirm aus, Magnesium nehmen…" },
   },
-  { id:"sozial", icon:"👥", title:"Soziale Trigger", color:"#F2D388", readMin:4, linkTo:"goals", linkLabel:"→ Ziele & Grenzen setzen",
+  { id:"sozial", icon:"👥", title:"Soziale Trigger", color:"#F2D388", readMin:4, linkTo:"dashboard", linkLabel:"→ Ziele & Grenzen setzen",
     tagline:"Dein Umfeld formt dein Verhalten — aber du entscheidest.",
     sections:[
       { heading:"Sozialer Druck hat viele Gesichter", body:"Direkter Druck ('Komm, trink mit!') ist nur die offensichtlichste Form. Subtiler: Normalisierung ('Alle machen das'), stille Erwartung (alle trinken, du fällst auf), internalisierter Druck (du willst dazugehören). Erkennen ist der erste Schritt." },
@@ -590,7 +616,7 @@ const KB_MODULES = [
     ],
     reflection:{ q:"Gibt es Momente, in denen dein Konsum sich wie Selbstmedikation anfühlt? Was genau versuchst du zu lindern?", placeholder:"z.B. Ich trinke besonders wenn ich innerlich unruhig bin…" },
   },
-  { id:"rueckfall", icon:"🔄", title:"Rückfall-Logik", color:"#E8A87C", readMin:4, linkTo:"goals", linkLabel:"→ Clean Days & Ziele öffnen",
+  { id:"rueckfall", icon:"🔄", title:"Rückfall-Logik", color:"#E8A87C", readMin:4, linkTo:"dashboard", linkLabel:"→ Clean Days & Ziele öffnen",
     tagline:"Ein Rückfall ist kein Versagen — er ist ein Datenpunkt.",
     sections:[
       { heading:"Rückfall als Prozess", body:"Ein Rückfall beginnt nicht in dem Moment, in dem du konsumierst. Er beginnt Tage oder Wochen vorher: Gedanken kreisen um die Substanz, Routinen werden vernachlässigt, der innere Kompass verschiebt sich. Gorskis Rückfallmodell beschreibt 11 Warnsignale — vom sozialen Rückzug bis zur Situation, die den Konsum ermöglicht." },
@@ -612,7 +638,7 @@ const KB_MODULES = [
     ],
     reflection:{ q:"Gibt es einen rechtlichen Aspekt — z. B. Besitzgrenzen, Führerschein oder Jugendschutz —, der dich persönlich betrifft? Was wäre ein erster konkreter Schritt zur Klärung?", placeholder:"z.B. Ich möchte die KCanG-Regelungen für meinen Alltag nochmal nachlesen…" },
   },
-  { id:"werte", icon:"🌅", title:"Werte & Zukunft", color:"#9B7ECF", readMin:4, linkTo:"goals", linkLabel:"→ Ziele definieren",
+  { id:"werte", icon:"🌅", title:"Werte & Zukunft", color:"#9B7ECF", readMin:4, linkTo:"dashboard", linkLabel:"→ Ziele definieren",
     tagline:"Wer bist du — jenseits der Substanz?",
     sections:[
       { heading:"Identität vs. Verhalten", body:"Du bist nicht dein Konsum. Du bist nicht 'Alkoholiker:in' oder 'Junkie' — du bist ein Mensch, der in einer bestimmten Phase bestimmte Substanzen konsumiert. Die Unterscheidung zwischen Identität und Verhalten ist für Selbstreflexion und Veränderung entscheidend: Verhalten lässt sich ändern, Labels kleben fest." },
@@ -729,14 +755,6 @@ const calcLongestStreak = (cleanDays) => {
   }
   return max;
 };
-const calcGoalProgress = (goals, logs) => {
-  if (!goals.target || !goals.startDate) return null;
-  const start = new Date(goals.startDate); start.setHours(0,0,0,0);
-  const now = new Date(); now.setHours(0,0,0,0);
-  const totalDays = Math.floor((now - start) / 864e5) + 1;
-  const cleanInRange = (goals.cleanDays || []).filter(d => d >= dateStr(start) && d <= dateStr(now)).length;
-  return { totalDays, cleanInRange, target: goals.target, pct: Math.min(100, Math.round(cleanInRange / goals.target * 100)) };
-};
 
 // ─── Feature Tips ───
 const FEATURE_TIPS = {
@@ -744,16 +762,6 @@ const FEATURE_TIPS = {
     icon: "📝", title: "Dose-Log",
     text: "Hier trägst du ein, was du konsumiert hast — Substanz, Menge, Setting und Stimmung. Die App erkennt automatisch riskante Kombinationen und zeigt dir eine Warnung. Jeder Eintrag ist ein Akt der Selbstfürsorge.",
     color: "#9B7ECF",
-  },
-  planer: {
-    icon: "⏱️", title: "Dose-Planer",
-    text: "Plane deinen Konsum im Voraus: Substanz, Menge und Zeitintervalle festlegen, bevor es losgeht. Der Pre-Flight-Check hilft dir, Set & Setting bewusst zu reflektieren. So behältst du die Kontrolle.",
-    color: "#9B7ECF",
-  },
-  goals: {
-    icon: "🎯", title: "Ziele",
-    text: "Markiere konsumfreie Tage, verfolge deinen Streak und setze dir realistische Ziele — ob Abstinenz oder Reduktion. Kleine Schritte zählen genauso wie große.",
-    color: "#F2D388",
   },
   skillbox: {
     icon: "🧰", title: "Skill-Box",
@@ -776,44 +784,67 @@ const FeatureTip = ({ featureId }) => {
   const tip = FEATURE_TIPS[featureId];
   if (!tip) return null;
   const storageKey = `dd_tip_seen_${featureId}`;
-  const [visible, setVisible] = React.useState(() => {
+  const [open, setOpen] = React.useState(() => {
     try { return !JSON.parse(localStorage.getItem(storageKey)); } catch { return true; }
   });
   const close = () => {
     try { localStorage.setItem(storageKey, JSON.stringify(true)); } catch {}
-    setVisible(false);
+    setOpen(false);
   };
-  if (!visible) return null;
   return (
-    <div
-      className="animate-fadeIn"
-      style={{
-        borderRadius: 16,
-        background: `${tip.color}14`,
-        border: `1.5px solid ${tip.color}44`,
-        padding: "12px 14px",
-        marginBottom: 16,
-        display: "flex",
-        gap: 10,
-        alignItems: "flex-start",
-      }}
-    >
-      <span style={{ fontSize: 20, lineHeight: 1.4, flexShrink: 0 }}>{tip.icon}</span>
-      <div style={{ flex: 1 }}>
-        <p style={{ fontSize: 13, fontWeight: 700, color: "var(--tx)", marginBottom: 3 }}>{tip.title}</p>
-        <p style={{ fontSize: 12, color: "var(--tx2)", lineHeight: 1.6 }}>{tip.text}</p>
-      </div>
+    <>
       <button
-        onClick={close}
-        aria-label="Hinweis schließen"
+        onClick={() => setOpen(true)}
+        aria-label={`Info zu ${tip.title}`}
         style={{
-          flexShrink: 0, width: 24, height: 24, borderRadius: "50%",
-          background: `${tip.color}22`, border: "none",
-          color: "var(--tx2)", fontSize: 13, fontWeight: 700,
-          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+          position: "fixed", top: 62, right: 16, zIndex: 40,
+          width: 32, height: 32, borderRadius: "50%",
+          background: `${tip.color}22`, border: `1.5px solid ${tip.color}66`,
+          color: tip.color, fontSize: 14, fontWeight: 800,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+          cursor: "pointer",
         }}
-      >✕</button>
-    </div>
+      >ℹ</button>
+      {open && (
+        <div
+          onClick={close}
+          style={{
+            position: "fixed", inset: 0, zIndex: 50,
+            background: "rgba(0,0,0,0.6)",
+            display: "flex", alignItems: "flex-end", justifyContent: "center",
+            paddingBottom: 88,
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            className="animate-fadeIn"
+            style={{
+              width: "calc(100% - 32px)", maxWidth: 448,
+              background: "var(--card)", borderRadius: 20,
+              border: `2px solid ${tip.color}`,
+              boxShadow: "0 8px 40px rgba(0,0,0,0.45)",
+              padding: "20px 20px 16px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <span style={{ fontSize: 24 }}>{tip.icon}</span>
+              <p style={{ fontSize: 16, fontWeight: 800, color: "var(--tx)", fontFamily: "var(--fontD)" }}>{tip.title}</p>
+            </div>
+            <p style={{ fontSize: 14, color: "var(--tx2)", lineHeight: 1.7, marginBottom: 16 }}>{tip.text}</p>
+            <button
+              onClick={close}
+              style={{
+                width: "100%", padding: "12px", borderRadius: 14,
+                background: tip.color, color: "#fff",
+                fontSize: 14, fontWeight: 700, cursor: "pointer",
+                border: "none",
+              }}
+            >Verstanden ✓</button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -822,30 +853,20 @@ const FeatureTip = ({ featureId }) => {
 // ═══════════════════════════════════════
 function DoseDiary() {
   const [view, setView] = useState("dashboard");
-  const [moods, setMoods] = useState([]);
   const [logs, setLogs] = useState([]);
   const [goals, setGoals] = useState({ cleanDays:[], target:null, targetSubs:[], startDate:null, goalType:"clean", maxPerWeek:null }); // goalType: "clean" | "limit"
   const [prefs, setPrefs] = useState({ mySubs: [] }); // selected substances/behaviors
   const [kbProgress, setKbProgress] = useState({ read: {}, reflections: {} }); // read: {moduleId: timestamp}, reflections: {moduleId: text}
   const [skillbox, setSkillbox] = useState({ seenIntro: false, feedback: {}, emergencyContact: "" }); // feedback: {skillId: [{helped:bool, date:str}]}
-  const [planers, setPlaners] = useState([]);            // Multi-Planer (max 3)
-  const [globalChallengeCount, setGlobalChallengeCount] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
-  const [todayMood, setTodayMood] = useState(null);
   const [fade, setFade] = useState(true);
   const [onboarded, setOnboarded] = useState(null); // null = loading, false = show onboarding, true = done
   const [locked, setLocked] = useState(false);       // PIN-Sperre aktiv?
   const [onboardStep, setOnboardStep] = useState(0); // 0=age+disclaimer, 1=privacy, 2=substances, 3=features intro, 4=wissensdatenbank
   const [tourIdx, setTourIdx] = useState(0);
-  // Goals-UI States auf App-Level → überleben saveGoals-Re-render
-  const [retroCleanOpen, setRetroCleanOpen] = useState(false);
   const [milestonePopup, setMilestonePopup] = useState(null); // {id, title, icon, color, popup}
   const [seenMilestones, setSeenMilestones] = useState(new Set());
-  const [retroCleanDate, setRetroCleanDate] = useState(() => {
-    const n = new Date();
-    return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}`;
-  });
-  const [goalTab, setGoalTab] = useState("track"); // track | goal | history
+  const [jokerUsed, setJokerUsed] = useState(false); // Streak-Joker einmal pro Monat
 
   // Check onboarding status on mount
   useEffect(() => {
@@ -853,8 +874,7 @@ function DoseDiary() {
       const ob = await S.get("dd_onboarded");
       if (ob === true) {
         setOnboarded(true);
-        const [m, l, g, p] = await Promise.all([S.get("dd_moods"), S.get("dd_logs"), S.get("dd_goals"), S.get("dd_prefs")]);
-        if (m) { setMoods(m); const t = m.find(x => new Date(x.date).toDateString() === new Date().toDateString()); if (t) setTodayMood(t.value); }
+        const [l, g, p] = await Promise.all([S.get("dd_logs"), S.get("dd_goals"), S.get("dd_prefs")]);
         if (l) setLogs(l);
         if (g) setGoals(g);
         if (p) {
@@ -866,15 +886,8 @@ function DoseDiary() {
         if (kb) setKbProgress(kb);
         const sb = await S.get("dd_skillbox");
         if (sb) setSkillbox(sb);
-        const pl = await S.get("dd_planers");
-        if (Array.isArray(pl) && pl.length) { setPlaners(pl); }
-        else if (pl && !Array.isArray(pl) && pl.active) {
-          // Migriere altes Single-Planer-Format
-          const migrated = [{ ...pl, id: String(Date.now()) }];
-          setPlaners(migrated); await S.set("dd_planers", migrated);
-        }
-        const gcc = await S.get("dd_challenge_count");
-        if (typeof gcc === "number") setGlobalChallengeCount(gcc);
+        const jk = await S.get("dd_joker_used");
+        if (jk) setJokerUsed(jk);
       } else {
         setOnboarded(false);
       }
@@ -896,7 +909,7 @@ function DoseDiary() {
   // Milestone-Check: bei jeder Änderung von logs/moods/goals/kbProgress/skillbox
   useEffect(() => {
     const newlyEarned = MILESTONES.filter(ms =>
-      !seenMilestones.has(ms.id) && ms.check(logs, moods, goals, kbProgress, skillbox)
+      !seenMilestones.has(ms.id) && ms.check(logs, [], goals, kbProgress, skillbox)
     );
     if (newlyEarned.length > 0) {
       setSeenMilestones(prev => {
@@ -907,31 +920,12 @@ function DoseDiary() {
       // Zeige das erste neue Popup (Queue: weitere erscheinen beim nächsten Render)
       setMilestonePopup(newlyEarned[0]);
     }
-  }, [logs, moods, goals, kbProgress, skillbox]);
+  }, [logs, goals, kbProgress, skillbox]);
 
   const nav = v => { setFade(false); setTimeout(() => { setView(v); setShowMenu(false); setFade(true); }, 120); };
 
-  const handleMood = async (mood) => {
-    const entry = { value: mood.value, label: mood.label, emoji: mood.emoji, date: new Date().toISOString() };
-    const today = new Date().toDateString();
-    const updated = [...moods.filter(m => new Date(m.date).toDateString() !== today), entry];
-    await save("dd_moods", setMoods, updated);
-    setTodayMood(mood.value);
-  };
-
   const saveKb = async (data) => { setKbProgress(data); await S.set("dd_kb", data); };
   const saveSkillbox = async (data) => { setSkillbox(data); await S.set("dd_skillbox", data); };
-  const savePlaners = async (data) => { setPlaners(data); await S.set("dd_planers", data); };
-  const updatePlaner = async (id, patch) => {
-    const next = planers.map(p => p.id === id ? { ...p, ...patch } : p);
-    await savePlaners(next);
-  };
-  const removePlaner = async (id) => { await savePlaners(planers.filter(p => p.id !== id)); };
-  const addGlobalChallenge = async () => {
-    const next = globalChallengeCount + 1;
-    setGlobalChallengeCount(next);
-    await S.set("dd_challenge_count", next);
-  };
   const saveGoals = async (data) => { setGoals(data); await S.set("dd_goals", data); };
   const savePrefs = async (data) => { setPrefs(data); await S.set("dd_prefs", data); };
 
@@ -941,22 +935,19 @@ function DoseDiary() {
   };
 
   const deleteAllData = async () => {
-    await S.set("dd_moods", []);
     await S.set("dd_logs", []);
     await S.set("dd_goals", { cleanDays:[], target:null, targetSubs:[], startDate:null, goalType:"clean", maxPerWeek:null });
     await S.set("dd_prefs", { mySubs: [] });
     await S.set("dd_kb", { read: {}, reflections: {} });
     await S.set("dd_skillbox", { seenIntro: false, feedback: {}, emergencyContact: "" });
-    await S.set("dd_planers", []);
-    await S.set("dd_challenge_count", 0);
+    await S.set("dd_joker_used", false);
+    setJokerUsed(false);
     await S.set("dd_meds", []);
-    setMoods([]); setLogs([]);
+    setLogs([]);
     setGoals({ cleanDays:[], target:null, targetSubs:[], startDate:null, goalType:"clean", maxPerWeek:null });
     setPrefs({ mySubs: [] });
     setKbProgress({ read: {}, reflections: {} });
     setSkillbox({ seenIntro: false, feedback: {}, emergencyContact: "" });
-    setPlaners([]); setGlobalChallengeCount(0);
-    setTodayMood(null);
   };
 
   const resetOnboarding = async () => {
@@ -1427,8 +1418,6 @@ function DoseDiary() {
           const TOUR = [
             { id:"mood",    label:"Mood-Board",       emoji:"😊", color:"#6BCB77",  bubble:"Jeden Tag einmal einchecken: Wie geht's dir? So erkennst du Muster zwischen Stimmung und Konsum.", highlight:"tour-mood" },
             { id:"log",     label:"Loggen",            emoji:"📝", color:"#9B7ECF",  bubble:"Trage hier ein, was du konsumiert hast — Substanz, Menge, Setting. Die App warnt dich bei riskanten Kombinationen.", highlight:"tour-log" },
-            { id:"planer",  label:"Planen",            emoji:"⏱️", color:"#9B7ECF",  bubble:"Plane deinen Abend im Voraus: Setze dir Zeitintervalle und ein persönliches Limit — bevor der Konsum beginnt.", highlight:"tour-planer" },
-            { id:"goals",   label:"Ziele",             emoji:"🎯", color:"#F2D388",  bubble:"Markiere konsumfreie Tage, setze dir realistische Ziele und beobachte deinen Fortschritt.", highlight:"tour-goals" },
             { id:"skills",  label:"Skills",            emoji:"🧰", color:"#E06B8A",  bubble:"Interaktive Übungen für den Moment des Suchtdrucks — Atemübungen, Grounding-Techniken und mehr.", highlight:"tour-skills" },
             { id:"wissen",  label:"Wissen",            emoji:"🧬", color:"#6BCB77",  bubble:"12 kurze Module zu Neurobiologie, Substanzen, Recht und Selbstfürsorge — lies was dich interessiert, wann du willst.", highlight:"tour-wissen" },
             { id:"report",  label:"Meine Auswertungen",emoji:"📊", color:"#8899AA",  bubble:"Wochenbericht, Konsummuster und Stimmungsverläufe — dein persönliches Bild auf einen Blick.", highlight:"tour-report" },
@@ -1463,20 +1452,12 @@ function DoseDiary() {
                   </div>
                 </div>
 
-                {/* Action buttons row 1 */}
-                <p className="text-xs font-bold mb-2 px-1" style={{color:"var(--tx2)"}}>WAS MÖCHTEST DU TUN?</p>
-                <div className="flex gap-2 justify-center mb-2">
-                  {[{icon:"📝",label:"Loggen",id:"log"},{icon:"⏱️",label:"Planen",id:"planer"}].map(a => (
-                    <div key={a.id} id={`tour-${a.id}`} className="rounded-2xl py-4 flex flex-col items-center gap-2"
-                      style={{background:"var(--card)",border:`1px solid ${(current.id===a.id) ? current.color : "var(--bdr)"}`,boxShadow:(current.id===a.id)?`0 0 0 3px ${current.color}55`:"none",width:"calc(50% - 4px)",position:"relative",zIndex:(current.id===a.id)?20:5,transition:"box-shadow 0.3s,border 0.3s"}}>
-                      <span style={{fontSize:26}}>{a.icon}</span>
-                      <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>{a.label}</span>
-                    </div>
-                  ))}
-                </div>
+                {/* Action button: Log */}
+                <div id="tour-log" className="mb-2 rounded-2xl py-4 flex flex-col items-center gap-2" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}><span style={{fontSize:26}}>📝</span><span className="text-xs font-semibold" style={{color:"var(--tx)"}}>Loggen</span></div>
+
                 {/* Action buttons row 2 */}
                 <div className="grid grid-cols-3 gap-2 mb-3">
-                  {[{icon:"🎯",label:"Ziele",id:"goals"},{icon:"🧰",label:"Skills",id:"skills"},{icon:"🧬",label:"Wissen",id:"wissen"}].map(a => (
+                  {[{icon:"📊",label:"Analyse",id:"analysis"},{icon:"🧰",label:"Skills",id:"skills"},{icon:"🧬",label:"Wissen",id:"wissen"}].map(a => (
                     <div key={a.id} id={`tour-${a.id}`} className="rounded-2xl py-4 flex flex-col items-center gap-2"
                       style={{background:"var(--card)",border:`1px solid ${(current.id===a.id)?current.color:"var(--bdr)"}`,boxShadow:(current.id===a.id)?`0 0 0 3px ${current.color}55`:"none",position:"relative",zIndex:(current.id===a.id)?20:5,transition:"box-shadow 0.3s,border 0.3s"}}>
                       <span style={{fontSize:26}}>{a.icon}</span>
@@ -1575,24 +1556,105 @@ function DoseDiary() {
 
   // ─── DASHBOARD ───
   const Dashboard = () => {
-    const todayClean = goals.cleanDays?.includes(todayStr());
     const streak = calcStreak(goals.cleanDays || [], logs);
+    const xp = calcXP(logs, goals.cleanDays, streak);
+    const level = getLevel(xp);
+    const nextLevel = getNextLevel(xp);
+    const xpPct = nextLevel ? Math.round(((xp - level.min) / (nextLevel.min - level.min)) * 100) : 100;
+    const xpToNext = nextLevel ? nextLevel.min - xp : 0;
 
-    // Mood Check-in
-    const moodDone = !!todayMood;
+    // Calendar state
+    const [calMonth, setCalMonth] = React.useState(() => {
+      const n = new Date(); return { y: n.getFullYear(), m: n.getMonth() };
+    });
+    const [daySheet, setDaySheet] = React.useState(null); // { ds, isClean, dayLogs }
+    const [logForDay, setLogForDay] = React.useState(null); // ds string → triggers inline log
 
-    // Statuszeile
-    const todayLogs = logs.filter(l => l.date?.split("T")[0] === todayStr()).length;
-    const avg7 = (() => {
-      const d7 = new Date(); d7.setDate(d7.getDate() - 7);
-      const recent = moods.filter(m => new Date(m.date) >= d7);
-      return recent.length ? (recent.reduce((s,m) => s + m.value, 0) / recent.length).toFixed(1) : null;
-    })();
+    // Joker
+    const thisMonth = new Date().toISOString().slice(0,7);
+    const jokerAvailable = jokerUsed !== thisMonth;
+    const handleJoker = async () => {
+      if (!jokerAvailable || streak === 0) return;
+      const t = todayStr();
+      const updatedClean = goals.cleanDays?.includes(t) ? goals.cleanDays : [...(goals.cleanDays||[]), t];
+      await saveGoals({ ...goals, cleanDays: updatedClean });
+      setJokerUsed(thisMonth);
+      await S.set("dd_joker_used", thisMonth);
+    };
 
-    // 24h Misch-Check (kritische Warnung beibehalten)
-    const recent24h = logs
-      .filter(l => Date.now() - new Date(l.date).getTime() < 24 * 60 * 60 * 1000)
-      .map(l => l.substance).filter((v,i,a) => a.indexOf(v) === i);
+    // Build calendar grid for calMonth
+    const buildCalendar = () => {
+      const { y, m } = calMonth;
+      const firstDay = new Date(y, m, 1);
+      const lastDay = new Date(y, m+1, 0);
+      const today = new Date(); today.setHours(0,0,0,0);
+      const logDates = new Set(logs.map(l => l.date?.split("T")[0]));
+      const cleanSet = new Set(goals.cleanDays || []);
+      // Start from Monday
+      let startDow = firstDay.getDay(); // 0=Sun
+      startDow = startDow === 0 ? 6 : startDow - 1; // convert to Mon=0
+      const cells = [];
+      // Empty cells before first day
+      for (let i = 0; i < startDow; i++) cells.push(null);
+      for (let d = 1; d <= lastDay.getDate(); d++) {
+        const date = new Date(y, m, d);
+        const ds = dateStr(date);
+        cells.push({
+          ds, d,
+          isToday: date.toDateString() === today.toDateString(),
+          isFuture: date > today,
+          isClean: cleanSet.has(ds),
+          hasLog: logDates.has(ds),
+          logCount: logs.filter(l => l.date?.split("T")[0] === ds).length,
+        });
+      }
+      return cells;
+    };
+
+    const cells = buildCalendar();
+    const { y, m } = calMonth;
+    const monthName = new Date(y, m, 1).toLocaleDateString("de-DE", { month:"long", year:"numeric" });
+    const today = new Date(); today.setHours(0,0,0,0);
+    const isPrevDisabled = y === today.getFullYear() - 1 && m === 0;
+    const isNextDisabled = y === today.getFullYear() && m === today.getMonth();
+
+    const openDay = (cell) => {
+      if (!cell || cell.isFuture) return;
+      const dayLogs = logs.filter(l => l.date?.split("T")[0] === cell.ds);
+      setDaySheet({ ds: cell.ds, isClean: cell.isClean, dayLogs });
+    };
+
+    const toggleClean = async (ds) => {
+      const isClean = goals.cleanDays?.includes(ds);
+      // If marking clean, remove any logs for that day
+      let updatedLogs = logs;
+      if (!isClean) {
+        updatedLogs = logs.filter(l => l.date?.split("T")[0] !== ds);
+        if (updatedLogs.length !== logs.length) {
+          await save("dd_logs", setLogs, updatedLogs);
+        }
+      }
+      const updated = isClean
+        ? { ...goals, cleanDays: goals.cleanDays.filter(d => d !== ds) }
+        : { ...goals, cleanDays: [...(goals.cleanDays||[]), ds] };
+      await saveGoals(updated);
+      // Refresh sheet
+      setDaySheet(prev => prev ? { ...prev, isClean: !isClean, dayLogs: updatedLogs.filter(l => l.date?.split("T")[0] === ds) } : null);
+    };
+
+    const deleteLog = async (id) => {
+      const updated = logs.filter(l => l.id !== id);
+      await save("dd_logs", setLogs, updated);
+      setDaySheet(prev => prev ? { ...prev, dayLogs: prev.dayLogs.filter(l => l.id !== id) } : null);
+    };
+
+    // Streak styling
+    const streakColor = streak >= 30 ? "#F2D388" : streak >= 7 ? "#E8A87C" : streak >= 3 ? "#6BCB77" : "var(--acc)";
+    const streakEmoji = streak >= 30 ? "🔥" : streak >= 7 ? "⚡" : streak >= 3 ? "🌱" : "✨";
+    const streakLabel = streak >= 100 ? "LEGENDÄR" : streak >= 30 ? "UNAUFHALTBAR" : streak >= 7 ? "AUF KURS" : streak >= 3 ? "GUTER START" : streak === 1 ? "ERSTER TAG" : "STARTE HEUTE";
+
+    // 24h mix warning
+    const recent24h = logs.filter(l=>Date.now()-new Date(l.date).getTime()<864e5).map(l=>l.substance).filter((v,i,a)=>a.indexOf(v)===i);
     let mixWarn = null;
     if (recent24h.length >= 2) {
       const warns = [];
@@ -1601,72 +1663,191 @@ function DoseDiary() {
           const k = getInteractionKey(recent24h[a], recent24h[b]);
           if (INTERACTION_MATRIX[k]) warns.push({ subA:recent24h[a], subB:recent24h[b], ...INTERACTION_MATRIX[k] });
         }
-      warns.sort((a,b) => ({critical:0,high:1,medium:2}[a.level]??3)-({critical:0,high:1,medium:2}[b.level]??3));
+      warns.sort((a,b)=>({critical:0,high:1,medium:2}[a.level]??3)-({critical:0,high:1,medium:2}[b.level]??3));
       if (warns.length) mixWarn = warns[0];
     }
 
-    const ACTIONS = [
-      { icon:"📝", label:"Loggen",    id:"log"    },
-      { icon:"⏱️", label:"Planen",    id:"planer" },
-      { icon:"🎯", label:"Ziele",     id:"goals"  },
-      { icon:"🧰", label:"Skills",    id:"skillbox"},
-      { icon:"🧬", label:"Wissen",    id:"wissen" },
-    ];
+    // If logForDay is set, show inline log for that date
+    if (logForDay) return (
+      <DoseLog preselectedDate={logForDay} onDone={() => { setLogForDay(null); setDaySheet(null); }} />
+    );
 
     return (
-    <div className="space-y-5">
+    <div className="space-y-4">
 
-      {/* Datum */}
-      <p className="text-xs text-center pt-1 opacity-50" style={{color:"var(--tx)"}}>
+      {/* ── Datum ── */}
+      <p className="text-xs text-center pt-1 opacity-40" style={{color:"var(--tx)"}}>
         {new Date().toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"})}
       </p>
 
-      {/* ── Mood Check-in ── */}
-      <div className="rounded-2xl p-4" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-        {!moodDone ? (
-          <>
-            <p className="text-sm font-bold text-center mb-3" style={{color:"var(--tx)"}}>Wie geht es dir gerade?</p>
-            <div className="flex justify-between gap-1" role="group" aria-label="Stimmung auswählen">
-              {MOODS.map(m => (
-                <button key={m.value} onClick={() => handleMood(m)}
-                  aria-label={`Stimmung: ${m.label}`}
-                  className="flex flex-col items-center gap-1 flex-1 py-2 rounded-xl transition-all active:scale-90"
-                  style={{background:"var(--card2)"}}>
-                  <span style={{fontSize:24}}>{m.emoji}</span>
-                  <span style={{fontSize:9,color:"var(--tx2)"}}>{m.label}</span>
-                </button>
-              ))}
-            </div>
-          </>
-        ) : (
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span style={{fontSize:28}}>{MOODS.find(m=>m.value===todayMood)?.emoji}</span>
-              <div>
-                <p className="text-sm font-semibold" style={{color:"var(--tx)"}}>
-                  {MOODS.find(m=>m.value===todayMood)?.label}
-                </p>
-                <p className="text-xs" style={{color:"var(--tx2)"}}>Heutige Stimmung</p>
-              </div>
-            </div>
-            <button onClick={() => handleMood(null)} className="text-xs px-2.5 py-1 rounded-lg"
-              style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>
-              Ändern
-            </button>
+      {/* ══ STREAK HERO ══ */}
+      <div className="rounded-3xl p-5 text-center relative overflow-hidden"
+        style={{background:`linear-gradient(145deg,${streakColor}1A,${streakColor}06)`,border:`2px solid ${streakColor}33`}}>
+        <div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 50% 20%,${streakColor}18,transparent 70%)`,pointerEvents:"none"}}/>
+        <div className="relative">
+          <div className="flex items-end justify-center gap-1 mb-0.5">
+            <span style={{fontSize:20,paddingBottom:8}}>{streakEmoji}</span>
+            <span style={{fontSize:80,fontWeight:900,color:streakColor,fontFamily:"var(--fontD)",lineHeight:1}}>{streak}</span>
+            <span style={{fontSize:20,paddingBottom:8}}>{streakEmoji}</span>
           </div>
-        )}
+          <p style={{fontSize:11,fontWeight:800,color:streakColor,letterSpacing:"1.5px"}}>{streakLabel}</p>
+          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Clean-Streak {streak===1?"Tag":"Tage"}</p>
+          {/* XP Bar */}
+          <div className="mt-4 mx-1">
+            <div className="flex justify-between mb-1">
+              <span style={{fontSize:10,color:"var(--tx2)",fontWeight:600}}>{level.icon} Lv.{level.level} {level.label}</span>
+              <span style={{fontSize:10,color:"var(--acc)",fontWeight:700}}>{xp} XP{nextLevel ? ` · noch ${xpToNext} bis Lv.${nextLevel.level}`:""}</span>
+            </div>
+            <div className="h-1.5 rounded-full" style={{background:"var(--bdr)"}}>
+              <div className="h-1.5 rounded-full transition-all duration-700"
+                style={{width:`${xpPct}%`,background:`linear-gradient(90deg,var(--acc),${streakColor})`}}/>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* ── Misch-Warnung (nur wenn aktiv) ── */}
+      {/* ══ SCHNELL-AKTIONEN ══ */}
+      <div className="grid grid-cols-2 gap-3">
+        <button onClick={() => nav("log")}
+          className="rounded-2xl p-4 flex flex-col items-center gap-1.5 transition-all active:scale-95"
+          style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+          <span style={{fontSize:28}}>📝</span>
+          <span className="text-sm font-bold" style={{color:"var(--tx)"}}>Jetzt loggen</span>
+          <span className="text-xs" style={{color:"var(--tx2)"}}>+10 XP</span>
+        </button>
+        <button onClick={async () => {
+            const t = todayStr();
+            const isClean = goals.cleanDays?.includes(t);
+            if (!isClean) {
+              // Mark today clean, remove any today logs
+              const updatedLogs = logs.filter(l => l.date?.split("T")[0] !== t);
+              if (updatedLogs.length !== logs.length) await save("dd_logs", setLogs, updatedLogs);
+              await saveGoals({ ...goals, cleanDays:[...(goals.cleanDays||[]), t] });
+            } else {
+              await saveGoals({ ...goals, cleanDays: goals.cleanDays.filter(d => d !== t) });
+            }
+          }}
+          className="rounded-2xl p-4 flex flex-col items-center gap-1.5 transition-all active:scale-95"
+          style={{background: goals.cleanDays?.includes(todayStr()) ? "#6BCB7718":"var(--card)",
+                  border:`2px solid ${goals.cleanDays?.includes(todayStr()) ? "#6BCB7766":"var(--bdr)"}`}}>
+          <span style={{fontSize:28}}>{goals.cleanDays?.includes(todayStr()) ? "✅":"🌿"}</span>
+          <span className="text-sm font-bold" style={{color:"var(--tx)"}}>Heute clean</span>
+          <span className="text-xs" style={{color: goals.cleanDays?.includes(todayStr()) ? "#6BCB77":"var(--tx2)"}}>
+            {goals.cleanDays?.includes(todayStr()) ? "Markiert ✓" : "+25 XP"}
+          </span>
+        </button>
+      </div>
+
+      {/* ══ MONATSKALENDER ══ */}
+      <div className="rounded-2xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3" style={{borderBottom:"1px solid var(--bdr)"}}>
+          <button onClick={()=>setCalMonth(({y,m})=>m===0?{y:y-1,m:11}:{y,m:m-1})}
+            disabled={isPrevDisabled}
+            className="w-9 h-9 rounded-xl flex items-center justify-center font-bold transition-all active:scale-90"
+            style={{background:"var(--card2)",color:isPrevDisabled?"var(--bdr)":"var(--tx)",fontSize:18}}>‹</button>
+          <p className="text-sm font-bold" style={{color:"var(--tx)"}}>{monthName}</p>
+          <button onClick={()=>setCalMonth(({y,m})=>m===11?{y:y+1,m:0}:{y,m:m+1})}
+            disabled={isNextDisabled}
+            className="w-9 h-9 rounded-xl flex items-center justify-center font-bold transition-all active:scale-90"
+            style={{background:"var(--card2)",color:isNextDisabled?"var(--bdr)":"var(--tx)",fontSize:18}}>›</button>
+        </div>
+        {/* Weekday headers */}
+        <div className="grid grid-cols-7 px-3 pt-2">
+          {["Mo","Di","Mi","Do","Fr","Sa","So"].map(d=>(
+            <div key={d} className="text-center" style={{fontSize:9,fontWeight:700,color:"var(--tx2)",paddingBottom:4}}>{d}</div>
+          ))}
+        </div>
+        {/* Day cells */}
+        <div className="grid grid-cols-7 gap-1 px-3 pb-3">
+          {cells.map((cell, i) => {
+            if (!cell) return <div key={`e${i}`}/>;
+            const isClean = cell.isClean;
+            const hasLog = cell.hasLog;
+            const isToday = cell.isToday;
+            const isFuture = cell.isFuture;
+            let bg = "transparent";
+            let border = "transparent";
+            let textColor = isFuture ? "var(--bdr)" : "var(--tx2)";
+            if (isClean) { bg = "#6BCB7722"; border = "#6BCB7766"; textColor = "#6BCB77"; }
+            else if (hasLog) { bg = "#9B7ECF22"; border = "#9B7ECF66"; textColor = "#B89DE8"; }
+            if (isToday) { border = isClean ? "#6BCB77" : hasLog ? "#9B7ECF" : "var(--acc)"; }
+            return (
+              <button key={cell.ds}
+                onClick={() => openDay(cell)}
+                disabled={isFuture}
+                className="rounded-xl flex flex-col items-center justify-center transition-all active:scale-90"
+                style={{aspectRatio:"1",background:bg,border:`1.5px solid ${border}`,
+                        fontWeight: isToday ? 800 : 500, color: textColor, fontSize:12,
+                        boxShadow: isToday ? `0 0 0 2px ${border}44` : "none",
+                        cursor: isFuture ? "default" : "pointer"}}>
+                {cell.d}
+                {cell.logCount > 1 && !isClean && (
+                  <span style={{fontSize:7,marginTop:1,color:"var(--tx2)"}}>×{cell.logCount}</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+        {/* Legend */}
+        <div className="flex gap-4 justify-center pb-3">
+          <span className="flex items-center gap-1" style={{fontSize:9,color:"#6BCB77"}}>● Clean</span>
+          <span className="flex items-center gap-1" style={{fontSize:9,color:"#B89DE8"}}>● Konsum</span>
+          <span className="flex items-center gap-1" style={{fontSize:9,color:"var(--tx2)"}}>● Keine Daten</span>
+        </div>
+      </div>
+
+      {/* ══ STATS ══ */}
+      <div className="grid grid-cols-3 gap-2">
+        <div className="rounded-2xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+          <p className="text-xl font-black" style={{color:"#6BCB77",fontFamily:"var(--fontD)"}}>{goals.cleanDays?.length||0}</p>
+          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Clean gesamt</p>
+        </div>
+        <div className="rounded-2xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+          <p className="text-xl font-black" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{logs.length}</p>
+          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Einträge</p>
+        </div>
+        <button onClick={() => nav("badges")} className="rounded-2xl p-3 text-center transition-all active:scale-95"
+          style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
+          <p className="text-xl font-black" style={{fontFamily:"var(--fontD)"}}>{level.icon}</p>
+          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Lv. {level.level}</p>
+        </button>
+      </div>
+
+      {/* ══ JOKER ══ */}
+      {streak > 0 && (
+        <div className="rounded-2xl p-4" style={{background:"var(--card)",border:`1px solid ${jokerAvailable?"#F2D38844":"var(--bdr)"}`}}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span style={{fontSize:22}}>{jokerAvailable?"🃏":"🔒"}</span>
+              <div>
+                <p className="text-sm font-bold" style={{color:"var(--tx)"}}>Monats-Joker</p>
+                <p className="text-xs" style={{color:"var(--tx2)"}}>
+                  {jokerAvailable ? "Schützt deinen Streak einmalig" : "Bereits diesen Monat genutzt"}
+                </p>
+              </div>
+            </div>
+            {jokerAvailable && (
+              <button onClick={handleJoker} className="text-xs font-bold px-3 py-2 rounded-xl"
+                style={{background:"#F2D38822",color:"#F2D388",border:"1px solid #F2D38844"}}>
+                Nutzen
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ══ MISCH-WARNUNG ══ */}
       {mixWarn && (() => {
         const isCrit = mixWarn.level==="critical", isHigh = mixWarn.level==="high";
         const col = isCrit?"#FF3B3B":isHigh?"#FF8C00":"#FFD700";
-        const lbl = isCrit?"⛔ LEBENSGEFAHR":isHigh?"🔶 HOHES RISIKO":"🟡 VORSICHT";
         return (
           <button onClick={() => nav("log")} role="alert"
-            className={`w-full rounded-2xl px-4 py-3 text-left ${isCrit?"warn-critical":isHigh?"warn-high":""}`}
+            className="w-full rounded-2xl px-4 py-3 text-left"
             style={{background:`${col}12`,border:`2px solid ${col}55`}}>
-            <p className="text-xs font-black mb-1" style={{color:col}}>{lbl} · MISCH-CHECK</p>
+            <p className="text-xs font-black mb-1" style={{color:col}}>
+              {isCrit?"⛔ LEBENSGEFAHR":isHigh?"🔶 HOHES RISIKO":"🟡 VORSICHT"} · MISCH-CHECK
+            </p>
             <p className="text-xs" style={{color:"var(--tx)"}}>
               {subEmoji(mixWarn.subA)} {mixWarn.subA} + {subEmoji(mixWarn.subB)} {mixWarn.subB}
             </p>
@@ -1675,358 +1856,211 @@ function DoseDiary() {
         );
       })()}
 
-      {/* ── Was möchtest du tun? ── */}
+      {/* ══ WEITERE FEATURES ══ */}
       <div>
-        <p className="text-xs font-bold mb-3 px-1" style={{color:"var(--tx2)"}}>WAS MÖCHTEST DU TUN?</p>
-        <div className="flex gap-2 justify-center mb-2">
-          {ACTIONS.slice(0,2).map(a => (
-            <button key={a.label} onClick={() => nav(a.id)}
-              className="rounded-2xl py-4 flex flex-col items-center gap-2 transition-all active:scale-95"
-              style={{background:"var(--card)",border:"1px solid var(--bdr)",width:"calc(50% - 4px)"}}>
-              <span style={{fontSize:26}}>{a.icon}</span>
-              <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>{a.label}</span>
-            </button>
-          ))}
-        </div>
+        <p className="text-xs font-bold mb-2 px-0.5" style={{color:"var(--tx2)"}}>MEHR</p>
         <div className="grid grid-cols-3 gap-2">
-          {ACTIONS.slice(2).map(a => (
-            <button key={a.label} onClick={() => nav(a.id)}
-              className="rounded-2xl py-4 flex flex-col items-center gap-2 transition-all active:scale-95"
+          {[{icon:"📊",label:"Analyse",id:"analysis"},{icon:"🧰",label:"Skills",id:"skillbox"},{icon:"🧬",label:"Wissen",id:"wissen"}].map(a=>(
+            <button key={a.id} onClick={()=>nav(a.id)}
+              className="rounded-2xl py-4 flex flex-col items-center gap-1.5 transition-all active:scale-95"
               style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-              <span style={{fontSize:26}}>{a.icon}</span>
+              <span style={{fontSize:22}}>{a.icon}</span>
               <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>{a.label}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* ── Kontextsensitive Fortschritts-Card ── */}
-      {(() => {
-        // Priorität: 1) aktives Ziel, 2) Streak, 3) KB-Fortschritt
-        const hasGoal = goals.target || goals.maxPerWeek;
-        const kbRead  = Object.keys(kbProgress.read || {}).length;
-        const longest = calcLongestStreak(goals.cleanDays || []);
-
-        // Nächster Streak-Meilenstein
-        const streakMilestones = [3, 7, 14, 30, 60, 90];
-        const nextStreakMs = streakMilestones.find(m => m > streak) || null;
-
-        // 1) Aktives Abstinenz-Ziel
-        if (hasGoal && goals.goalType === "clean" && goals.target) {
-          const progress = calcGoalProgress(goals, logs);
-          if (!progress) return null;
-          const pct = Math.min(100, progress.pct);
-          const done = pct >= 100;
-          return (
-            <button onClick={() => nav("goals")} className="w-full rounded-2xl p-4 text-left transition-all active:scale-[0.98]"
-              style={{background: done ? "#6BCB7710" : "var(--card)", border:`1px solid ${done?"#6BCB7744":"var(--bdr)"}`}}>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span style={{fontSize:18}}>{done?"🎉":"🎯"}</span>
-                  <span className="text-sm font-bold" style={{color:"var(--tx)"}}>
-                    {done ? "Ziel erreicht!" : `${progress.cleanInRange} / ${goals.target} cleane Tage`}
-                  </span>
-                </div>
-                <span className="text-xs font-bold" style={{color: done?"#6BCB77":"var(--acc)"}}>{pct}%</span>
-              </div>
-              <div className="w-full h-2 rounded-full" style={{background:"var(--bdr)"}}>
-                <div className="h-2 rounded-full transition-all duration-700"
-                  style={{width:`${pct}%`, background: done?"#6BCB77":"var(--acc)"}} />
-              </div>
-              <p className="text-xs mt-2" style={{color:"var(--tx2)"}}>
-                {done ? "Neues Ziel setzen →" : `Noch ${Math.max(0, goals.target - progress.cleanInRange)} Tage bis zum Ziel`}
-              </p>
-            </button>
-          );
-        }
-
-        // 2) Reduktions-Limit
-        if (hasGoal && goals.goalType === "limit" && goals.maxPerWeek) {
-          const ws = new Date(); ws.setDate(ws.getDate() - ws.getDay() + 1); ws.setHours(0,0,0,0);
-          const weekCount = logs.filter(l => new Date(l.date) >= ws).length;
-          const ok = weekCount <= goals.maxPerWeek;
-          const pct = Math.min(100, Math.round(weekCount / goals.maxPerWeek * 100));
-          return (
-            <button onClick={() => nav("goals")} className="w-full rounded-2xl p-4 text-left transition-all active:scale-[0.98]"
-              style={{background:"var(--card)", border:`1px solid ${ok?"#6BCB7733":"#E06B8A33"}`}}>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span style={{fontSize:18}}>{ok?"✅":"⚠️"}</span>
-                  <span className="text-sm font-bold" style={{color:"var(--tx)"}}>
-                    {weekCount} / {goals.maxPerWeek} Konsumtage diese Woche
-                  </span>
-                </div>
-                <span className="text-xs font-bold" style={{color: ok?"#6BCB77":"#E06B8A"}}>
-                  {ok ? `${goals.maxPerWeek - weekCount} übrig` : "Limit erreicht"}
-                </span>
-              </div>
-              <div className="w-full h-2 rounded-full" style={{background:"var(--bdr)"}}>
-                <div className="h-2 rounded-full transition-all duration-700"
-                  style={{width:`${pct}%`, background: ok?"#6BCB77":"#E06B8A"}} />
-              </div>
-              <p className="text-xs mt-2" style={{color:"var(--tx2)"}}>
-                {ok ? "Du bist im Rahmen. Weiter so." : "Reflektiere, was du anpassen kannst."}
-              </p>
-            </button>
-          );
-        }
-
-        // 3) Streak mit Meilenstein
-        if (streak > 0 && nextStreakMs) {
-          const pct = Math.round(streak / nextStreakMs * 100);
-          return (
-            <button onClick={() => nav("goals")} className="w-full rounded-2xl p-4 text-left transition-all active:scale-[0.98]"
-              style={{background:"var(--card)", border:"1px solid #6BCB7733"}}>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span style={{fontSize:18}}>{streak>=7?"🔥":streak>=3?"⭐":"🌱"}</span>
-                  <span className="text-sm font-bold" style={{color:"var(--tx)"}}>
-                    {streak} {streak===1?"Tag":"Tage"} clean
-                  </span>
-                </div>
-                <span className="text-xs font-bold" style={{color:"#6BCB77"}}>{nextStreakMs} Tage-Ziel</span>
-              </div>
-              <div className="w-full h-2 rounded-full" style={{background:"var(--bdr)"}}>
-                <div className="h-2 rounded-full transition-all duration-700"
-                  style={{width:`${pct}%`, background:"#6BCB77"}} />
-              </div>
-              <p className="text-xs mt-2" style={{color:"var(--tx2)"}}>
-                Noch {nextStreakMs - streak} {nextStreakMs - streak === 1 ? "Tag" : "Tage"} bis zum nächsten Meilenstein
-                {longest > streak ? ` · Rekord: ${longest} Tage` : ""}
-              </p>
-            </button>
-          );
-        }
-
-        // 4) KB-Fortschritt (Fallback)
-        if (kbRead < KB_MODULES.length) {
-          const next = KB_MODULES.find(m => !kbProgress.read?.[m.id]);
-          const pct = Math.round(kbRead / KB_MODULES.length * 100);
-          return (
-            <button onClick={() => nav("wissen")} className="w-full rounded-2xl p-4 text-left transition-all active:scale-[0.98]"
-              style={{background:"var(--card)", border:"1px solid var(--bdr)"}}>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span style={{fontSize:18}}>🧬</span>
-                  <span className="text-sm font-bold" style={{color:"var(--tx)"}}>
-                    {kbRead} / {KB_MODULES.length} Module gelesen
-                  </span>
-                </div>
-                <span className="text-xs font-bold" style={{color:"var(--acc)"}}>{pct}%</span>
-              </div>
-              <div className="w-full h-2 rounded-full" style={{background:"var(--bdr)"}}>
-                <div className="h-2 rounded-full transition-all duration-700"
-                  style={{width:`${pct}%`, background:"var(--acc)"}} />
-              </div>
-              {next && (
-                <p className="text-xs mt-2" style={{color:"var(--tx2)"}}>
-                  Nächstes: {next.icon} {next.title} · {next.readMin} Min.
+      {/* ══ DAY BOTTOM SHEET ══ */}
+      {daySheet && (
+        <div style={{position:"fixed",inset:0,zIndex:100,display:"flex",alignItems:"flex-end"}}
+          onClick={e=>{ if(e.target===e.currentTarget) setDaySheet(null); }}>
+          <div style={{position:"absolute",inset:0,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(4px)"}}
+            onClick={()=>setDaySheet(null)}/>
+          <div className="animate-fadeIn w-full" style={{position:"relative",zIndex:1,
+            background:"var(--card)",borderRadius:"24px 24px 0 0",
+            border:"1px solid var(--bdr)",maxHeight:"80vh",overflowY:"auto",
+            maxWidth:480,margin:"0 auto"}}>
+            {/* Handle */}
+            <div className="flex justify-center pt-3 pb-1">
+              <div style={{width:36,height:4,borderRadius:2,background:"var(--bdr)"}}/>
+            </div>
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-3" style={{borderBottom:"1px solid var(--bdr)"}}>
+              <div>
+                <p className="text-base font-bold" style={{color:"var(--tx)"}}>
+                  {new Date(daySheet.ds + "T12:00:00").toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"})}
                 </p>
-              )}
-            </button>
-          );
-        }
-
-        return null;
-      })()}
-
-      {/* ── Clean Days + Streak ── */}
-      {(goals.cleanDays?.length || 0) > 0 && (
-        <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => nav("goals")} className="rounded-2xl p-4 text-center transition-all active:scale-[0.97]"
-            style={{background:"#6BCB7710", border:"1px solid #6BCB7733"}}>
-            <p className="text-3xl font-black" style={{color:"#6BCB77", fontFamily:"var(--fontD)"}}>
-              {goals.cleanDays.length}
-            </p>
-            <p className="text-xs font-semibold mt-1" style={{color:"#6BCB77"}}>Tage clean</p>
-            <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>gesamt</p>
-          </button>
-          <button onClick={() => nav("goals")} className="rounded-2xl p-4 text-center transition-all active:scale-[0.97]"
-            style={{background: streak > 0 ? "linear-gradient(135deg,#F2D38812,#E8A87C12)" : "var(--card)",
-                    border: streak > 0 ? "1px solid #F2D38844" : "1px solid var(--bdr)"}}>
-            <p className="text-3xl font-black"
-              style={{color: streak > 0 ? "#F2D388" : "var(--tx2)", fontFamily:"var(--fontD)"}}>
-              {streak}
-            </p>
-            <p className="text-xs font-semibold mt-1" style={{color: streak > 0 ? "#F2D388" : "var(--tx2)"}}>
-              {streak === 1 ? "Tag" : "Tage"} Streak
-            </p>
-            <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>
-              {streak >= 7 ? "🔥" : streak >= 3 ? "⭐" : streak > 0 ? "🌱" : "—"} aktuell
-            </p>
-          </button>
-        </div>
-      )}
-      {logs.length===0 && (goals.cleanDays?.length||0)===0 && !moodDone && (
-        <div className="rounded-2xl p-5 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-          <p className="text-2xl mb-2">🌱</p>
-          <p className="text-sm font-semibold" style={{color:"var(--tx)"}}>Willkommen bei DoseDiary</p>
-          <p className="text-xs mt-2 leading-relaxed" style={{color:"var(--tx2)"}}>Dein privater Raum für bewussten Umgang. Kein Urteil, kein Druck — nur Klarheit.</p>
-        </div>
-      )}
-
-      {/* ── Meine Auswertungen (Dropdown) ── */}
-      {(() => {
-        const [open, setOpen] = useState(false);
-        return (
-          <div className="rounded-2xl overflow-hidden" style={{border:"1px solid var(--bdr)"}}>
-            <button onClick={() => setOpen(o => !o)}
-              className="w-full flex items-center gap-3 px-4 py-4 transition-all active:scale-[0.99]"
-              style={{background:"var(--card)"}}>
-              <span style={{fontSize:18}}>📊</span>
-              <span className="flex-1 text-sm font-bold text-left" style={{color:"var(--tx)"}}>Meine Auswertungen</span>
-              <span className="text-xs transition-all duration-200" style={{
-                color:"var(--tx2)",
-                transform: open ? "rotate(90deg)" : "rotate(0deg)",
-                display:"inline-block",
-                fontSize:16,
-              }}>›</span>
-            </button>
-            {open && (
-              <div className="animate-fadeIn" style={{borderTop:"1px solid var(--bdr)"}}>
-                {[
-                  { icon:"📋", label:"Log-Verlauf",      id:"loghistory" },
-                  { icon:"📈", label:"Craving-Kurve",     id:"craving"   },
-                  { icon:"💚", label:"Stimmungsverlauf",  id:"moodtl"    },
-                  { icon:"📊", label:"Muster-Analyse",    id:"analysis"  },
-                  { icon:"📝", label:"Wochenbericht",     id:"report"    },
-                ].map((item, i, arr) => (
-                  <button key={item.id} onClick={() => nav(item.id)}
-                    className="w-full flex items-center gap-3 px-4 py-3.5 transition-all active:scale-[0.99]"
-                    style={{
-                      background:"var(--card2)",
-                      borderBottom: i < arr.length - 1 ? "1px solid var(--bdr)" : "none",
-                    }}>
-                    <span style={{fontSize:16,flexShrink:0}}>{item.icon}</span>
-                    <span className="flex-1 text-sm font-medium text-left" style={{color:"var(--tx)"}}>{item.label}</span>
-                    <span style={{fontSize:14,color:"var(--tx2)"}}>›</span>
-                  </button>
-                ))}
+                <p className="text-xs mt-0.5" style={{color: daySheet.isClean ? "#6BCB77" : daySheet.dayLogs.length > 0 ? "#B89DE8" : "var(--tx2)"}}>
+                  {daySheet.isClean ? "✓ Clean" : daySheet.dayLogs.length > 0 ? `${daySheet.dayLogs.length} Eintrag${daySheet.dayLogs.length>1?"träge":""}` : "Keine Daten"}
+                </p>
               </div>
-            )}
+              <button onClick={()=>setDaySheet(null)}
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
+                style={{background:"var(--card2)",color:"var(--tx2)"}}>×</button>
+            </div>
+            <div className="p-5 space-y-3">
+              {/* Actions */}
+              <button onClick={()=>toggleClean(daySheet.ds)}
+                className="w-full py-3.5 rounded-2xl font-bold text-sm transition-all active:scale-[0.98]"
+                style={{background: daySheet.isClean ? "#6BCB7722" : "#6BCB7714",
+                        border:`1.5px solid ${daySheet.isClean?"#6BCB77":"#6BCB7744"}`,
+                        color:"#6BCB77"}}>
+                {daySheet.isClean ? "✓ Clean-Markierung entfernen" : "✅ Als clean markieren"}
+              </button>
+
+              <button onClick={()=>setLogForDay(daySheet.ds)}
+                className="w-full py-3.5 rounded-2xl font-bold text-sm transition-all active:scale-[0.98]"
+                style={{background:"var(--acc)14",border:"1.5px solid var(--acc)66",color:"var(--acc)"}}>
+                📝 Konsum eintragen
+              </button>
+
+              {/* Existing logs for this day */}
+              {daySheet.dayLogs.length > 0 && (
+                <div>
+                  <p className="text-xs font-bold mb-2 mt-3" style={{color:"var(--tx2)"}}>EINTRÄGE DIESES TAGES</p>
+                  <div className="space-y-2">
+                    {daySheet.dayLogs.map(log => (
+                      <div key={log.id} className="rounded-xl px-4 py-3 flex items-center justify-between"
+                        style={{background:"var(--card2)",border:"1px solid var(--bdr)"}}>
+                        <div>
+                          <p className="text-sm font-semibold" style={{color:"var(--tx)"}}>
+                            {subEmoji(log.substance)} {log.substance}
+                          </p>
+                          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>
+                            {log.amount ? `${log.amount} ${log.unit}` : "Menge nicht angegeben"}
+                            {log.note ? ` · ${log.note}` : ""}
+                          </p>
+                          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>
+                            {new Date(log.date).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})} Uhr
+                          </p>
+                        </div>
+                        <button onClick={()=>deleteLog(log.id)}
+                          className="w-8 h-8 rounded-lg flex items-center justify-center ml-3"
+                          style={{background:"#E06B8A18",color:"#E06B8A",fontSize:14,flexShrink:0}}>
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        );
-      })()}
+        </div>
+      )}
+
     </div>
     );
   };
 
-  // ─── DOSE LOG ───
-  // ─── WIZARD SHELL (shared progress bar + back button) ──────────────────
-  const WizardShell = ({ step, total, label, onBack, children }) => (
-    <div className="space-y-5 animate-fadeIn">
-      <div>
-        <div className="flex justify-between items-center mb-1.5">
-          <span style={{fontSize:11,color:"var(--tx2)",fontWeight:600,letterSpacing:"0.4px"}}>SCHRITT {step} VON {total}</span>
-          {label && <span style={{fontSize:11,color:"var(--acc)",fontWeight:700}}>{label}</span>}
-        </div>
-        <div className="flex gap-1">
-          {Array.from({length:total}).map((_,i)=>(
-            <div key={i} className="h-1 flex-1 rounded-full transition-all duration-400"
-              style={{background:i<step?"var(--acc)":"var(--bdr)"}}/>
-          ))}
-        </div>
-      </div>
-      {children}
-      {onBack && (
-        <button onClick={onBack} className="w-full py-3.5 rounded-2xl text-sm font-medium"
-          style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>
-          ← Zurück
-        </button>
-      )}
-    </div>
-  );
-
-  const WizardDone = ({ icon, msg, onClose }) => (
-    <div className="animate-fadeIn flex flex-col items-center justify-center py-14 space-y-5">
-      <div className="w-24 h-24 rounded-full flex items-center justify-center"
-        style={{background:"#6BCB7712",border:"2px solid #6BCB7744",fontSize:48}}>{icon}</div>
-      <p className="text-xl font-bold text-center px-4" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>{msg}</p>
-      <button onClick={onClose} className="mt-2 px-10 py-4 rounded-2xl text-base font-bold"
-        style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff",boxShadow:"0 4px 20px var(--acc)33"}}>
-        Fertig
-      </button>
-    </div>
-  );
 
   // ─── DOSE-LOG WIZARD ──────────────────────────────────────────────────────
-  const DoseLog = () => {
-    const [step,       setStep]      = useState(1);
-    const [sub,        setSub]       = useState("");
-    const [amt,        setAmt]       = useState("");
-    const [unit,       setUnit]      = useState("mg");
-    const [mood,       setMood]      = useState(null);
-    const [craving,    setCraving]   = useState(5);
-    const [setting,    setSetting]   = useState("");
-    const [note,       setNote]      = useState("");
-    const [retroMode,  setRetroMode] = useState(false);
-    const [retroDate,  setRetroDate] = useState(()=>new Date().toISOString().split("T")[0]);
-    const [retroTime,  setRetroTime] = useState(()=>{const n=new Date();return `${String(n.getHours()).padStart(2,"0")}:${String(n.getMinutes()).padStart(2,"0")}`;});
-    const [showAll,    setShowAll]   = useState(false);
-    const [saved,      setSaved]     = useState(false);
-    const [showSafer,  setShowSafer] = useState(false);
+  const DoseLog = ({ preselectedDate=null, onDone=null } = {}) => {
+    const [step,      setStep]     = useState(1);
+    const [sub,       setSub]      = useState("");
+    const [amt,       setAmt]      = useState("");
+    const [unit,      setUnit]     = useState("mg");
+    const [note,      setNote]     = useState("");
+    // If preselectedDate, auto-enable retro mode for that date
+    const [retroMode, setRetroMode]= useState(!!preselectedDate);
+    const [retroDate, setRetroDate]= useState(()=>preselectedDate || new Date().toISOString().split("T")[0]);
+    const [retroTime, setRetroTime]= useState(()=>{const n=new Date();return `${String(n.getHours()).padStart(2,"0")}:${String(n.getMinutes()).padStart(2,"0")}`;});
+    const [showAll,   setShowAll]  = useState(false);
+    const [saved,     setSaved]    = useState(false);
+    const [xpGained,  setXpGained] = useState(0);
 
     const isBehavior = ALL_ITEMS.find(i=>i.id===sub)?.cat==="beh";
     const myItems    = prefs.mySubs?.length>0 ? prefs.mySubs : SUBSTANCES;
     const items      = showAll ? SUBSTANCES : myItems;
 
-    const recent24h  = logs.filter(l=>Date.now()-new Date(l.date).getTime()<864e5).map(l=>l.substance).filter((v,i,a)=>a.indexOf(v)===i);
-    const mixWarns   = sub ? findMixWarnings(sub, recent24h) : [];
-    const info       = sub ? SUB_INFO[sub] : null;
-    const timerData  = sub && SAFER_TIMERS[sub] ? SAFER_TIMERS[sub] : null;
-    const lastLog    = timerData ? [...logs].reverse().find(l=>l.substance===sub) : null;
-    const hoursSince = lastLog ? (Date.now()-new Date(lastLog.date).getTime())/3600000 : Infinity;
-    const timerActive= timerData && hoursSince < timerData.hours;
-
-    const levelStyles = {
-      critical:{bg:"#1a0508",border:"#FF3B3B",badge:"#FF3B3B",label:"⛔ LEBENSGEFAHR",callBg:"#FF3B3B",callText:"#fff"},
-      high:    {bg:"#1a0d00",border:"#FF8C00",badge:"#FF8C00",label:"🔶 HOHES RISIKO", callBg:"var(--card2)",callText:"#FF8C00"},
-      medium:  {bg:"#15120a",border:"#FFD700",badge:"#FFD700",label:"🟡 VORSICHT",      callBg:"var(--card2)",callText:"#FFD700"},
+    // Schnellmengen je Substanz
+    const QUICK_AMOUNTS = {
+      Alkohol:   [{v:"0.33",u:"L","l":"1 Bier"},{v:"0.5",u:"L","l":"0.5L"},{v:"0.25",u:"L","l":"1 Glas Wein"},{v:"0.04",u:"L","l":"1 Shot"}],
+      Cannabis:  [{v:"0.5",u:"g","l":"0.5g"},{v:"1",u:"g","l":"1g"},{v:"2",u:"g","l":"2g"},{v:"3.5",u:"g","l":"1/8"}],
+      MDMA:      [{v:"75",u:"mg","l":"75mg"},{v:"100",u:"mg","l":"100mg"},{v:"125",u:"mg","l":"125mg"},{v:"150",u:"mg","l":"150mg"}],
+      Amphetamin:[{v:"0.5",u:"g","l":"0.5g"},{v:"1",u:"g","l":"1g"},{v:"1.5",u:"g","l":"1.5g"},{v:"2",u:"g","l":"2g"}],
+      Kokain:    [{v:"0.5",u:"g","l":"0.5g"},{v:"1",u:"g","l":"1g"},{v:"1.5",u:"g","l":"1.5g"},{v:"2",u:"g","l":"2g"}],
+      LSD:       [{v:"75",u:"µg","l":"75µg"},{v:"100",u:"µg","l":"100µg"},{v:"150",u:"µg","l":"150µg"},{v:"200",u:"µg","l":"200µg"}],
+      Psilocybin:[{v:"1",u:"g","l":"1g"},{v:"2",u:"g","l":"2g"},{v:"3",u:"g","l":"3g"},{v:"3.5",u:"g","l":"3.5g"}],
+      Ketamin:   [{v:"50",u:"mg","l":"50mg"},{v:"100",u:"mg","l":"100mg"},{v:"200",u:"mg","l":"200mg"},{v:"300",u:"mg","l":"300mg"}],
+      "GHB/GBL": [{v:"1",u:"ml","l":"1ml"},{v:"1.5",u:"ml","l":"1.5ml"},{v:"2",u:"ml","l":"2ml"},{v:"2.5",u:"ml","l":"2.5ml"}],
     };
+    const quickAmounts = sub ? (QUICK_AMOUNTS[sub] || []) : [];
+    const defaultUnits = sub && QUICK_AMOUNTS[sub] ? QUICK_AMOUNTS[sub][0].u : "mg";
 
     const doSave = async () => {
-      if (!sub || (!isBehavior && !amt)) return;
+      if (!sub) return;
       const entryDate = retroMode
         ? new Date(`${retroDate}T${retroTime}:00`).toISOString()
         : new Date().toISOString();
       const entry = {
         id:Date.now(), substance:sub,
-        amount:isBehavior?parseFloat(amt||"0"):parseFloat(amt),
-        unit:isBehavior?"Min.":unit,
-        setting:setting||"Nicht angegeben", note, craving,
-        moodLabel:mood?.label||null, date:entryDate,
-        type:isBehavior?"behavior":"substance",
-        retroactive:retroMode||undefined,
+        amount: isBehavior ? parseFloat(amt||"0") : parseFloat(amt)||null,
+        unit: isBehavior ? "Min." : unit,
+        note, date:entryDate,
+        type: isBehavior ? "behavior" : "substance",
+        retroactive: retroMode||undefined,
       };
-      await save("dd_logs", setLogs, [...logs, entry]);
+      const newLogs = [...logs, entry];
+      await save("dd_logs", setLogs, newLogs);
+      // Konsum setzt den Clean-Streak zurück
+      const entryDay = entryDate.split("T")[0];
+      if (goals.cleanDays?.includes(entryDay)) {
+        await saveGoals({ ...goals, cleanDays: goals.cleanDays.filter(d => d !== entryDay) });
+      }
+      setXpGained(10);
       setSaved(true);
     };
 
     const reset = () => {
-      setSub(""); setAmt(""); setUnit("mg"); setMood(null); setCraving(5);
-      setSetting(""); setNote(""); setSaved(false); setStep(1); setRetroMode(false);
+      setSub(""); setAmt(""); setUnit("mg"); setNote("");
+      setSaved(false); setStep(1); setRetroMode(!!preselectedDate); setXpGained(0);
+      if (onDone) onDone();
     };
 
+    // ── Gespeichert ──────────────────────────────────────────────
     if (saved) return (
-      <WizardDone icon="🌿" msg="Danke für deine Ehrlichkeit!" onClose={()=>{reset();nav("dashboard");}} />
+      <div className="animate-fadeIn flex flex-col items-center justify-center py-14 space-y-5">
+        <div className="w-24 h-24 rounded-full flex items-center justify-center"
+          style={{background:"#6BCB7712",border:"2px solid #6BCB7744",fontSize:48}}>🌿</div>
+        <p className="text-xl font-bold text-center px-4" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Eingetragen.</p>
+        {xpGained > 0 && (
+          <div className="px-4 py-2 rounded-2xl" style={{background:"var(--acc)20",border:"1px solid var(--acc)44"}}>
+            <p className="text-sm font-bold text-center" style={{color:"var(--acc)"}}>+{xpGained} XP verdient ⭐</p>
+          </div>
+        )}
+        <div className="flex gap-3">
+          <button onClick={reset}
+            className="px-6 py-3.5 rounded-2xl text-sm font-bold"
+            style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>
+            Nochmal loggen
+          </button>
+          <button onClick={()=>{ if(onDone){onDone();}else{reset();nav("dashboard");} }}
+            className="px-6 py-3.5 rounded-2xl text-sm font-bold"
+            style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff"}}>
+            {onDone ? "Fertig" : "Zum Dashboard"}
+          </button>
+        </div>
+      </div>
     );
 
     // ── Schritt 1: Substanzwahl ──────────────────────────────────
     if (step===1) return (
-      <WizardShell step={1} total={5} label="Was loggst du?" onBack={null}>
-        <div className="text-center">
-          <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Was möchtest du loggen?</p>
+      <div className="space-y-5 animate-fadeIn">
+        <div className="text-center pt-2">
+          <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Was loggst du?</p>
           <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Wertfrei. Nur für dich.</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           {items.map(s=>(
             <button key={s}
-              onClick={()=>{setSub(s);setTimeout(()=>setStep(2),160);}}
+              onClick={()=>{setSub(s); setUnit(QUICK_AMOUNTS[s]?.[0]?.u||"mg"); setTimeout(()=>setStep(2),140);}}
               className="rounded-2xl flex flex-col items-center justify-center gap-2 transition-all active:scale-95"
               style={{padding:"20px 12px",minHeight:88,
-                background:sub===s?"var(--acc)20":"var(--card)",
-                border:`2px solid ${sub===s?"var(--acc)":"var(--bdr)"}`}}>
+                background:"var(--card)",
+                border:"1px solid var(--bdr)"}}>
               <span style={{fontSize:28}}>{subEmoji(s)}</span>
               <span style={{fontSize:12,fontWeight:600,color:"var(--tx)",textAlign:"center",lineHeight:1.3}}>{s}</span>
             </button>
@@ -2039,6 +2073,15 @@ function DoseDiary() {
           </button>
         )}
 
+        {/* Datum */}
+        {preselectedDate && (
+          <div className="rounded-xl px-4 py-2.5 flex items-center gap-2"
+            style={{background:"var(--card2)",border:"1px solid var(--bdr)"}}>
+            <span className="text-xs" style={{color:"var(--acc)"}}>📅</span>
+            <span className="text-xs" style={{color:"var(--tx2)"}}>Eintrag für: <span style={{color:"var(--tx)",fontWeight:600}}>{new Date(preselectedDate+"T12:00:00").toLocaleDateString("de-DE",{weekday:"long",day:"numeric",month:"long"})}</span></span>
+          </div>
+        )}
+        {!preselectedDate && (
         <div className="rounded-xl overflow-hidden" style={{background:"var(--card2)",border:"1px solid var(--bdr)"}}>
           <div className="flex items-center justify-between px-4 py-2.5">
             <span className="text-xs" style={{color:"var(--tx2)"}}>🕐 {retroMode?"Nachträglicher Eintrag":"Zeitpunkt: Jetzt"}</span>
@@ -2065,456 +2108,92 @@ function DoseDiary() {
             </div>
           )}
         </div>
-      </WizardShell>
+        )}
+      </div>
     );
 
-    // ── Schritt 2: Menge + Einheit ───────────────────────────────
-    if (step===2) return (
-      <WizardShell step={2} total={5} label={`${subEmoji(sub)} ${sub}`} onBack={()=>setStep(1)}>
-        <div className="text-center">
-          <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Welche Menge?</p>
-        </div>
-
-        {/* Substanz-Info kompakt */}
-        {info && (
-          <div className="rounded-xl px-4 py-3 flex gap-3 items-center animate-fadeIn"
-            style={{background:`${info.riskColor||"var(--acc)"}10`,border:`1px solid ${info.riskColor||"var(--acc)"}33`}}>
-            <span style={{fontSize:22}}>{subEmoji(sub)}</span>
-            <div className="flex-1">
-              <span className="text-xs font-bold" style={{color:info.riskColor}}>Risiko: {info.risk}</span>
-              <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>⏱️ {info.onset} · ⏳ {info.duration}</p>
-            </div>
-            <button onClick={()=>setShowSafer(!showSafer)} className="text-xs font-medium px-2 py-1 rounded-lg"
-              style={{background:"var(--card2)",color:"var(--tx2)"}}>Safer Use {showSafer?"▴":"▾"}</button>
-          </div>
-        )}
-        {showSafer && info && (
-          <div className="rounded-xl px-4 py-3 space-y-1 animate-fadeIn" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-            {info.safer.slice(0,3).map((t,i)=><p key={i} className="text-xs" style={{color:"var(--tx2)"}}>• {t}</p>)}
-          </div>
-        )}
-
-        {/* Safer-Use Timer */}
-        {timerActive && (
-          <div className="rounded-xl px-4 py-3 animate-fadeIn" style={{background:`${timerData.color}08`,border:`1px solid ${timerData.color}33`}}>
-            <p className="text-xs font-bold" style={{color:timerData.color}}>
-              ⏳ {timerData.label}: Noch {Math.ceil(timerData.hours-hoursSince)} Std. empfohlen
+    // ── Schritt 2: Menge ─────────────────────────────────────────
+    return (
+      <div className="space-y-5 animate-fadeIn">
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <button onClick={()=>setStep(1)} className="w-10 h-10 rounded-xl flex items-center justify-center"
+            style={{background:"var(--card2)",color:"var(--tx2)"}}>←</button>
+          <div>
+            <p className="text-xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>
+              {subEmoji(sub)} {sub}
             </p>
-            <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>{timerData.desc}</p>
+            <p className="text-xs" style={{color:"var(--tx2)"}}>Wie viel?</p>
           </div>
-        )}
-
-        {/* Mix-Warnung */}
-        {mixWarns.length>0 && (()=>{
-          const w=mixWarns[0]; const sty=levelStyles[w.level]||levelStyles.medium; const isCrit=w.level==="critical"; const isHigh=w.level==="high";
-          return (
-            <div className={`rounded-2xl overflow-hidden${isCrit?" warn-critical":""}`} style={{background:sty.bg,border:`2px solid ${sty.border}`}}>
-              <div className="px-4 py-3 flex items-center gap-2" style={{borderBottom:`1px solid ${sty.border}44`}}>
-                <span className="text-xs font-black px-2 py-0.5 rounded-lg" style={{background:`${sty.badge}20`,color:sty.badge}}>{sty.label}</span>
-                <span className="text-xs font-bold" style={{color:"var(--tx)"}}>{subEmoji(sub)} {sub} + {subEmoji(w.sub)} {w.sub}</span>
-              </div>
-              <div className="px-4 py-3">
-                <p className="text-sm font-bold" style={{color:sty.badge}}>{w.text}</p>
-                <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>→ {w.advice}</p>
-              </div>
-              {(isCrit||isHigh)&&<div className="px-4 pb-3">
-                <a href="tel:112" className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-black text-sm"
-                  style={{background:sty.callBg,color:sty.callText,border:isCrit?"none":`2px solid ${sty.badge}`,textDecoration:"none"}}>
-                  📞 {isCrit?"NOTFALL → 112 ANRUFEN":"Notfall → 112"}
-                </a>
-                {isCrit&&<p className="text-center text-xs mt-1.5" style={{color:"var(--tx2)"}}>Giftnotruf: <strong style={{color:"var(--tx)"}}>030 19240</strong></p>}
-              </div>}
-            </div>
-          );
-        })()}
-
-        {/* Medikamenten-Warnung */}
-
-
-        {isBehavior ? (
-          <div>
-            <label className="text-xs font-medium mb-2 block" style={{color:"var(--tx2)"}}>Dauer (optional)</label>
-            <div className="flex items-center gap-3">
-              <input type="number" value={amt} onChange={e=>setAmt(e.target.value)} inputMode="numeric" autoFocus
-                className="flex-1 rounded-2xl px-5 py-5 text-3xl font-bold outline-none text-center"
-                style={{background:"var(--card)",color:"var(--tx)",border:"2px solid var(--bdr)"}} placeholder="0"/>
-              <span className="text-sm font-medium" style={{color:"var(--tx2)"}}>Min.</span>
-            </div>
-          </div>
-        ):(
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs font-medium mb-2 block" style={{color:"var(--tx2)"}}>Menge</label>
-              <input type="number" value={amt} onChange={e=>setAmt(e.target.value)} inputMode="decimal" autoFocus
-                className="w-full rounded-2xl px-5 py-5 text-3xl font-bold outline-none text-center"
-                style={{background:"var(--card)",color:"var(--tx)",border:"2px solid var(--bdr)"}} placeholder="0"/>
-            </div>
-            <div>
-              <label className="text-xs font-medium mb-2 block" style={{color:"var(--tx2)"}}>Einheit</label>
-              <div className="grid grid-cols-4 gap-2">
-                {UNITS.map(u=>(
-                  <button key={u} onClick={()=>setUnit(u)}
-                    className="py-3 rounded-xl text-sm font-semibold transition-all active:scale-95"
-                    style={{background:unit===u?"var(--acc)":"var(--card)",color:unit===u?"#fff":"var(--tx2)",border:`1px solid ${unit===u?"var(--acc)":"var(--bdr)"}`}}>
-                    {u}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <label className="text-xs font-medium" style={{color:"var(--tx2)"}}>{isBehavior?"Drang-Level":"Craving-Level"}</label>
-            <span className="text-sm font-bold" style={{color:"var(--acc)"}}>{craving}/10</span>
-          </div>
-          <input type="range" min="0" max="10" value={craving} onChange={e=>setCraving(+e.target.value)}
-            className="w-full" style={{accentColor:"var(--acc)"}}/>
-          <div className="flex justify-between text-xs mt-1" style={{color:"var(--tx2)"}}><span>Kein Verlangen</span><span>Sehr stark</span></div>
         </div>
 
-        <button onClick={()=>setStep(3)} disabled={!isBehavior&&!amt}
-          className="w-full py-4 rounded-2xl text-base font-bold transition-all active:scale-[0.98]"
-          style={{
-            background:(!isBehavior&&!amt)?"var(--bdr)":"linear-gradient(135deg,var(--acc),#6272C4)",
-            color:(!isBehavior&&!amt)?"var(--tx2)":"#fff",
-          }}>
-          Weiter →
-        </button>
-      </WizardShell>
-    );
-
-    // ── Schritt 3: Stimmung ──────────────────────────────────────
-    if (step===3) return (
-      <WizardShell step={3} total={5} label="Stimmung" onBack={()=>setStep(2)}>
-        <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Wie ist deine Stimmung?</p>
-        <div className="grid grid-cols-5 gap-2 mt-2">
-          {MOODS.map(m=>(
-            <button key={m.value}
-              onClick={()=>{setMood(m);setTimeout(()=>setStep(4),200);}}
-              className="flex flex-col items-center gap-1.5 rounded-2xl transition-all active:scale-95"
-              style={{padding:"16px 4px",
-                background:mood?.value===m.value?`${m.color}20`:"var(--card)",
-                border:`2px solid ${mood?.value===m.value?m.color:"var(--bdr)"}`}}>
-              <span style={{fontSize:30}}>{m.emoji}</span>
-              <span style={{fontSize:10,fontWeight:600,color:mood?.value===m.value?m.color:"var(--tx2)"}}>{m.label}</span>
-            </button>
-          ))}
-        </div>
-        <button onClick={()=>setStep(4)} className="w-full py-3.5 rounded-2xl text-sm font-medium"
-          style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>
-          Überspringen →
-        </button>
-      </WizardShell>
-    );
-
-    // ── Schritt 4: Setting & Notizen ─────────────────────────────
-    if (step===4) return (
-      <WizardShell step={4} total={5} label="Setting" onBack={()=>setStep(3)}>
-        <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Setting & Notizen</p>
-        <div className="space-y-4">
+        {/* Schnellauswahl */}
+        {quickAmounts.length > 0 && (
           <div>
-            <label className="text-xs font-medium mb-2 block" style={{color:"var(--tx2)"}}>Wo bist du gerade?</label>
-            <div className="grid grid-cols-2 gap-2">
-              {SETTINGS_OPT.map(s=>(
-                <button key={s} onClick={()=>setSetting(s)}
-                  className="py-4 px-3 rounded-xl text-xs font-medium text-left transition-all active:scale-95"
-                  style={{background:setting===s?"var(--acc)20":"var(--card)",
-                    border:`1.5px solid ${setting===s?"var(--acc)":"var(--bdr)"}`,
-                    color:setting===s?"var(--acc)":"var(--tx2)"}}>
-                  {s}
+            <p className="text-xs font-bold mb-2" style={{color:"var(--tx2)"}}>SCHNELLAUSWAHL</p>
+            <div className="grid grid-cols-4 gap-2">
+              {quickAmounts.map(q => (
+                <button key={q.l} onClick={()=>{setAmt(q.v);setUnit(q.u);}}
+                  className="rounded-xl py-3 flex flex-col items-center gap-0.5 transition-all active:scale-95"
+                  style={{background:amt===q.v&&unit===q.u?"var(--acc)20":"var(--card2)",
+                          border:`1px solid ${amt===q.v&&unit===q.u?"var(--acc)":"var(--bdr)"}`}}>
+                  <span className="text-xs font-bold" style={{color:amt===q.v&&unit===q.u?"var(--acc)":"var(--tx)"}}>{q.v}</span>
+                  <span style={{fontSize:9,color:"var(--tx2)"}}>{q.u}</span>
+                  <span style={{fontSize:9,color:"var(--tx2)"}}>{q.l}</span>
                 </button>
               ))}
             </div>
           </div>
-          <div>
-            <label className="text-xs font-medium mb-2 block" style={{color:"var(--tx2)"}}>Notiz (optional)</label>
-            <textarea value={note} onChange={e=>setNote(e.target.value)} rows={3}
-              className="w-full rounded-2xl px-4 py-3 text-sm outline-none resize-none"
+        )}
+
+        {/* Manuelle Eingabe */}
+        <div>
+          <p className="text-xs font-bold mb-2" style={{color:"var(--tx2)"}}>MANUELL EINGEBEN</p>
+          <div className="flex gap-2">
+            <input type="number" value={amt} onChange={e=>setAmt(e.target.value)}
+              placeholder="Menge"
+              className="flex-1 rounded-xl px-4 py-3 text-base outline-none"
               style={{background:"var(--card)",color:"var(--tx)",border:"1px solid var(--bdr)"}}
-              placeholder="Situation, Trigger, Gedanken…"/>
-          </div>
-        </div>
-        <button onClick={()=>setStep(5)}
-          className="w-full py-4 rounded-2xl text-base font-bold"
-          style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff"}}>
-          Zur Zusammenfassung →
-        </button>
-      </WizardShell>
-    );
-
-    // ── Schritt 5: Zusammenfassung & Speichern ───────────────────
-    if (step===5) return (
-      <WizardShell step={5} total={5} label="Zusammenfassung" onBack={()=>setStep(4)}>
-        <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Alles korrekt?</p>
-
-        <div className="rounded-2xl overflow-hidden" style={{border:"1px solid var(--bdr)"}}>
-          {[
-            {l:"Substanz",  v:`${subEmoji(sub)} ${sub}`},
-            ...(!isBehavior?[{l:"Menge",v:`${amt} ${unit}`}]:amt?[{l:"Dauer",v:`${amt} Min.`}]:[]),
-            {l:"Craving",   v:`${craving}/10`},
-            ...(mood?[{l:"Stimmung",v:`${mood.emoji} ${mood.label}`}]:[]),
-            {l:"Setting",   v:setting||"Nicht angegeben"},
-            ...(note?[{l:"Notiz",v:note}]:[]),
-            ...(retroMode?[{l:"Zeitpunkt",v:`${new Date(retroDate).toLocaleDateString("de-DE",{day:"numeric",month:"short"})} · ${retroTime} Uhr`}]:[]),
-          ].map((row,i)=>(
-            <div key={i} className="flex items-start gap-3 px-4 py-3"
-              style={{borderBottom:"1px solid var(--bdr)",background:i%2===0?"var(--card)":"var(--card2)"}}>
-              <span className="text-xs font-bold shrink-0 w-20" style={{color:"var(--tx2)"}}>{row.l}</span>
-              <span className="text-xs" style={{color:"var(--tx)",wordBreak:"break-word"}}>{row.v}</span>
-            </div>
-          ))}
-        </div>
-
-        {mixWarns.length>0 && (
-          <div className="rounded-xl px-4 py-3" style={{background:"#FF3B3B10",border:"1px solid #FF3B3B44"}}>
-            <p className="text-xs font-bold" style={{color:"#FF3B3B"}}>⚠️ Mischkonsum-Warnung beachten!</p>
-            <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>{mixWarns[0].text}</p>
-          </div>
-        )}
-
-        <button onClick={doSave}
-          className="w-full py-5 rounded-2xl text-base font-black transition-all active:scale-[0.97]"
-          style={{background:"linear-gradient(135deg,#6BCB77,#4aaa58)",color:"#fff",boxShadow:"0 4px 20px #6BCB7733"}}>
-          ✅ Eintrag speichern
-        </button>
-      </WizardShell>
-    );
-
-    return null;
-  };
-
-
-  // ═══════════════════════════════════════════════
-  // ─── LOG HISTORY (Full log with filter + delete) ───
-  // ═══════════════════════════════════════════════
-  const LogHistory = () => {
-    const [filter, setFilter] = useState("all");
-    const [expandId, setExpandId] = useState(null);
-    const [confirmDel, setConfirmDel] = useState(null);
-
-    const sorted = [...logs].sort((a,b) => new Date(b.date)-new Date(a.date));
-    const uniqueSubs = [...new Set(logs.map(l=>l.substance))];
-    const filtered = filter==="all" ? sorted : sorted.filter(l=>l.substance===filter);
-
-    // Group by date
-    const grouped = {};
-    filtered.forEach(l => {
-      const d = new Date(l.date).toLocaleDateString("de-DE",{weekday:"short",day:"numeric",month:"short"});
-      if (!grouped[d]) grouped[d]=[];
-      grouped[d].push(l);
-    });
-
-    const deleteEntry = async (id) => {
-      await save("dd_logs", setLogs, logs.filter(l=>l.id!==id));
-      setConfirmDel(null); setExpandId(null);
-    };
-
-    if (logs.length===0) return (
-      <div className="text-center py-16 space-y-3">
-        <p className="text-4xl">📋</p>
-        <p className="font-medium" style={{color:"var(--tx)"}}>Noch keine Einträge</p>
-        <p className="text-xs" style={{color:"var(--tx2)"}}>Starte mit deinem ersten Log-Eintrag.</p>
-        <Btn onClick={()=>nav("log")} small>📝 Zum Dose-Log</Btn>
-      </div>
-    );
-
-    return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <p className="text-xs" style={{color:"var(--tx2)"}}>{logs.length} Einträge gesamt</p>
-          <button onClick={()=>nav("log")} className="text-xs font-semibold px-3 py-1.5 rounded-lg" style={{background:"var(--acc)",color:"#fff"}}>+ Neuer Eintrag</button>
-        </div>
-
-        {/* Filter */}
-        {uniqueSubs.length > 1 && (
-          <div className="flex flex-wrap gap-1.5">
-            <button onClick={()=>setFilter("all")} className="px-2.5 py-1 rounded-full text-xs font-medium transition-all" style={{background:filter==="all"?"var(--acc)":"var(--card)",color:filter==="all"?"#fff":"var(--tx2)",border:`1px solid ${filter==="all"?"var(--acc)":"var(--bdr)"}`}}>Alle</button>
-            {uniqueSubs.map(s=>(
-              <button key={s} onClick={()=>setFilter(filter===s?"all":s)} className="px-2.5 py-1 rounded-full text-xs font-medium transition-all" style={{background:filter===s?"var(--acc)":"var(--card)",color:filter===s?"#fff":"var(--tx2)",border:`1px solid ${filter===s?"var(--acc)":"var(--bdr)"}`}}>{subEmoji(s)} {s}</button>
-            ))}
-          </div>
-        )}
-
-        {/* Grouped entries */}
-        {Object.entries(grouped).map(([day, entries]) => (
-          <div key={day}>
-            <p className="text-xs font-bold mb-1.5 px-1" style={{color:"var(--tx2)"}}>{day}</p>
-            <div className="space-y-1.5">
-              {entries.map(l => (
-                <div key={l.id} className="rounded-xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-                  <button onClick={()=>setExpandId(expandId===l.id?null:l.id)} className="w-full px-4 py-3 flex items-center gap-3 text-left">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm" style={{background:"var(--acc)12"}}>{subEmoji(l.substance)}</div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate" style={{color:"var(--tx)"}}>{l.substance}</p>
-                      <p className="text-xs" style={{color:"var(--tx2)"}}>{l.amount?`${l.amount} ${l.unit} · `:""}{l.setting}</p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <p className="text-xs" style={{color:"var(--tx2)"}}>{new Date(l.date).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})}</p>
-                      <p className="text-xs" style={{color:l.craving>6?"#E06B8A":l.craving>3?"#F2D388":"#6BCB77"}}>⚡ {l.craving}/10</p>
-                    </div>
-                  </button>
-                  {expandId===l.id && (
-                    <div className="px-4 pb-3 pt-1 animate-fadeIn" style={{borderTop:"1px solid var(--bdr)"}}>
-                      {l.note && <div className="rounded-lg p-2.5 mb-2" style={{background:"var(--card2)"}}><p className="text-xs font-bold mb-0.5" style={{color:"var(--tx2)"}}>📝 Notiz</p><p className="text-xs leading-relaxed" style={{color:"var(--tx)"}}>{l.note}</p></div>}
-                      <div className="flex items-center gap-3 text-xs mb-2 flex-wrap" style={{color:"var(--tx2)"}}>
-                        <span>📍 {l.setting}</span>
-                        <span>🕐 {new Date(l.date).toLocaleString("de-DE",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}</span>
-                        {l.retroactive && <span className="px-1.5 py-0.5 rounded text-xs" style={{background:"var(--acc)12",color:"var(--acc)",fontSize:9}}>nachgetragen</span>}
-                      </div>
-                      {confirmDel===l.id ? (
-                        <div className="flex gap-2">
-                          <button onClick={()=>setConfirmDel(null)} className="flex-1 py-2 rounded-lg text-xs" style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>Abbrechen</button>
-                          <button onClick={()=>deleteEntry(l.id)} className="flex-1 py-2 rounded-lg text-xs font-bold" style={{background:"#E06B8A",color:"#fff"}}>Endgültig löschen</button>
-                        </div>
-                      ) : (
-                        <button onClick={()=>setConfirmDel(l.id)} aria-label="Eintrag löschen" className="text-xs font-medium" style={{color:"#E06B8A",minHeight:44,minWidth:44}}><span aria-hidden="true">🗑️ </span>Eintrag löschen</button>
-                      )}
-                    </div>
-                  )}
-                </div>
+              inputMode="decimal" />
+            <select value={unit} onChange={e=>setUnit(e.target.value)}
+              className="rounded-xl px-3 py-3 text-sm outline-none"
+              style={{background:"var(--card)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>
+              {["mg","g","µg","ml","L","Stück","Züge"].map(u=>(
+                <option key={u} value={u}>{u}</option>
               ))}
-            </div>
+            </select>
           </div>
-        ))}
+        </div>
+
+        {/* Optionale Notiz */}
+        <div>
+          <p className="text-xs font-bold mb-2" style={{color:"var(--tx2)"}}>NOTIZ (optional)</p>
+          <textarea value={note} onChange={e=>setNote(e.target.value)}
+            placeholder="z.B. Setting, Stimmung, Besonderheiten..."
+            rows={2}
+            className="w-full rounded-xl px-4 py-3 text-sm outline-none resize-none"
+            style={{background:"var(--card)",color:"var(--tx)",border:"1px solid var(--bdr)"}} />
+        </div>
+
+        {/* Speichern */}
+        <button onClick={doSave}
+          disabled={!sub}
+          className="w-full py-4 rounded-2xl text-base font-bold transition-all active:scale-[0.98]"
+          style={{background:sub?"linear-gradient(135deg,var(--acc),#6272C4)":"var(--bdr)",
+                  color:sub?"#fff":"var(--tx2)",
+                  opacity:sub?1:0.5}}>
+          Eintragen (+10 XP)
+        </button>
+
+        <button onClick={()=>setStep(1)} className="w-full py-3 rounded-2xl text-sm font-medium"
+          style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>
+          ← Andere Substanz
+        </button>
       </div>
     );
   };
 
-  // ═══════════════════════════════════════════════
-  // ─── MOOD TIMELINE (Visual mood history) ───
-  // ═══════════════════════════════════════════════
-  const MoodTimeline = () => {
-    const [range, setRange] = useState(30); // 7, 14, 30
-    const trend = moodTrend(moods, range);
-    const filled = trend.filter(t => t.value !== null);
 
-    if (moods.length < 2) return (
-      <div className="text-center py-16 space-y-3">
-        <p className="text-4xl">💚</p>
-        <p className="font-medium" style={{color:"var(--tx)"}}>Noch zu wenig Daten</p>
-        <p className="text-xs" style={{color:"var(--tx2)"}}>Mache täglich einen Mood-Check-in auf dem Dashboard.</p>
-      </div>
-    );
-
-    const avg = filled.length ? (filled.reduce((s,t) => s+t.value, 0)/filled.length).toFixed(1) : "–";
-    const best = filled.length ? Math.max(...filled.map(t=>t.value)) : 0;
-    const worst = filled.length ? Math.min(...filled.map(t=>t.value)) : 0;
-    const bestDay = filled.find(t=>t.value===best);
-    const worstDay = filled.find(t=>t.value===worst);
-
-    // Mood distribution
-    const dist = [0,0,0,0,0];
-    filled.forEach(t => { if(t.value>=1&&t.value<=5) dist[t.value-1]++; });
-
-    return (
-      <div className="space-y-5">
-        {/* Range selector */}
-        <div className="flex rounded-xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-          {[{v:7,l:"7 Tage"},{v:14,l:"14 Tage"},{v:30,l:"30 Tage"}].map(r=>(
-            <button key={r.v} onClick={()=>setRange(r.v)} className="flex-1 py-2 text-xs font-semibold transition-all" style={{background:range===r.v?"var(--acc)":"transparent",color:range===r.v?"#fff":"var(--tx2)"}}>{r.l}</button>
-          ))}
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-2">
-          <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-            <p className="text-xl font-bold" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{avg}</p>
-            <p className="text-xs" style={{color:"var(--tx2)"}}>Ø Mood</p>
-          </div>
-          <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-            <p className="text-xl font-bold" style={{color:"#6BCB77",fontFamily:"var(--fontD)"}}>{filled.length}</p>
-            <p className="text-xs" style={{color:"var(--tx2)"}}>Check-ins</p>
-          </div>
-          <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-            <p className="text-xl font-bold" style={{color:"#F2D388",fontFamily:"var(--fontD)"}}>{range - filled.length}</p>
-            <p className="text-xs" style={{color:"var(--tx2)"}}>Verpasst</p>
-          </div>
-        </div>
-
-        {/* Simple Emoji List */}
-        <Card>
-          <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📅 Verlauf</h3>
-          <div className="space-y-1.5">
-            {trend.filter(t => t.value !== null).slice().reverse().map((t, i) => (
-              <div key={i} className="flex items-center gap-3 py-1">
-                <span className="text-lg w-8 text-center">{t.emoji}</span>
-                <span className="text-xs" style={{color:"var(--tx2)"}}>{t.ds}</span>
-                <span className="text-xs font-medium ml-auto" style={{color: t.value >= 4 ? "#6BCB77" : t.value === 3 ? "#F2D388" : "#E06B8A"}}>
-                  {MOODS.find(m => m.value === t.value)?.label}
-                </span>
-              </div>
-            ))}
-            {trend.filter(t => t.value !== null).length === 0 && <p className="text-xs text-center py-4" style={{color:"var(--tx2)"}}>Keine Daten für diesen Zeitraum.</p>}
-          </div>
-        </Card>
-
-        {/* Distribution */}
-        <Card>
-          <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📊 Verteilung</h3>
-          {MOODS.slice().reverse().map((m,i) => {
-            const count = dist[m.value-1];
-            const pct = filled.length ? Math.round(count/filled.length*100) : 0;
-            return (
-              <div key={m.value} className="flex items-center gap-3 mb-2">
-                <span className="text-lg w-8 text-center">{m.emoji}</span>
-                <span className="text-xs w-12" style={{color:"var(--tx2)"}}>{m.label}</span>
-                <div className="flex-1 h-3 rounded-full" style={{background:"var(--bdr)"}}>
-                  <div className="h-3 rounded-full transition-all duration-500" style={{width:`${pct}%`,background:m.color}} />
-                </div>
-                <span className="text-xs font-bold w-8 text-right" style={{color:m.color}}>{count}</span>
-              </div>
-            );
-          })}
-        </Card>
-
-        {/* Best/Worst Days */}
-        {bestDay && worstDay && bestDay !== worstDay && (
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl p-3 text-center" style={{background:"#6BCB7710",border:"1px solid #6BCB7733"}}>
-              <p className="text-2xl">{bestDay.emoji}</p>
-              <p className="text-xs font-bold mt-1" style={{color:"#6BCB77"}}>Bester Tag</p>
-              <p className="text-xs" style={{color:"var(--tx2)"}}>{bestDay.ds?.slice(5)}</p>
-            </div>
-            <div className="rounded-xl p-3 text-center" style={{background:"#E06B8A10",border:"1px solid #E06B8A33"}}>
-              <p className="text-2xl">{worstDay.emoji}</p>
-              <p className="text-xs font-bold mt-1" style={{color:"#E06B8A"}}>Schwierigster Tag</p>
-              <p className="text-xs" style={{color:"var(--tx2)"}}>{worstDay.ds?.slice(5)}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Mood on clean vs consumed */}
-        {(goals.cleanDays?.length||0) > 0 && filled.length >= 5 && (() => {
-          const cleanSet = new Set(goals.cleanDays || []);
-          const logDates = new Set(logs.map(l => l.date.split("T")[0]));
-          const cleanM = filled.filter(t => cleanSet.has(t.ds));
-          const conM = filled.filter(t => logDates.has(t.ds));
-          const avgClean = cleanM.length ? (cleanM.reduce((s,t)=>s+t.value,0)/cleanM.length).toFixed(1) : "–";
-          const avgCon = conM.length ? (conM.reduce((s,t)=>s+t.value,0)/conM.length).toFixed(1) : "–";
-          if (avgClean==="–"&&avgCon==="–") return null;
-          return (
-            <Card>
-              <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>💡 Mood-Vergleich</h3>
-              <div className="grid grid-cols-2 gap-3 text-center">
-                <div className="rounded-xl p-3" style={{background:"#6BCB7712"}}>
-                  <p className="text-2xl font-bold" style={{color:"#6BCB77"}}>{avgClean}</p>
-                  <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Ø Cleane Tage</p>
-                </div>
-                <div className="rounded-xl p-3" style={{background:"#E06B8A12"}}>
-                  <p className="text-2xl font-bold" style={{color:"#E06B8A"}}>{avgCon}</p>
-                  <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Ø Konsumtage</p>
-                </div>
-              </div>
-            </Card>
-          );
-        })()}
-      </div>
-    );
-  };
-
-  // ─── PATTERN ANALYSIS ───
   const Analysis = () => {
     if (logs.length < 5) return (
       <div className="text-center py-12 space-y-4">
@@ -2673,7 +2352,7 @@ function DoseDiary() {
 
     // Week data
     const wLogs = logs.filter(l => { const d=new Date(l.date); return d>=start && d<=end; });
-    const wMoods = moods.filter(m => { const d=new Date(m.date); return d>=start && d<=end; });
+    const wMoods = []; // mood tracking removed
     const cleanSet = new Set(goals.cleanDays || []);
     let wClean = 0;
     for (let d=new Date(start); d<=end; d.setDate(d.getDate()+1)) { if (cleanSet.has(dateStr(d))) wClean++; }
@@ -2769,7 +2448,7 @@ function DoseDiary() {
   // ═══════════════════════════════════════════════════════════
   const BadgesView = () => {
     const cats = [...new Set(MILESTONES.map(ms => ms.cat))];
-    const check = ms => ms.check(logs, moods, goals, kbProgress, skillbox);
+    const check = ms => ms.check(logs, [], goals, kbProgress, skillbox);
     const totalEarned = MILESTONES.filter(check).length;
 
     return (
@@ -2853,13 +2532,11 @@ function DoseDiary() {
         const data = {
           version: "1.2",
           exported: new Date().toISOString(),
-          dd_moods: moods,
           dd_logs: logs,
           dd_goals: goals,
           dd_prefs: { mySubs: prefs.mySubs },
           dd_kb: kbProgress,
           dd_skillbox: skillbox,
-          dd_planers: planers,
           dd_challenge_count: globalChallengeCount,
         };
         // Simple XOR obfuscation with key (not crypto-grade, but prevents casual reading)
@@ -2888,17 +2565,12 @@ function DoseDiary() {
         const key = "DoseDiary2026HR";
         const decoded = atob(wrapper.d).split("").map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ key.charCodeAt(i % key.length))).join("");
         const data = JSON.parse(decoded);
-        if (data.dd_moods) { setMoods(data.dd_moods); await S.set("dd_moods", data.dd_moods); }
+        // dd_moods: no longer tracked
         if (data.dd_logs) { setLogs(data.dd_logs); await S.set("dd_logs", data.dd_logs); }
         if (data.dd_goals) { setGoals(data.dd_goals); await S.set("dd_goals", data.dd_goals); }
         if (data.dd_prefs) { setPrefs(data.dd_prefs); await S.set("dd_prefs", data.dd_prefs); }
         if (data.dd_kb) { setKbProgress(data.dd_kb); await S.set("dd_kb", data.dd_kb); }
         if (data.dd_skillbox) { setSkillbox(data.dd_skillbox); await S.set("dd_skillbox", data.dd_skillbox); }
-        if (data.dd_planers) { setPlaners(data.dd_planers); await S.set("dd_planers", data.dd_planers); }
-        else if (data.dd_planer) { // Migrations-Pfad altes Backup
-          const m = [{ ...data.dd_planer, id: String(Date.now()) }];
-          setPlaners(m); await S.set("dd_planers", m);
-        }
         if (typeof data.dd_challenge_count === "number") { setGlobalChallengeCount(data.dd_challenge_count); await S.set("dd_challenge_count", data.dd_challenge_count); }
         setRestoreMsg(`✓ Backup vom ${new Date(data.exported).toLocaleDateString("de-DE")} wiederhergestellt!`);
         setTimeout(() => setRestoreMsg(""), 5000);
@@ -2952,12 +2624,11 @@ function DoseDiary() {
             <div>
               <p className="text-xs font-bold mb-1" style={{color:"var(--tx)"}}>Gespeicherte Datenkategorien:</p>
               {[
-                { cat: "Stimmungsdaten", desc: "Mood-Check-ins mit Datum", key: "dd_moods", count: moods.length },
+                
                 { cat: "Konsumlogbuch", desc: "Substanz, Menge, Setting, Craving", key: "dd_logs", count: logs.length },
                 { cat: "Ziele & Clean Days", desc: "Cleane Tage, Abstinenz-Ziel, Streaks", key: "dd_goals", count: goals.cleanDays?.length || 0 },
                 { cat: "Persönliche Auswahl", desc: "Gewählte Substanzen & Verhaltensweisen", key: "dd_prefs", count: prefs.mySubs?.length || 0 },
                 { cat: "Wissensdatenbank", desc: "Gelesene Module & Reflexionen", key: "dd_kb", count: Object.keys(kbProgress.read || {}).length },
-                { cat: "Dose Planer", desc: "Aktive Konsumplanung & Timer", key: "dd_planers", count: planers.length },
                 { cat: "Skill-Box", desc: "Feedback & Notfallkontakt", key: "dd_skillbox", count: Object.values(skillbox.feedback || {}).flat().length },
               ].map((d, i) => (
                 <div key={i} className="flex items-center justify-between py-2 border-b last:border-0" style={{borderColor:"var(--bdr)"}}>
@@ -3081,860 +2752,7 @@ function DoseDiary() {
     );
   };
 
-  // ─── GOALS & CLEAN DAYS ───
-  const Goals = () => {
-    const [tab, setTab] = [goalTab, setGoalTab]; // App-Level State
-    const streak = calcStreak(goals.cleanDays || [], logs);
-    const longest = calcLongestStreak(goals.cleanDays || []);
-    const progress = calcGoalProgress(goals, logs);
-    const todayClean = goals.cleanDays?.includes(todayStr());
-    const totalClean = goals.cleanDays?.length || 0;
-
-    // Target setup
-    const [editGoal, setEditGoal] = useState(false);
-    const [goalType, setGoalType] = useState(goals.goalType || "clean"); // "clean" | "limit"
-    const [newTarget, setNewTarget] = useState(goals.target || 30);
-    const [newMaxPerWeek, setNewMaxPerWeek] = useState(goals.maxPerWeek || 3);
-    const [newTargetSubs, setNewTargetSubs] = useState(goals.targetSubs || []);
-    // retroCleanOpen + retroCleanDate leben im App-Level State
-
-    const handleCleanDay = async () => {
-      const t = todayStr();
-      const updated = todayClean
-        ? { ...goals, cleanDays: goals.cleanDays.filter(d => d !== t) }
-        : { ...goals, cleanDays: [...(goals.cleanDays || []), t] };
-      await saveGoals(updated);
-    };
-
-    // Toggle clean day for ANY date (past or today)
-    const toggleCleanDate = async (ds) => {
-      if (!ds) return;
-      const isSet = goals.cleanDays?.includes(ds);
-      const updated = isSet
-        ? { ...goals, cleanDays: goals.cleanDays.filter(d => d !== ds) }
-        : { ...goals, cleanDays: [...(goals.cleanDays || []), ds] };
-      await saveGoals(updated);
-    };
-
-    const saveTarget = async () => {
-      const updated = { ...goals, goalType, target: goalType === "clean" ? newTarget : null, maxPerWeek: goalType === "limit" ? newMaxPerWeek : null, targetSubs: newTargetSubs, startDate: goals.startDate || todayStr() };
-      await saveGoals(updated);
-      setEditGoal(false);
-    };
-
-    const resetGoal = async () => {
-      await saveGoals({ ...goals, target: null, maxPerWeek: null, goalType: "clean", targetSubs: [], startDate: null });
-      setEditGoal(false);
-    };
-
-    // Harm-Reduction: consumption this week
-    const weekConsumption = () => {
-      const s = new Date(); s.setDate(s.getDate() - s.getDay() + 1); s.setHours(0,0,0,0);
-      const weekLogs = logs.filter(l => new Date(l.date) >= s);
-      if (goals.targetSubs?.length) return weekLogs.filter(l => goals.targetSubs.includes(l.substance)).length;
-      return weekLogs.length;
-    };
-
-    // Calendar for last 5 weeks
-    const calendarWeeks = () => {
-      const weeks = [];
-      const today = new Date(); today.setHours(0,0,0,0);
-      const start = new Date(today); start.setDate(start.getDate() - start.getDay() + 1 - 28);
-      const logDates = new Set(logs.map(l => dateStr(l.date)));
-      const cleanSet = new Set(goals.cleanDays || []);
-      for (let w = 0; w < 5; w++) {
-        const week = [];
-        for (let d = 0; d < 7; d++) {
-          const day = new Date(start); day.setDate(day.getDate() + w * 7 + d);
-          const ds = dateStr(day);
-          const isFuture = day > today;
-          const isClean = cleanSet.has(ds);
-          const isConsumed = logDates.has(ds);
-          const isToday = ds === todayStr();
-          week.push({ ds, day: day.getDate(), isFuture, isClean, isConsumed, isToday, month: day.getMonth() });
-        }
-        weeks.push(week);
-      }
-      return weeks;
-    };
-
-    return (
-      <div className="space-y-5">
-        {/* Tab bar */}
-        <div className="flex rounded-xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-          {[{id:"track",l:"Tagebuch"},{id:"goal",l:"Ziel"},{id:"history",l:"Verlauf"}].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex-1 py-2.5 text-xs font-semibold transition-all"
-              style={{background:tab===t.id?"var(--acc)":"transparent",color:tab===t.id?"#fff":"var(--tx2)"}}>
-              {t.l}
-            </button>
-          ))}
-        </div>
-
-        {/* ─── TAB: Tagebuch ─── */}
-        {tab === "track" && (
-          <div className="space-y-5 animate-fadeIn">
-            {/* Today Action */}
-            <button onClick={handleCleanDay} className="w-full rounded-2xl p-5 text-center transition-all hover:scale-[1.01] active:scale-[0.97]"
-              style={{background:todayClean?"linear-gradient(135deg,#6BCB7715,#9B7ECF15)":"var(--card)",border:`2px solid ${todayClean?"#6BCB77":"var(--bdr)"}`}}>
-              <span className="text-4xl">{todayClean ? "✅" : "🌟"}</span>
-              <p className="text-base font-bold mt-2" style={{color:todayClean?"#6BCB77":"var(--tx)",fontFamily:"var(--fontD)"}}>
-                {todayClean ? "Heute als clean markiert" : "Heute als clean markieren"}
-              </p>
-              <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>
-                {todayClean ? "Tippe, um rückgängig zu machen" : "Kein Konsum heute? Feiere das."}
-              </p>
-            </button>
-
-            {/* Stats Row */}
-            <div className="grid grid-cols-3 gap-2">
-              <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-                <p className="text-2xl font-bold" style={{color:"#6BCB77",fontFamily:"var(--fontD)"}}>{streak}</p>
-                <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Streak</p>
-              </div>
-              <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-                <p className="text-2xl font-bold" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{totalClean}</p>
-                <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Gesamt</p>
-              </div>
-              <div className="rounded-xl p-3 text-center" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-                <p className="text-2xl font-bold" style={{color:"#F2D388",fontFamily:"var(--fontD)"}}>{longest}</p>
-                <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Rekord</p>
-              </div>
-            </div>
-
-            {/* Calendar Grid */}
-            <Card>
-              <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📅 Letzte 5 Wochen</h3>
-              <div className="flex justify-between mb-2 px-1">
-                {["Mo","Di","Mi","Do","Fr","Sa","So"].map(d => (
-                  <span key={d} className="w-9 text-center text-xs font-medium" style={{color:"var(--tx2)"}}>{d}</span>
-                ))}
-              </div>
-              {calendarWeeks().map((week, wi) => (
-                <div key={wi} className="flex justify-between mb-1 px-1">
-                  {week.map((d, di) => (
-                    <button key={di} onClick={() => !d.isFuture && toggleCleanDate(d.ds)} disabled={d.isFuture}
-                      className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-medium transition-all active:scale-90"
-                      style={{
-                        background: d.isFuture ? "transparent" : d.isClean ? "#6BCB7722" : d.isConsumed ? "#E06B8A18" : "var(--card2)",
-                        border: d.isToday ? "2px solid var(--acc)" : "1px solid transparent",
-                        color: d.isFuture ? "var(--bdr)" : d.isClean ? "#6BCB77" : d.isConsumed ? "#E06B8A" : "var(--tx2)",
-                        opacity: d.isFuture ? 0.3 : 1,
-                        cursor: d.isFuture ? "default" : "pointer",
-                      }}>
-                      {d.isClean && !d.isFuture ? "✓" : d.day}
-                    </button>
-                  ))}
-                </div>
-              ))}
-              <div className="flex items-center gap-4 mt-3 justify-center">
-                <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{background:"#6BCB7722",border:"1px solid #6BCB7744"}} /><span className="text-xs" style={{color:"var(--tx2)"}}>Clean</span></div>
-                <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{background:"#E06B8A18",border:"1px solid #E06B8A33"}} /><span className="text-xs" style={{color:"var(--tx2)"}}>Konsum</span></div>
-                <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded" style={{background:"var(--card2)"}} /><span className="text-xs" style={{color:"var(--tx2)"}}>Kein Eintrag</span></div>
-              </div>
-              <p className="text-xs text-center mt-2" style={{color:"var(--tx2)"}}>Tippe auf einen Tag, um ihn als clean zu markieren oder rueckgaengig zu machen.</p>
-            </Card>
-
-            {/* Retro Clean Day — Monatskalender */}
-            <div className="rounded-2xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-              <button onClick={() => setRetroCleanOpen(!retroCleanOpen)} className="w-full px-4 py-3 flex items-center justify-between text-left">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm">🗓️</span>
-                  <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>Vergangene Tage nachträglich markieren</span>
-                </div>
-                <span className="text-xs" style={{color:"var(--acc)"}}>{retroCleanOpen ? "▴" : "▾"}</span>
-              </button>
-              {retroCleanOpen && (() => {
-                const retroYM = retroCleanDate;
-                const setRetroYM = setRetroCleanDate;
-
-                const [ry, rm] = retroYM.split("-").map(Number);
-                const firstDay = new Date(ry, rm-1, 1);
-                const lastDay = new Date(ry, rm, 0);
-                const today = new Date(); today.setHours(0,0,0,0);
-                const cleanSet = new Set(goals.cleanDays || []);
-
-                // Alle Tage des Monats aufbauen
-                const days = [];
-                // Leere Felder vor dem 1. (Mo=0)
-                const startDow = (firstDay.getDay() + 6) % 7;
-                for (let i = 0; i < startDow; i++) days.push(null);
-                for (let d = 1; d <= lastDay.getDate(); d++) {
-                  const date = new Date(ry, rm-1, d);
-                  const ds = dateStr(date);
-                  days.push({ d, ds, isFuture: date > today, isClean: cleanSet.has(ds) });
-                }
-
-                const monthCleanCount = days.filter(d => d && d.isClean).length;
-                const monthTotal = days.filter(d => d && !d.isFuture).length;
-
-                // Monat komplett als clean markieren / aufheben
-                const markMonthAll = async () => {
-                  const pastDays = days.filter(d => d && !d.isFuture).map(d => d.ds);
-                  const allClean = pastDays.every(ds => cleanSet.has(ds));
-                  let newClean = [...(goals.cleanDays || [])];
-                  if (allClean) {
-                    newClean = newClean.filter(d => !pastDays.includes(d));
-                  } else {
-                    pastDays.forEach(ds => { if (!newClean.includes(ds)) newClean.push(ds); });
-                  }
-                  await saveGoals({ ...goals, cleanDays: newClean });
-                };
-
-                const prevMonth = () => {
-                  const d = new Date(ry, rm-2, 1);
-                  setRetroYM(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`);
-                };
-                const nextMonth = () => {
-                  const d = new Date(ry, rm, 1);
-                  if (d <= today) setRetroYM(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`);
-                };
-                const isNextDisabled = new Date(ry, rm, 1) > today;
-                const monthLabel = firstDay.toLocaleDateString("de-DE", { month:"long", year:"numeric" });
-                const allPastClean = days.filter(d => d && !d.isFuture).every(d => d.isClean);
-
-                return (
-                  <div className="px-4 pb-4 pt-1 animate-fadeIn">
-                    {/* Monats-Navigation */}
-                    <div className="flex items-center justify-between mb-3">
-                      <button onClick={prevMonth} className="w-9 h-9 rounded-xl flex items-center justify-center text-base font-bold transition-all active:scale-90"
-                        style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>‹</button>
-                      <div className="text-center">
-                        <p className="text-sm font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>{monthLabel}</p>
-                        <p className="text-xs" style={{color:"var(--tx2)"}}>{monthCleanCount} / {monthTotal} Tage clean</p>
-                      </div>
-                      <button onClick={nextMonth} disabled={isNextDisabled} className="w-9 h-9 rounded-xl flex items-center justify-center text-base font-bold transition-all active:scale-90"
-                        style={{background:"var(--card2)",color:isNextDisabled?"var(--bdr)":"var(--tx)",border:"1px solid var(--bdr)",opacity:isNextDisabled?0.35:1,cursor:isNextDisabled?"default":"pointer"}}>›</button>
-                    </div>
-
-                    {/* Wochentag-Header */}
-                    <div className="grid mb-1" style={{gridTemplateColumns:"repeat(7,1fr)",gap:4}}>
-                      {["Mo","Di","Mi","Do","Fr","Sa","So"].map(d => (
-                        <div key={d} className="text-center text-xs font-medium" style={{color:"var(--tx2)",paddingBottom:2}}>{d}</div>
-                      ))}
-                    </div>
-
-                    {/* Tage-Grid */}
-                    <div className="grid" style={{gridTemplateColumns:"repeat(7,1fr)",gap:4}}>
-                      {days.map((d, i) => d === null
-                        ? <div key={i} />
-                        : (
-                          <button key={i} onClick={() => !d.isFuture && toggleCleanDate(d.ds)} disabled={d.isFuture}
-                            className="flex items-center justify-center rounded-lg font-medium transition-all active:scale-90"
-                            style={{
-                              aspectRatio:"1",
-                              fontSize:12,
-                              background: d.isFuture ? "transparent" : d.isClean ? "#6BCB7722" : "var(--card2)",
-                              border: `1.5px solid ${d.isClean ? "#6BCB7766" : "transparent"}`,
-                              color: d.isFuture ? "var(--bdr)" : d.isClean ? "#6BCB77" : "var(--tx2)",
-                              cursor: d.isFuture ? "default" : "pointer",
-                              opacity: d.isFuture ? 0.25 : 1,
-                            }}>
-                            {d.isClean ? "✓" : d.d}
-                          </button>
-                        )
-                      )}
-                    </div>
-
-                    {/* Monat komplett markieren */}
-                    <button onClick={markMonthAll} className="w-full mt-3 py-2.5 rounded-xl text-xs font-semibold transition-all active:scale-[0.98]"
-                      style={{
-                        background: allPastClean ? "#E06B8A12" : "#6BCB7712",
-                        color: allPastClean ? "#E06B8A" : "#6BCB77",
-                        border: `1px solid ${allPastClean ? "#E06B8A33" : "#6BCB7733"}`,
-                      }}>
-                      {allPastClean ? `✕ ${monthLabel} komplett zurücksetzen` : `✓ ${monthLabel} komplett als clean markieren`}
-                    </button>
-                  </div>
-                );
-              })()}
-            </div>
-
-            {/* Motivation */}
-            {streak > 0 && (
-              <div className="rounded-2xl p-4 text-center" style={{background:"var(--card)",border:"1px solid #6BCB7733"}}>
-                <p className="text-xl mb-1">{streak >= 30 ? "🏆" : streak >= 14 ? "💎" : streak >= 7 ? "🔥" : streak >= 3 ? "⭐" : "🌱"}</p>
-                <p className="text-sm font-semibold" style={{color:"var(--tx)"}}>
-                  {streak >= 30 ? "Ein ganzer Monat!" : streak >= 14 ? "Zwei Wochen stark!" : streak >= 7 ? "Eine Woche geschafft!" : streak >= 3 ? "Drei Tage — das zählt!" : "Jeder Tag zählt."}
-                </p>
-                <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Jeder cleane Tag stärkt deine Selbstwirksamkeit.</p>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ─── TAB: Ziel ─── */}
-        {tab === "goal" && (
-          <div className="space-y-5 animate-fadeIn">
-            {(goals.target || goals.maxPerWeek) && !editGoal ? (
-              <>
-                {/* Active Goal Display */}
-                <div className="rounded-2xl p-5 text-center" style={{background:"linear-gradient(135deg,#6BCB7710,#9B7ECF10)",border:"1px solid #6BCB7733"}}>
-                  <p className="text-xs font-bold mb-1" style={{color:"var(--acc)"}}>
-                    {goals.goalType === "limit" ? "🎯 HARM-REDUCTION-LIMIT" : "🌟 ABSTINENZ-ZIEL"}
-                  </p>
-                  <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>
-                    {goals.goalType === "limit" ? `Max. ${goals.maxPerWeek} Konsumtage/Woche` : `${goals.target} cleane Tage`}
-                  </p>
-                  {goals.targetSubs?.length > 0 && (
-                    <p className="text-xs mt-2" style={{color:"var(--tx2)"}}>
-                      Bezug: {goals.targetSubs.map(s => `${subEmoji(s)} ${s}`).join(", ")}
-                    </p>
-                  )}
-                  <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Seit {new Date(goals.startDate).toLocaleDateString("de-DE")}</p>
-                </div>
-
-                {/* Progress for Clean-Days goal */}
-                {goals.goalType === "clean" && progress && (
-                  <Card>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-bold" style={{color:"var(--tx)"}}>Fortschritt</span>
-                      <span className="text-sm font-bold" style={{color:progress.pct>=100?"#6BCB77":"var(--acc)"}}>{progress.pct}%</span>
-                    </div>
-                    <div className="w-full h-3 rounded-full mb-3" style={{background:"var(--bdr)"}}>
-                      <div className="h-3 rounded-full transition-all duration-700" style={{width:`${progress.pct}%`,background:progress.pct>=100?"#6BCB77":"var(--acc)"}} />
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 text-center">
-                      <div><p className="text-lg font-bold" style={{color:"#6BCB77"}}>{progress.cleanInRange}</p><p className="text-xs" style={{color:"var(--tx2)"}}>Clean</p></div>
-                      <div><p className="text-lg font-bold" style={{color:"var(--tx)"}}>{progress.totalDays}</p><p className="text-xs" style={{color:"var(--tx2)"}}>Tage</p></div>
-                      <div><p className="text-lg font-bold" style={{color:"var(--acc)"}}>{Math.max(0, progress.target - progress.cleanInRange)}</p><p className="text-xs" style={{color:"var(--tx2)"}}>Übrig</p></div>
-                    </div>
-                    {progress.pct >= 100 && (
-                      <div className="mt-3 p-3 rounded-xl text-center" style={{background:"#6BCB7715"}}>
-                        <p className="text-xl">🎉</p>
-                        <p className="text-sm font-bold mt-1" style={{color:"#6BCB77"}}>Ziel erreicht!</p>
-                      </div>
-                    )}
-                  </Card>
-                )}
-
-                {/* Progress for Limit goal */}
-                {goals.goalType === "limit" && (
-                  <Card>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-bold" style={{color:"var(--tx)"}}>Diese Woche</span>
-                      <span className="text-sm font-bold" style={{color:weekConsumption() <= goals.maxPerWeek ? "#6BCB77" : "#E06B8A"}}>
-                        {weekConsumption()} / {goals.maxPerWeek}
-                      </span>
-                    </div>
-                    <div className="w-full h-3 rounded-full mb-3" style={{background:"var(--bdr)"}}>
-                      <div className="h-3 rounded-full transition-all duration-700" style={{
-                        width:`${Math.min(100, weekConsumption() / goals.maxPerWeek * 100)}%`,
-                        background: weekConsumption() <= goals.maxPerWeek ? "#6BCB77" : "#E06B8A"
-                      }} />
-                    </div>
-                    <p className="text-xs text-center" style={{color:"var(--tx2)"}}>
-                      {weekConsumption() <= goals.maxPerWeek
-                        ? `✓ Du bist im Rahmen. Noch ${goals.maxPerWeek - weekConsumption()} Konsumtage übrig.`
-                        : `⚠️ Limit überschritten. Reflektiere, was du anpassen kannst.`}
-                    </p>
-                    <p className="text-xs text-center mt-2 italic" style={{color:"var(--tx2)"}}>
-                      Reduktion ist auch ein Erfolg. Jeder bewusste Tag zählt.
-                    </p>
-                  </Card>
-                )}
-
-                <div className="flex gap-3">
-                  <button onClick={() => { setEditGoal(true); setGoalType(goals.goalType || "clean"); setNewTarget(goals.target || 30); setNewMaxPerWeek(goals.maxPerWeek || 3); setNewTargetSubs(goals.targetSubs || []); }} className="flex-1 py-2.5 rounded-xl text-xs font-medium" style={{background:"var(--card)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>
-                    ✏️ Anpassen
-                  </button>
-                  <button onClick={resetGoal} className="flex-1 py-2.5 rounded-xl text-xs font-medium" style={{background:"#E06B8A12",color:"#E06B8A",border:"1px solid #E06B8A33"}}>
-                    Ziel zurücksetzen
-                  </button>
-                </div>
-              </>
-            ) : (
-              /* ── ZIEL-WIZARD (3 Schritte) ─────────────────────── */
-              (() => {
-                const [gStep, setGStep] = useState(1);
-                const cancelWiz = () => { setEditGoal(false); setGStep(1); };
-
-                // Schritt 1 — Zieltyp
-                if (gStep === 1) return (
-                  <WizardShell step={1} total={3} label={editGoal ? "Ziel anpassen" : "Ziel setzen"}
-                    onBack={editGoal ? cancelWiz : null}>
-                    <div className="text-center">
-                      <p className="text-3xl mb-2">🎯</p>
-                      <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>
-                        Was ist dein Ziel?
-                      </p>
-                      <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>Wähle den Typ, der zu dir passt.</p>
-                    </div>
-
-                    <div className="space-y-3 mt-2">
-                      <button
-                        onClick={() => { setGoalType("clean"); setTimeout(() => setGStep(2), 180); }}
-                        className="w-full rounded-2xl p-5 text-left flex items-center gap-4 transition-all active:scale-[0.98]"
-                        style={{
-                          background: goalType==="clean" ? "var(--acc)15" : "var(--card)",
-                          border: `2px solid ${goalType==="clean" ? "var(--acc)" : "var(--bdr)"}`,
-                        }}>
-                        <span className="text-4xl shrink-0">🌟</span>
-                        <div>
-                          <p className="text-base font-bold" style={{color:"var(--tx)"}}>Abstinenz-Ziel</p>
-                          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Eine bestimmte Anzahl cleaner Tage erreichen.</p>
-                          <p className="text-xs mt-1 font-semibold" style={{color:"var(--acc)"}}>z.B. 30 cleane Tage bis Ende des Monats</p>
-                        </div>
-                      </button>
-
-                      <button
-                        onClick={() => { setGoalType("limit"); setTimeout(() => setGStep(2), 180); }}
-                        className="w-full rounded-2xl p-5 text-left flex items-center gap-4 transition-all active:scale-[0.98]"
-                        style={{
-                          background: goalType==="limit" ? "#F2D38812" : "var(--card)",
-                          border: `2px solid ${goalType==="limit" ? "#F2D388" : "var(--bdr)"}`,
-                        }}>
-                        <span className="text-4xl shrink-0">📊</span>
-                        <div>
-                          <p className="text-base font-bold" style={{color:"var(--tx)"}}>Reduktions-Limit</p>
-                          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Konsum auf maximal N Tage pro Woche begrenzen.</p>
-                          <p className="text-xs mt-1 font-semibold" style={{color:"#F2D388"}}>z.B. max. 2 Konsumtage pro Woche</p>
-                        </div>
-                      </button>
-                    </div>
-
-                    <div className="rounded-xl px-4 py-3" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-                      <p className="text-xs leading-relaxed" style={{color:"var(--tx2)"}}>
-                        ⚕️ Auch Reduktion ist ein Ziel. Du definierst, was Fortschritt für dich bedeutet.
-                      </p>
-                    </div>
-                  </WizardShell>
-                );
-
-                // Schritt 2 — Menge festlegen
-                if (gStep === 2) return (
-                  <WizardShell step={2} total={3}
-                    label={goalType === "clean" ? "🌟 Abstinenz-Ziel" : "📊 Reduktions-Limit"}
-                    onBack={() => setGStep(1)}>
-
-                    {goalType === "clean" ? (
-                      <>
-                        <div className="text-center">
-                          <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>
-                            Wie viele cleane Tage?
-                          </p>
-                          <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>Wähle ein Ziel, das realistisch und motivierend ist.</p>
-                        </div>
-
-                        {/* Schnellwahl */}
-                        <div className="grid grid-cols-3 gap-2">
-                          {[7, 14, 30, 60, 90].map(n => (
-                            <button key={n} onClick={() => setNewTarget(n)}
-                              className="py-4 rounded-2xl text-sm font-bold transition-all active:scale-95"
-                              style={{
-                                background: newTarget===n ? "var(--acc)20" : "var(--card)",
-                                border: `2px solid ${newTarget===n ? "var(--acc)" : "var(--bdr)"}`,
-                                color: newTarget===n ? "var(--acc)" : "var(--tx2)",
-                              }}>
-                              {n} Tage
-                            </button>
-                          ))}
-                          {/* Eigene Zahl — nimmt zwei Spalten */}
-                          <button onClick={() => {}} className="col-span-1 py-4 rounded-2xl text-sm font-bold"
-                            style={{background:"var(--card)",border:"1px solid var(--bdr)",color:"var(--tx2)",fontSize:10}}>
-                            Eigene ↓
-                          </button>
-                        </div>
-
-                        {/* Stepper */}
-                        <div>
-                          <div className="flex items-center gap-4 justify-center">
-                            <button onClick={() => setNewTarget(Math.max(1, newTarget - 1))}
-                              className="w-14 h-14 rounded-2xl text-2xl font-bold"
-                              style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>−</button>
-                            <span className="text-5xl font-black w-24 text-center"
-                              style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{newTarget}</span>
-                            <button onClick={() => setNewTarget(newTarget + 1)}
-                              className="w-14 h-14 rounded-2xl text-2xl font-bold"
-                              style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>+</button>
-                          </div>
-                          <p className="text-xs text-center mt-2" style={{color:"var(--tx2)"}}>
-                            {newTarget <= 7 ? "Ein guter erster Schritt." : newTarget <= 30 ? "Ein solides Ziel." : newTarget <= 60 ? "Ambitioniert — du packst das." : "Sehr ambitioniert. Schritt für Schritt."}
-                          </p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="text-center">
-                          <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>
-                            Max. Konsumtage pro Woche?
-                          </p>
-                          <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>Gezählt werden Tage mit mindestens einem Log-Eintrag (Mo–So).</p>
-                        </div>
-
-                        <div className="flex items-center gap-4 justify-center py-4">
-                          <button onClick={() => setNewMaxPerWeek(Math.max(1, newMaxPerWeek - 1))}
-                            className="w-16 h-16 rounded-2xl text-3xl font-bold"
-                            style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>−</button>
-                          <div className="text-center w-24">
-                            <span className="text-6xl font-black" style={{color:"#F2D388",fontFamily:"var(--fontD)"}}>{newMaxPerWeek}</span>
-                            <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Tage/Woche</p>
-                          </div>
-                          <button onClick={() => setNewMaxPerWeek(Math.min(7, newMaxPerWeek + 1))}
-                            className="w-16 h-16 rounded-2xl text-3xl font-bold"
-                            style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>+</button>
-                        </div>
-
-                        {/* Visuelle Einheiten-Skala */}
-                        <div className="flex gap-2 justify-center">
-                          {Array.from({length: 7}).map((_, i) => (
-                            <div key={i} className="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all"
-                              style={{
-                                background: i < newMaxPerWeek ? "#F2D38820" : "var(--card)",
-                                border: `1.5px solid ${i < newMaxPerWeek ? "#F2D388" : "var(--bdr)"}`,
-                                color: i < newMaxPerWeek ? "#F2D388" : "var(--tx2)",
-                              }}>
-                              {i < newMaxPerWeek ? "✓" : ""}
-                            </div>
-                          ))}
-                        </div>
-                        <p className="text-xs text-center" style={{color:"var(--tx2)"}}>
-                          {newMaxPerWeek === 1 ? "Sehr konservativ — großer Schritt." : newMaxPerWeek <= 3 ? "Solide Reduktion." : newMaxPerWeek <= 5 ? "Ein machbares Limit." : "Jede Begrenzung ist ein Fortschritt."}
-                        </p>
-                      </>
-                    )}
-
-                    <button onClick={() => setGStep(3)}
-                      className="w-full py-4 rounded-2xl text-base font-bold"
-                      style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff"}}>
-                      Weiter →
-                    </button>
-                  </WizardShell>
-                );
-
-                // Schritt 3 — Substanzbezug + Zusammenfassung
-                if (gStep === 3) return (
-                  <WizardShell step={3} total={3} label="Zusammenfassung" onBack={() => setGStep(2)}>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>
-                        Worauf bezieht sich das Ziel?
-                      </p>
-                      <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>Optional — leer lassen = gilt für alles.</p>
-                    </div>
-
-                    {/* Substanz-Filter */}
-                    <div className="flex flex-wrap gap-2">
-                      <button
-                        onClick={() => setNewTargetSubs([])}
-                        className="px-3 py-2 rounded-xl text-xs font-semibold transition-all active:scale-95"
-                        style={{
-                          background: newTargetSubs.length===0 ? "var(--acc)20" : "var(--card)",
-                          border: `1.5px solid ${newTargetSubs.length===0 ? "var(--acc)" : "var(--bdr)"}`,
-                          color: newTargetSubs.length===0 ? "var(--acc)" : "var(--tx2)",
-                        }}>
-                        Alles
-                      </button>
-                      {(prefs.mySubs?.length > 0 ? prefs.mySubs : SUBSTANCES)
-                        .filter(s => !s.startsWith("Andere"))
-                        .map(s => (
-                          <button key={s}
-                            onClick={() => setNewTargetSubs(p => p.includes(s) ? p.filter(x=>x!==s) : [...p, s])}
-                            className="px-3 py-2 rounded-xl text-xs font-semibold transition-all active:scale-95"
-                            style={{
-                              background: newTargetSubs.includes(s) ? "var(--acc)20" : "var(--card)",
-                              border: `1.5px solid ${newTargetSubs.includes(s) ? "var(--acc)" : "var(--bdr)"}`,
-                              color: newTargetSubs.includes(s) ? "var(--acc)" : "var(--tx2)",
-                            }}>
-                            {subEmoji(s)} {s}
-                          </button>
-                        ))}
-                    </div>
-
-                    {/* Zusammenfassung */}
-                    <div className="rounded-2xl overflow-hidden" style={{border:"1px solid var(--bdr)"}}>
-                      {[
-                        { l: "Zieltyp", v: goalType === "clean" ? "🌟 Abstinenz-Ziel" : "📊 Reduktions-Limit" },
-                        goalType === "clean"
-                          ? { l: "Ziel",    v: `${newTarget} cleane Tage` }
-                          : { l: "Limit",   v: `Max. ${newMaxPerWeek} Konsumtage / Woche` },
-                        { l: "Bezug", v: newTargetSubs.length > 0 ? newTargetSubs.map(s=>`${subEmoji(s)} ${s}`).join(", ") : "Alles" },
-                      ].map((row, i) => (
-                        <div key={i} className="flex items-start gap-3 px-4 py-3"
-                          style={{borderBottom:"1px solid var(--bdr)",background:i%2===0?"var(--card)":"var(--card2)"}}>
-                          <span className="text-xs font-bold shrink-0 w-16" style={{color:"var(--tx2)"}}>{row.l}</span>
-                          <span className="text-xs font-semibold" style={{color:"var(--tx)"}}>{row.v}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <button onClick={() => { saveTarget(); setGStep(1); }}
-                      className="w-full py-5 rounded-2xl text-base font-black transition-all active:scale-[0.97]"
-                      style={{
-                        background: "linear-gradient(135deg,#6BCB77,#4aaa58)",
-                        color: "#fff",
-                        boxShadow: "0 4px 20px #6BCB7733",
-                      }}>
-                      🎯 {editGoal ? "Ziel aktualisieren" : "Ziel starten"}
-                    </button>
-
-                    {editGoal && (
-                      <button onClick={cancelWiz} className="w-full py-2.5 text-xs text-center"
-                        style={{color:"var(--tx2)"}}>
-                        Abbrechen
-                      </button>
-                    )}
-                  </WizardShell>
-                );
-
-                return null;
-              })()
-            )}
-          </div>
-        )}
-
-        {/* ─── TAB: Konsumkontrollregeln ─── */}
-        {tab === "goal" && (() => {
-          const rules = goals.myRules || [];
-          const EMOJIS = ["⏰","🔢","🚫","💧","🌿","🏠","👥","🧘","🍃","✋","🎯","💊","🛑","🌙","☀️","🔄"];
-          const [editRules,  setEditRules]  = useState(false);
-          const [draftRules, setDraftRules] = useState(rules);
-          const [newEmoji,   setNewEmoji]   = useState("⏰");
-          const [newText,    setNewText]    = useState("");
-          const [showPicker, setShowPicker] = useState(false);
-
-          const saveRules = async () => {
-            await saveGoals({ ...goals, myRules: draftRules });
-            setEditRules(false);
-          };
-
-          const addRule = () => {
-            if (!newText.trim() || draftRules.length >= 5) return;
-            setDraftRules([...draftRules, { emoji: newEmoji, text: newText.trim(), id: Date.now() }]);
-            setNewText(""); setNewEmoji("⏰"); setShowPicker(false);
-          };
-
-          const removeRule = (id) => setDraftRules(draftRules.filter(r => r.id !== id));
-
-          const updateRule = (id, field, val) =>
-            setDraftRules(draftRules.map(r => r.id === id ? { ...r, [field]: val } : r));
-
-          // Leerer Zustand + nicht im Edit-Modus → kompakten CTA zeigen
-          if (rules.length === 0 && !editRules) return (
-            <div className="mt-1 rounded-2xl p-4 flex items-center gap-3 animate-fadeIn"
-              style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                style={{background:"var(--acc)10"}}>📋</div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold" style={{color:"var(--tx)"}}>Konsumkontrollregeln</p>
-                <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Eigene Regeln für bewussteren Konsum — sichtbar als Erinnerung.</p>
-              </div>
-              <button onClick={() => { setDraftRules([]); setEditRules(true); }}
-                className="text-xs font-semibold px-3 py-1.5 rounded-lg shrink-0"
-                style={{background:"var(--acc)",color:"#fff"}}>
-                + Hinzufügen
-              </button>
-            </div>
-          );
-
-          // Regelanzeige (Leseansicht)
-          if (!editRules) return (
-            <div className="mt-1 rounded-2xl overflow-hidden animate-fadeIn"
-              style={{border:"1px solid var(--bdr)"}}>
-              <div className="px-4 py-3 flex items-center justify-between"
-                style={{background:"var(--card)",borderBottom:"1px solid var(--bdr)"}}>
-                <div className="flex items-center gap-2">
-                  <span style={{fontSize:16}}>📋</span>
-                  <p className="text-sm font-bold" style={{color:"var(--tx)"}}>Konsumkontrollregeln</p>
-                </div>
-                <button onClick={() => { setDraftRules([...rules]); setEditRules(true); }}
-                  className="text-xs font-medium px-2.5 py-1 rounded-lg"
-                  style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>
-                  ✏️ Bearbeiten
-                </button>
-              </div>
-              <div style={{background:"var(--card2)"}}>
-                {rules.map((r, i) => (
-                  <div key={r.id} className="flex items-center gap-3 px-4 py-3.5"
-                    style={{borderBottom: i < rules.length - 1 ? "1px solid var(--bdr)" : "none"}}>
-                    <span style={{fontSize:20,flexShrink:0}}>{r.emoji}</span>
-                    <p className="text-sm" style={{color:"var(--tx)",lineHeight:1.4}}>{r.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          );
-
-          // Edit-Modus
-          return (
-            <div className="mt-1 rounded-2xl overflow-hidden animate-fadeIn"
-              style={{border:"1px solid var(--acc)33"}}>
-              <div className="px-4 py-3" style={{background:"var(--acc)08",borderBottom:"1px solid var(--bdr)"}}>
-                <p className="text-sm font-bold" style={{color:"var(--tx)"}}>📋 Regeln bearbeiten</p>
-                <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Max. 5 Regeln · Tippe zum Bearbeiten</p>
-              </div>
-
-              {/* Bestehende Regeln */}
-              <div className="px-4 py-3 space-y-2" style={{background:"var(--card2)"}}>
-                {draftRules.map((r) => (
-                  <div key={r.id} className="flex items-center gap-2">
-                    {/* Emoji-Button */}
-                    <button onClick={() => setShowPicker(showPicker === r.id ? false : r.id)}
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 transition-all"
-                      style={{background:"var(--card)",border:`1.5px solid ${showPicker===r.id?"var(--acc)":"var(--bdr)"}`}}>
-                      {r.emoji}
-                    </button>
-                    {/* Text-Input */}
-                    <input value={r.text} onChange={e => updateRule(r.id, "text", e.target.value)}
-                      className="flex-1 rounded-xl px-3 py-2 text-sm outline-none"
-                      style={{background:"var(--card)",color:"var(--tx)",border:"1px solid var(--bdr)"}} />
-                    {/* Löschen */}
-                    <button onClick={() => removeRule(r.id)}
-                      className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                      style={{background:"#E06B8A12",color:"#E06B8A",border:"1px solid #E06B8A33",fontSize:14}}>
-                      ✕
-                    </button>
-                  </div>
-                ))}
-
-                {/* Emoji-Picker für bestehende Regel */}
-                {showPicker && typeof showPicker === "number" && (
-                  <div className="rounded-xl p-2 flex flex-wrap gap-1.5 animate-fadeIn"
-                    style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-                    {EMOJIS.map(e => (
-                      <button key={e} onClick={() => { updateRule(showPicker, "emoji", e); setShowPicker(false); }}
-                        className="w-9 h-9 rounded-lg flex items-center justify-center text-lg transition-all active:scale-90"
-                        style={{background:"var(--card2)"}}>
-                        {e}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Neue Regel hinzufügen */}
-                {draftRules.length < 5 && (
-                  <div className="space-y-2 pt-1">
-                    <div className="flex items-center gap-2">
-                      <button onClick={() => setShowPicker(showPicker === "new" ? false : "new")}
-                        className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                        style={{background:"var(--card)",border:`1.5px solid ${showPicker==="new"?"var(--acc)":"var(--bdr)"}`}}>
-                        {newEmoji}
-                      </button>
-                      <input value={newText} onChange={e => setNewText(e.target.value)}
-                        onKeyDown={e => e.key === "Enter" && addRule()}
-                        className="flex-1 rounded-xl px-3 py-2 text-sm outline-none"
-                        style={{background:"var(--card)",color:"var(--tx)",border:"1px solid var(--bdr)"}}
-                        placeholder="Neue Regel eingeben…" />
-                      <button onClick={addRule} disabled={!newText.trim()}
-                        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold"
-                        style={{
-                          background: newText.trim() ? "var(--acc)" : "var(--bdr)",
-                          color: newText.trim() ? "#fff" : "var(--tx2)",
-                        }}>
-                        +
-                      </button>
-                    </div>
-
-                    {/* Emoji-Picker für neue Regel */}
-                    {showPicker === "new" && (
-                      <div className="rounded-xl p-2 flex flex-wrap gap-1.5 animate-fadeIn"
-                        style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-                        {EMOJIS.map(e => (
-                          <button key={e} onClick={() => { setNewEmoji(e); setShowPicker(false); }}
-                            className="w-9 h-9 rounded-lg flex items-center justify-center text-lg transition-all active:scale-90"
-                            style={{background:newEmoji===e?"var(--acc)20":"var(--card2)",border:`1px solid ${newEmoji===e?"var(--acc)":"transparent"}`}}>
-                            {e}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Speichern / Abbrechen */}
-              <div className="px-4 py-3 flex gap-2" style={{background:"var(--card)",borderTop:"1px solid var(--bdr)"}}>
-                <button onClick={saveRules}
-                  className="flex-1 py-3 rounded-xl text-sm font-bold"
-                  style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff"}}>
-                  Speichern
-                </button>
-                <button onClick={() => { setEditRules(false); setDraftRules(rules); setShowPicker(false); }}
-                  className="flex-1 py-3 rounded-xl text-sm font-medium"
-                  style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>
-                  Abbrechen
-                </button>
-              </div>
-            </div>
-          );
-        })()}
-
-        {/* ─── TAB: Verlauf ─── */}
-        {tab === "history" && (
-          <div className="space-y-4 animate-fadeIn">
-            <Card>
-              <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📊 Deine Übersicht</h3>
-              <Row l="🌟 Cleane Tage gesamt" r={totalClean} />
-              <Row l="🔥 Aktuelle Streak" r={`${streak} Tage`} />
-              <Row l="🏆 Längste Streak" r={`${longest} Tage`} />
-              <Row l="📝 Konsumeinträge" r={logs.length} />
-              <Row l="📊 Clean-Quote (30 Tage)" r={(() => {
-                const d30 = new Date(); d30.setDate(d30.getDate() - 30);
-                const clean30 = (goals.cleanDays||[]).filter(d => d >= dateStr(d30)).length;
-                return `${clean30}/30 (${Math.round(clean30/30*100)}%)`;
-              })()} />
-            </Card>
-
-            {/* Monthly breakdown */}
-            <Card>
-              <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>📆 Monatsvergleich</h3>
-              {(() => {
-                const months = {};
-                (goals.cleanDays||[]).forEach(d => {
-                  const m = d.substring(0, 7); // YYYY-MM
-                  months[m] = (months[m] || 0) + 1;
-                });
-                const sorted = Object.entries(months).sort((a,b) => b[0].localeCompare(a[0])).slice(0, 6);
-                if (!sorted.length) return <p className="text-xs" style={{color:"var(--tx2)"}}>Noch keine Daten.</p>;
-                const mx = Math.max(...sorted.map(([,c]) => c), 1);
-                return sorted.map(([m, c]) => {
-                  const [y, mo] = m.split("-");
-                  const label = new Date(+y, +mo - 1).toLocaleDateString("de-DE", { month: "short", year: "numeric" });
-                  return (
-                    <div key={m} className="mb-2">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span style={{color:"var(--tx)"}}>{label}</span>
-                        <span style={{color:"#6BCB77"}}>{c} clean</span>
-                      </div>
-                      <div className="w-full h-2 rounded-full" style={{background:"var(--bdr)"}}>
-                        <div className="h-2 rounded-full" style={{width:`${c/mx*100}%`,background:"#6BCB77",transition:"width 0.5s"}} />
-                      </div>
-                    </div>
-                  );
-                });
-              })()}
-            </Card>
-
-            {/* Mood on clean vs consumed days */}
-            {moods.length >= 3 && (
-              <Card>
-                <h3 className="text-sm font-bold mb-3" style={{color:"var(--tx)"}}>💚 Mood-Vergleich</h3>
-                {(() => {
-                  const cleanSet = new Set(goals.cleanDays || []);
-                  const logDates = new Set(logs.map(l => dateStr(l.date)));
-                  const cleanMoods = moods.filter(m => cleanSet.has(dateStr(m.date)));
-                  const conMoods = moods.filter(m => logDates.has(dateStr(m.date)));
-                  const avgC = cleanMoods.length ? (cleanMoods.reduce((s,m)=>s+m.value,0)/cleanMoods.length).toFixed(1) : "–";
-                  const avgK = conMoods.length ? (conMoods.reduce((s,m)=>s+m.value,0)/conMoods.length).toFixed(1) : "–";
-                  return (
-                    <div className="grid grid-cols-2 gap-3 text-center">
-                      <div className="rounded-xl p-3" style={{background:"#6BCB7712"}}>
-                        <p className="text-xl font-bold" style={{color:"#6BCB77"}}>{avgC}</p>
-                        <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Ø Mood an cleanen Tagen</p>
-                      </div>
-                      <div className="rounded-xl p-3" style={{background:"#E06B8A12"}}>
-                        <p className="text-xl font-bold" style={{color:"#E06B8A"}}>{avgK}</p>
-                        <p className="text-xs mt-1" style={{color:"var(--tx2)"}}>Ø Mood an Konsumtagen</p>
-                      </div>
-                    </div>
-                  );
-                })()}
-              </Card>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
-
+  // ─── GOALS & CLEAN DAYS ──
   // ═══════════════════════════════════════════════════════════
   // ─── WISSENSDATENBANK (12 Module — Harm Reduction Knowledge Base) ──
   // ═══════════════════════════════════════════════════════════
@@ -4226,464 +3044,6 @@ function DoseDiary() {
     );
   };
 
-  // ═══════════════════════════════════════════════════════════
-  // ─── DOSE PLANER (Konsumintervall-Timer) ──────────────────
-  // ═══════════════════════════════════════════════════════════
-  // ─── SINGLE PLANER CARD (für jede Instanz im Cockpit) ───
-  const PlanerCard = ({ p }) => {
-    const [now, setNow] = useState(Date.now());
-    const [challengeActive, setChallengeActive] = useState(false);
-    const [challengeSuccess, setChallengeSuccess] = useState(false);
-
-    useEffect(() => {
-      const id = setInterval(() => setNow(Date.now()), 1000);
-      return () => clearInterval(id);
-    }, []);
-
-    const formatTime = (ms) => {
-      const m = Math.floor(ms / 60000);
-      const s = Math.floor((ms % 60000) / 1000);
-      return `${m}:${String(s).padStart(2, "0")}`;
-    };
-
-    const intMs = p.interval * 60 * 1000;
-    const lastC = p.lastConsumedAt ? new Date(p.lastConsumedAt).getTime() : 0;
-    const chalStart = p.challengeStartedAt ? new Date(p.challengeStartedAt).getTime() : 0;
-    const elapsed = lastC ? now - lastC : 0;
-    const remaining = Math.max(0, intMs - elapsed);
-    const pct = lastC ? Math.min(1, elapsed / intMs) : 0;
-    const chalMs = 15 * 60 * 1000;
-    const chalElapsed = chalStart ? now - chalStart : 0;
-    const chalRemaining = Math.max(0, chalMs - chalElapsed);
-    const chalDone = challengeActive && chalRemaining === 0;
-    const chalPct = chalStart ? Math.min(1, chalElapsed / chalMs) : 0;
-    const isOpen = lastC > 0 && remaining === 0 && !challengeActive && !challengeSuccess;
-    const isWaiting = lastC > 0 && remaining > 0 && !challengeActive;
-    const isFirst = !lastC;
-    const lim = p.maxUnits > 0 && p.consumedCount >= p.maxUnits;
-    const r = 74; const circ = 2 * Math.PI * r;
-
-    const doRecord = async () => {
-      await updatePlaner(p.id, { consumedCount: (p.consumedCount||0)+1, lastConsumedAt: new Date().toISOString(), challengeStartedAt: null });
-      setChallengeActive(false); setChallengeSuccess(false);
-      nav("planer");
-    };
-    const doStartChallenge = async () => {
-      setChallengeActive(true); setChallengeSuccess(false);
-      await updatePlaner(p.id, { challengeStartedAt: new Date().toISOString() });
-    };
-    const doChallengeComplete = async () => {
-      await addGlobalChallenge();
-      await updatePlaner(p.id, { lastConsumedAt: new Date().toISOString(), challengeStartedAt: null, challengeCount: (p.challengeCount||0)+1 });
-      setChallengeActive(false); setChallengeSuccess(true);
-    };
-    const doRemove = async () => await removePlaner(p.id);
-
-    return (
-      <div className="rounded-2xl overflow-hidden" style={{background:"var(--card)",border:"1px solid #7B8CDE33"}}>
-        {/* Karten-Header */}
-        <div className="px-4 py-3 flex items-center gap-2" style={{borderBottom:"1px solid var(--bdr)"}}>
-          <span className="text-lg">{subEmoji(p.substance)}</span>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold truncate" style={{color:"var(--tx)"}}>{p.substance}</p>
-            <p style={{fontSize:10,color:"var(--tx2)"}}>{p.unit} · alle {p.interval} Min.</p>
-          </div>
-          <div className="grid grid-cols-3 gap-1.5 text-center shrink-0">
-            <div><p className="text-sm font-bold" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{p.consumedCount}</p><p style={{fontSize:8,color:"var(--tx2)"}}>×</p></div>
-            <div><p className="text-sm font-bold" style={{color:lim?"#E06B8A":"var(--tx)",fontFamily:"var(--fontD)"}}>{p.maxUnits>0?p.maxUnits-p.consumedCount:"∞"}</p><p style={{fontSize:8,color:"var(--tx2)"}}>max</p></div>
-            <div><p className="text-sm font-bold" style={{color:(p.challengeCount||0)>0?"#B89DE8":"var(--tx2)",fontFamily:"var(--fontD)"}}>{(p.challengeCount||0)>0?`${p.challengeCount}⭐`:"—"}</p><p style={{fontSize:8,color:"var(--tx2)"}}>ch.</p></div>
-          </div>
-          <button onClick={doRemove} aria-label="Planer entfernen" className="ml-1 text-xs px-2 py-1 rounded-lg shrink-0"
-            style={{background:"var(--card2)",color:"#E06B8A",border:"1px solid #E06B8A33"}}>✕</button>
-        </div>
-
-        <div className="px-4 py-4 space-y-3">
-          {/* Limit erreicht */}
-          {lim && (
-            <div className="rounded-xl p-4 text-center" style={{background:"#6BCB7712",border:"1px solid #6BCB7744"}}>
-              <p className="text-2xl mb-1">🎯</p>
-              <p className="text-sm font-bold" style={{color:"#6BCB77"}}>Limit erreicht — gute Selbstkontrolle!</p>
-              <button onClick={() => nav("skillbox")} className="mt-2 text-xs px-3 py-1.5 rounded-lg"
-                style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>🧰 Skill-Box</button>
-            </div>
-          )}
-
-          {/* Erster Eintrag */}
-          {isFirst && !lim && (
-            <div className="text-center py-2">
-              <p className="text-xs mb-2" style={{color:"var(--tx2)"}}>Logge den ersten Konsum, um den Timer zu starten.</p>
-              <button onClick={doRecord} className="px-5 py-2.5 rounded-xl text-sm font-bold"
-                style={{background:"var(--acc)",color:"#fff"}}>📝 Jetzt loggen</button>
-            </div>
-          )}
-
-          {/* Timer-Ring: wartet */}
-          {isWaiting && !lim && (
-            <div className="flex gap-4 items-center">
-              <div className="relative shrink-0" style={{width:80,height:80}}>
-                <svg viewBox="0 0 200 200" className="w-full h-full" style={{transform:"rotate(-90deg)"}}>
-                  <circle cx="100" cy="100" r={r} fill="none" stroke="var(--bdr)" strokeWidth="10" />
-                  <circle cx="100" cy="100" r={r} fill="none" stroke="#7B8CDE" strokeWidth="10"
-                    strokeDasharray={circ} strokeDashoffset={circ*(1-pct)} strokeLinecap="round"
-                    className="transition-all duration-1000" />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span style={{fontSize:11,fontWeight:800,color:"#7B8CDE",fontFamily:"var(--fontD)"}}>{formatTime(remaining)}</span>
-                </div>
-              </div>
-              <div className="flex-1">
-                <p className="text-xs font-semibold mb-1" style={{color:"var(--tx)"}}>Nächste Einheit in {Math.ceil(remaining/60000)} Min.</p>
-                <button onClick={() => nav("skillbox")} className="text-xs px-3 py-1.5 rounded-lg"
-                  style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>🧰 Überbrücken</button>
-              </div>
-            </div>
-          )}
-
-          {/* Challenge läuft */}
-          {challengeActive && !lim && (() => {
-            if (chalDone) setTimeout(doChallengeComplete, 1200);
-            return (
-              <div className="rounded-xl p-3 text-center" style={{background:"linear-gradient(135deg,#9B7ECF18,#F2D38812)",border:"2px solid #9B7ECF55"}}>
-                <p style={{fontSize:10,fontWeight:800,color:"#B89DE8",letterSpacing:"1px"}}>✨ CHALLENGE</p>
-                <div className="relative mx-auto my-2" style={{width:80,height:80}}>
-                  <svg viewBox="0 0 200 200" className="w-full h-full" style={{transform:"rotate(-90deg)"}}>
-                    <circle cx="100" cy="100" r={r} fill="none" stroke="var(--bdr)" strokeWidth="10" />
-                    <circle cx="100" cy="100" r={r} fill="none"
-                      stroke={chalDone?"#6BCB77":"#9B7ECF"} strokeWidth="10"
-                      strokeDasharray={circ} strokeDashoffset={circ*(1-chalPct)} strokeLinecap="round"
-                      className="transition-all duration-1000" />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    {chalDone
-                      ? <span className="text-2xl">⭐</span>
-                      : <span style={{fontSize:11,fontWeight:800,color:"#B89DE8",fontFamily:"var(--fontD)"}}>{formatTime(chalRemaining)}</span>
-                    }
-                  </div>
-                </div>
-                <p style={{fontSize:11,color:"var(--tx)"}}>Du hältst die Pause. Echte Stärke.</p>
-                {!chalDone && (
-                  <button onClick={doRecord} className="mt-2 text-xs px-3 py-1 rounded-lg"
-                    style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>Doch loggen</button>
-                )}
-              </div>
-            );
-          })()}
-
-          {/* Challenge Erfolg */}
-          {challengeSuccess && !challengeActive && !lim && (
-            <div className="rounded-xl p-3 text-center animate-fadeIn"
-              style={{background:"linear-gradient(135deg,#9B7ECF18,#6BCB7712)",border:"2px solid #6BCB7755"}}>
-              <p className="text-2xl mb-1">⭐</p>
-              <p className="text-sm font-black" style={{color:"#6BCB77"}}>Stark! Kontrolle behalten.</p>
-              <p style={{fontSize:10,color:"var(--tx2)",marginTop:4}}>
-                {globalChallengeCount > 1 ? `${globalChallengeCount}× heute geschafft ✨` : "Erste Challenge heute!"}
-              </p>
-              <div className="flex gap-2 mt-3">
-                <button onClick={() => setChallengeSuccess(false)} className="flex-1 py-2 rounded-lg text-xs font-semibold"
-                  style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>Weiter warten</button>
-                <button onClick={doRecord} className="flex-1 py-2 rounded-lg text-xs font-bold"
-                  style={{background:"#6BCB77",color:"#fff"}}>📝 Loggen</button>
-              </div>
-            </div>
-          )}
-
-          {/* Fenster offen — zweistufige Auswahl */}
-          {isOpen && !lim && (
-            <div className="rounded-xl p-3 text-center animate-fadeIn"
-              style={{background:"linear-gradient(135deg,#6BCB7710,#F2D38810)",border:"1px solid #6BCB7744"}}>
-              <p className="text-2xl mb-1">🟢</p>
-              <p className="text-sm font-bold mb-2" style={{color:"#6BCB77"}}>Fenster offen</p>
-              <div className="flex gap-2">
-                <button onClick={doRecord} className="flex-1 py-2.5 rounded-xl text-xs font-bold"
-                  style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>
-                  📝 Jetzt loggen
-                </button>
-                <button onClick={doStartChallenge} className="flex-1 py-2.5 rounded-xl text-xs font-bold active:scale-95"
-                  style={{background:"linear-gradient(135deg,#9B7ECF,#7B5CB8)",color:"#fff",boxShadow:"0 3px 12px #9B7ECF44"}}>
-                  ⏱️ 15 Min. Challenge
-                </button>
-              </div>
-              <p style={{fontSize:9,color:"var(--tx2)",marginTop:6}}>Challenge = freiwillig. Nur die Chance, stolz auf dich zu sein.</p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  // ─── DOSE-PLANER WIZARD ─────────────────────────────────────────────────
-  const DosePlaner = () => {
-    const [wiz,        setWiz]     = useState(0);   // 0=list 1-4=wizard
-    const [wizSub,     setWizSub]  = useState("");
-    const [wizUnit,    setWizUnit] = useState("");
-    const [wizAmt,     setWizAmt]  = useState(0);
-    const [wizInt,     setWizInt]  = useState(90);
-    const [pfOpen,     setPfOpen]  = useState(false);
-    const [pfChecks,   setPfChecks]= useState([false,false,false]);
-    const [pending,    setPending] = useState(null);
-    const [done,       setDone]    = useState(false);
-
-    const myItems    = prefs.mySubs?.length>0?prefs.mySubs:SUBSTANCES;
-    const availItems = myItems.filter(s=>!planers.some(p=>p.substance===s));
-
-    const subs = planers.map(p=>p.substance);
-    const mixAlerts = [];
-    for(let a=0;a<subs.length;a++) for(let b=a+1;b<subs.length;b++){
-      const k=getInteractionKey(subs[a],subs[b]);
-      if(INTERACTION_MATRIX[k])mixAlerts.push({subA:subs[a],subB:subs[b],...INTERACTION_MATRIX[k]});
-    }
-    mixAlerts.sort((a,b)=>({critical:0,high:1,medium:2}[a.level]??3)-({critical:0,high:1,medium:2}[b.level]??3));
-
-    const PRE_FLIGHT = [
-      {icon:"🧠",label:"Set – Innerer Zustand",text:"Ich fühle mich emotional stabil und nutze die Substanz nicht, um negative Gefühle zu betäuben."},
-      {icon:"🏠",label:"Setting – Umgebung",text:"Ich bin an einem sicheren Ort, bei Menschen denen ich vertraue, und habe keine wichtigen Termine in den nächsten 24 Stunden."},
-      {icon:"💊",label:"Substanz – Wissen",text:"Ich kenne die Substanz, habe mich über Safer Use informiert und weiß, dass Mischkonsum riskant ist."},
-    ];
-
-    const openPreflight = () => {
-      if(!wizSub||!wizUnit)return;
-      setPending({id:String(Date.now()),substance:wizSub,unit:wizUnit,interval:wizInt,
-        maxUnits:wizAmt,startedAt:new Date().toISOString(),consumedCount:0,lastConsumedAt:null,challengeCount:0});
-      setPfChecks([false,false,false]); setPfOpen(true);
-    };
-    const doLaunch = async () => {
-      if(!pending)return;
-      await savePlaners([...planers,{...pending,preFlightPassed:true,preFlightAt:new Date().toISOString()}]);
-      setPfOpen(false); setPending(null); setWiz(0);
-      setWizSub(""); setWizUnit(""); setWizAmt(0); setWizInt(90); setDone(true);
-    };
-
-    // Pre-Flight
-    if(pfOpen&&pending) return (
-      <div className="space-y-5 animate-fadeIn">
-        <div className="text-center pt-2">
-          <div className="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3"
-            style={{background:"#7B8CDE15",border:"1px solid #7B8CDE33"}}>✈️</div>
-          <h2 className="text-lg font-bold" style={{fontFamily:"var(--fontD)",color:"var(--tx)"}}>Pre-Flight Check</h2>
-          <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>{subEmoji(pending.substance)} {pending.substance} · {pending.interval} Min. Intervall</p>
-          <p className="text-xs mt-2" style={{color:"var(--tx2)"}}>Drei kurze Fragen — ehrlich und nur für dich.</p>
-        </div>
-        <div className="space-y-2">
-          {PRE_FLIGHT.map((q,i)=>{
-            const checked=pfChecks[i];
-            return (
-              <button key={i} onClick={()=>setPfChecks(prev=>prev.map((v,idx)=>idx===i?!v:v))} aria-pressed={checked}
-                className="w-full rounded-2xl px-4 py-4 flex gap-4 items-start text-left transition-all active:scale-[0.99]"
-                style={{background:checked?"#6BCB7708":"var(--card)",border:`1.5px solid ${checked?"#6BCB7755":"var(--bdr)"}`}}>
-                <div className="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
-                  style={{background:checked?"#6BCB77":"var(--card2)",border:`2px solid ${checked?"#6BCB77":"var(--bdr)"}`}}>
-                  {checked&&<span style={{fontSize:13,color:"#fff",fontWeight:900}}>✓</span>}
-                </div>
-                <div className="flex-1">
-                  <span className="text-xs font-bold block mb-1" style={{color:checked?"#6BCB77":"var(--tx2)"}}>{q.icon} {q.label}</span>
-                  <p className="text-sm leading-relaxed" style={{color:"var(--tx)"}}>{q.text}</p>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-        <div className="flex gap-1.5 justify-center">
-          {pfChecks.map((v,i)=><div key={i} className="h-1.5 flex-1 rounded-full transition-all" style={{background:v?"#6BCB77":"var(--bdr)",maxWidth:64}}/>)}
-        </div>
-        {(()=>{
-          const n=pfChecks.filter(Boolean).length;
-          if(n===3) return <div className="rounded-2xl px-4 py-3 flex gap-3" style={{background:"#6BCB7710",border:"1px solid #6BCB7733"}}><span className="text-lg shrink-0">✅</span><p className="text-sm" style={{color:"var(--tx2)"}}>Guter Moment für einen bewussten Konsum. Alle drei Punkte reflektiert.</p></div>;
-          if(n>0)  return <div className="rounded-2xl px-4 py-3 flex gap-3" style={{background:"#F2D38810",border:"1px solid #F2D38833"}}><span className="text-lg shrink-0">💛</span><p className="text-sm" style={{color:"var(--tx2)"}}>Du kannst trotzdem starten — die Reflexion ist für dich, nicht als Bedingung.</p></div>;
-          return null;
-        })()}
-        <button onClick={doLaunch}
-          className="w-full py-4 rounded-2xl text-sm font-black"
-          style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff",boxShadow:"0 4px 20px var(--acc)33"}}>
-          ⏱️ Plan starten
-        </button>
-        <button onClick={()=>{setPfOpen(false);setPending(null);setWiz(4);}}
-          className="w-full py-3.5 rounded-2xl text-sm font-medium"
-          style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)"}}>
-          ← Zurück
-        </button>
-        <p className="text-center text-xs" style={{color:"var(--tx2)",opacity:.7}}>Deine Antworten bleiben privat.</p>
-      </div>
-    );
-
-    if(done) return <WizardDone icon="⏱️" msg="Dein Plan steht — pass auf dich auf!" onClose={()=>setDone(false)}/>;
-
-    // Wizard Step 1: Substanz
-    if(wiz===1) return (
-      <WizardShell step={1} total={4} label="Substanz" onBack={()=>setWiz(0)}>
-        <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Welche Substanz planst du?</p>
-        <div className="grid grid-cols-2 gap-3">
-          {availItems.length>0?availItems.map(s=>(
-            <button key={s} onClick={()=>{setWizSub(s);setTimeout(()=>setWiz(2),160);}}
-              className="rounded-2xl flex flex-col items-center justify-center gap-2 transition-all active:scale-95"
-              style={{padding:"20px 12px",minHeight:88,
-                background:wizSub===s?"var(--acc)20":"var(--card)",
-                border:`2px solid ${wizSub===s?"var(--acc)":"var(--bdr)"}`}}>
-              <span style={{fontSize:28}}>{subEmoji(s)}</span>
-              <span style={{fontSize:12,fontWeight:600,color:"var(--tx)",textAlign:"center",lineHeight:1.3}}>{s}</span>
-            </button>
-          )):<p className="col-span-2 text-sm text-center py-4" style={{color:"var(--tx2)"}}>Alle Substanzen bereits geplant.</p>}
-        </div>
-      </WizardShell>
-    );
-
-    // Wizard Step 2: Zielmenge + Einheit
-    if(wiz===2) return (
-      <WizardShell step={2} total={4} label={`${subEmoji(wizSub)} ${wizSub}`} onBack={()=>setWiz(1)}>
-        <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Was ist deine Zielmenge?</p>
-        <p className="text-xs text-center -mt-2" style={{color:"var(--tx2)"}}>Wie nennst du eine Einheit?</p>
-        <input value={wizUnit} onChange={e=>setWizUnit(e.target.value)} autoFocus
-          className="w-full rounded-2xl px-5 py-4 text-lg font-bold outline-none text-center"
-          style={{background:"var(--card)",color:"var(--tx)",border:"2px solid var(--bdr)"}}
-          placeholder="1 Bier / 1 Joint / 1 Line…"/>
-        <div>
-          <div className="flex justify-between items-center mb-3">
-            <label className="text-xs font-medium" style={{color:"var(--tx2)"}}>Max. Einheiten</label>
-            <span className="text-base font-bold" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{wizAmt||"∞"}</span>
-          </div>
-          <div className="flex items-center gap-4 justify-center">
-            <button onClick={()=>setWizAmt(Math.max(0,wizAmt-1))}
-              className="w-16 h-16 rounded-2xl text-3xl font-bold"
-              style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>−</button>
-            <span className="text-5xl font-black w-20 text-center" style={{color:wizAmt>0?"var(--acc)":"var(--tx2)",fontFamily:"var(--fontD)"}}>{wizAmt||"∞"}</span>
-            <button onClick={()=>setWizAmt(wizAmt+1)}
-              className="w-16 h-16 rounded-2xl text-3xl font-bold"
-              style={{background:"var(--card2)",color:"var(--tx)",border:"1px solid var(--bdr)"}}>+</button>
-          </div>
-          <p className="text-xs text-center mt-2" style={{color:"var(--tx2)"}}>0 = kein Limit</p>
-        </div>
-        <button onClick={()=>setWiz(3)} disabled={!wizUnit.trim()}
-          className="w-full py-4 rounded-2xl text-base font-bold"
-          style={{
-            background:!wizUnit.trim()?"var(--bdr)":"linear-gradient(135deg,var(--acc),#6272C4)",
-            color:!wizUnit.trim()?"var(--tx2)":"#fff"
-          }}>
-          Weiter →
-        </button>
-      </WizardShell>
-    );
-
-    // Wizard Step 2: Zeitabstand
-    if(wiz===3) return (
-      <WizardShell step={3} total={4} label="Intervall" onBack={()=>setWiz(2)}>
-        <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Zeitabstand zwischen Konsum?</p>
-        <div className="text-center py-3">
-          <p className="text-6xl font-black" style={{color:"var(--acc)",fontFamily:"var(--fontD)"}}>{wizInt}</p>
-          <p className="text-sm mt-1" style={{color:"var(--tx2)"}}>Minuten</p>
-        </div>
-        <div className="grid grid-cols-3 gap-2">
-          {[30,45,60,90,120,180].map(v=>(
-            <button key={v} onClick={()=>setWizInt(v)}
-              className="py-4 rounded-2xl text-sm font-bold transition-all active:scale-95"
-              style={{
-                background:wizInt===v?"var(--acc)20":"var(--card)",
-                border:`2px solid ${wizInt===v?"var(--acc)":"var(--bdr)"}`,
-                color:wizInt===v?"var(--acc)":"var(--tx2)"}}>
-              {v<60?`${v} Min.`:`${v/60} Std.`}
-            </button>
-          ))}
-        </div>
-        <input type="range" min="15" max="240" step="15" value={wizInt}
-          onChange={e=>setWizInt(+e.target.value)} className="w-full" style={{accentColor:"var(--acc)"}}/>
-        <div className="flex justify-between text-xs -mt-2" style={{color:"var(--tx2)"}}><span>15 Min.</span><span>4 Std.</span></div>
-        <button onClick={()=>setWiz(4)}
-          className="w-full py-4 rounded-2xl text-base font-bold"
-          style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff"}}>
-          Weiter →
-        </button>
-      </WizardShell>
-    );
-
-    // Wizard Step 3: Zusammenfassung
-    if(wiz===4) return (
-      <WizardShell step={4} total={4} label="Plan starten" onBack={()=>setWiz(3)}>
-        <p className="text-2xl font-bold text-center" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Dein Plan</p>
-        <div className="rounded-2xl overflow-hidden" style={{border:"1px solid var(--bdr)"}}>
-          {[
-            {l:"Substanz", v:`${subEmoji(wizSub)} ${wizSub}`},
-            {l:"Einheit",  v:wizUnit},
-            {l:"Maximum",  v:wizAmt>0?`${wizAmt}× ${wizUnit}`:"Kein Limit"},
-            {l:"Intervall",v:wizInt<60?`${wizInt} Min.`:`${wizInt/60} Std.`},
-          ].map((row,i)=>(
-            <div key={i} className="flex items-center px-4 py-3.5"
-              style={{borderBottom:"1px solid var(--bdr)",background:i%2===0?"var(--card)":"var(--card2)"}}>
-              <span className="text-xs font-bold w-24 shrink-0" style={{color:"var(--tx2)"}}>{row.l}</span>
-              <span className="text-sm font-bold" style={{color:"var(--tx)"}}>{row.v}</span>
-            </div>
-          ))}
-        </div>
-        <button onClick={openPreflight}
-          className="w-full py-5 rounded-2xl text-base font-black"
-          style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff",boxShadow:"0 4px 20px var(--acc)33"}}>
-          ✈️ Pre-Flight Check & starten
-        </button>
-      </WizardShell>
-    );
-
-    // ── Hauptansicht: aktive Planer ───────────────────────────────
-    return (
-      <div className="space-y-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold" style={{fontFamily:"var(--fontD)",color:"var(--tx)"}}>⏱️ Dose Planer</h2>
-            <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>
-              {planers.length>0?`${planers.length}/3 aktiv${globalChallengeCount>0?` · ⭐ ${globalChallengeCount}× Challenge`:""}` : "Bis zu 3 parallele Timer"}
-            </p>
-          </div>
-          {planers.length>0&&planers.length<3&&(
-            <button onClick={()=>{setWiz(1);setWizSub("");setWizUnit("");setWizAmt(0);setWizInt(90);}}
-              className="text-xs px-3 py-1.5 rounded-lg"
-              style={{background:"var(--card)",color:"var(--acc)",border:"1px solid var(--acc)44"}}>
-              ＋ Planer hinzufügen
-            </button>
-          )}
-        </div>
-
-        {mixAlerts.length>0&&(()=>{
-          const w=mixAlerts[0]; const col=w.level==="critical"?"#FF3B3B":w.level==="high"?"#FF8C00":"#FFD700";
-          const lbl=w.level==="critical"?"⛔ LEBENSGEFAHR":w.level==="high"?"🔶 HOHES RISIKO":"🟡 VORSICHT";
-          return (
-            <div role="alert" className={w.level==="critical"?"warn-critical":""}
-              style={{background:`${col}15`,border:`2px solid ${col}66`,borderRadius:16,padding:"12px 16px"}}>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-black" style={{color:col}}>{lbl}</span>
-                <span className="text-xs font-bold" style={{color:"var(--tx)"}}>{subEmoji(w.subA)} {w.subA} + {subEmoji(w.subB)} {w.subB}</span>
-              </div>
-              <p className="text-xs leading-relaxed" style={{color:col}}>{w.text}</p>
-              {w.level==="critical"&&<a href="tel:112" className="flex items-center justify-center gap-2 mt-2 py-2 rounded-xl font-black text-sm" style={{background:"#FF3B3B",color:"#fff",textDecoration:"none"}}>📞 NOTFALL → 112 ANRUFEN</a>}
-            </div>
-          );
-        })()}
-
-        {planers.map(p=><PlanerCard key={p.id} p={p}/>)}
-
-        {planers.length===0&&(
-          <button onClick={()=>{setWiz(1);setWizSub("");setWizUnit("");setWizAmt(0);setWizInt(90);}}
-            className="w-full py-6 rounded-2xl text-base font-bold transition-all active:scale-[0.98]"
-            style={{background:"linear-gradient(135deg,var(--acc)12,var(--card))",border:"2px dashed var(--acc)44",color:"var(--acc)"}}>
-            ＋ Ersten Planer einrichten
-          </button>
-        )}
-
-        <div className="rounded-2xl p-4 space-y-2" style={{background:"var(--card)",border:"1px solid #F2D38833"}}>
-          {[
-            {i:"⚠️",t:"Kein Aufruf zum Konsum",b:"Dieser Planer ist ein Werkzeug der Schadensminimierung — für Menschen, die konsumieren."},
-            {i:"🚫",t:"Kein sicherer Konsum",b:"Jeder Substanzgebrauch birgt Risiken. Der Planer reduziert sie, eliminiert sie nicht."},
-            {i:"🚑",t:"Im Notfall: 112",b:"Kein Ersatz für medizinische Beratung."},
-          ].map((h,i)=>(
-            <div key={i} className="flex items-start gap-2">
-              <span className="text-sm shrink-0 mt-0.5">{h.i}</span>
-              <div><p className="text-xs font-semibold" style={{color:"#F2D388"}}>{h.t}</p><p className="text-xs leading-relaxed mt-0.5" style={{color:"var(--tx2)"}}>{h.b}</p></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-
-  // ═══════════════════════════════════════════════════════════
-  // ─── SKILL-BOX (Replaces Emergency — 3-Level Skill System) ──
-  // ═══════════════════════════════════════════════════════════
   // ─── SKILL-BOX WIZARD ───────────────────────────────────────────────────
   const SkillBox = () => {
     const [stressWiz,   setStressWiz]  = useState(0);  // 0=check, 1=skills
@@ -5155,16 +3515,14 @@ function DoseDiary() {
   const views = {
     dashboard:{t:"DoseDiary",c:<Dashboard />},
     log:{t:"Dose-Log",c:<><FeatureTip featureId="log" /><DoseLog /></>},
-    goals:{t:"Ziele & Clean Days",c:<><FeatureTip featureId="goals" /><Goals /></>},
     analysis:{t:"Meine Auswertungen",c:<><FeatureTip featureId="analysis" /><Analysis /></>},
     wissen:{t:"Wissensdatenbank",c:<><FeatureTip featureId="wissen" /><KnowledgeBase /></>},
-    planer:{t:"Dose Planer",c:<><FeatureTip featureId="planer" /><DosePlaner /></>},
     badges:{t:"Meilensteine",c:<BadgesView />},
     privacy:{t:"Datenschutz & Info",c:<Privacy />},
     skillbox:{t:"Skill-Box",c:<><FeatureTip featureId="skillbox" /><SkillBox /></>},
   };
 
-  const menu = [{id:"dashboard",i:"🏠",l:"Dashboard"},{id:"log",i:"📝",l:"Dose-Log"},{id:"planer",i:"⏱️",l:"Dose Planer"},{id:"goals",i:"🌟",l:"Ziele & Clean Days"},{id:"analysis",i:"📊",l:"Meine Auswertungen"},{id:"wissen",i:"🧬",l:"Wissensdatenbank"},{id:"skillbox",i:"🧰",l:"Skill-Box"},{id:"badges",i:"🏅",l:"Meilensteine"},{id:"privacy",i:"🔒",l:"Datenschutz & Info"}];
+  const menu = [{id:"dashboard",i:"🏠",l:"Dashboard"},{id:"log",i:"📝",l:"Dose-Log"},{id:"analysis",i:"📊",l:"Meine Auswertungen"},{id:"wissen",i:"🧬",l:"Wissensdatenbank"},{id:"skillbox",i:"🧰",l:"Skill-Box"},{id:"badges",i:"🏅",l:"Meilensteine"},{id:"privacy",i:"🔒",l:"Datenschutz & Info"}];
 
   return (
     <div style={{...theme,fontFamily:"var(--font)",background:"var(--bg)",color:"var(--tx)",minHeight:"100vh",maxWidth:480,margin:"0 auto",position:"relative"}}>
@@ -5292,7 +3650,7 @@ function DoseDiary() {
 
       {/* Bottom Nav */}
       <nav aria-label="Schnellnavigation" className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] flex justify-around py-2 px-2" style={{background:"var(--bg)",borderTop:"1px solid var(--bdr)"}}>
-        {[{id:"dashboard",i:"🏠",l:"Home"},{id:"log",i:"📝",l:"Dose-Log"},{id:"goals",i:"🌟",l:"Clean Days"},{id:"skillbox",i:"🧰",l:"Skills"},{id:"wissen",i:"🧬",l:"Wissen"}].map(n => {
+        {[{id:"dashboard",i:"🏠",l:"Home"},{id:"log",i:"📝",l:"Dose-Log"},,{id:"skillbox",i:"🧰",l:"Skills"},{id:"wissen",i:"🧬",l:"Wissen"}].map(n => {
           const active = view===n.id;
           return (
             <button
