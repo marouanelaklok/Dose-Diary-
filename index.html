@@ -306,30 +306,7 @@ const SAFER_TIMERS = {
 
 // ─── Common medications with substance interaction warnings ───
 // ─── XP & Gamification System ────────────────────────────────
-const XP_VALUES = { log_entry:10, clean_day:25, streak_7:50, streak_30:150, streak_100:500 };
-const XP_LEVELS = [
-  { level:1, min:0,    label:"Neuling",    icon:"🌱" },
-  { level:2, min:100,  label:"Beobachter", icon:"👁️" },
-  { level:3, min:300,  label:"Bewusst",    icon:"🧠" },
-  { level:4, min:600,  label:"Achtsam",    icon:"🌿" },
-  { level:5, min:1000, label:"Gefestigt",  icon:"🏔️" },
-  { level:6, min:1500, label:"Meister",    icon:"💎" },
-  { level:7, min:2500, label:"Legende",    icon:"⭐" },
-];
-const calcXP = (logs, cleanDays, streak) => {
-  let xp = (logs?.length || 0) * XP_VALUES.log_entry;
-  xp += (cleanDays?.length || 0) * XP_VALUES.clean_day;
-  if (streak >= 7)   xp += XP_VALUES.streak_7;
-  if (streak >= 30)  xp += XP_VALUES.streak_30;
-  if (streak >= 100) xp += XP_VALUES.streak_100;
-  return xp;
-};
-const getLevel = (xp) => {
-  let cur = XP_LEVELS[0];
-  for (const l of XP_LEVELS) { if (xp >= l.min) cur = l; }
-  return cur;
-};
-const getNextLevel = (xp) => XP_LEVELS.find(l => l.min > xp) || null;
+
 
 // ─── Badges / Milestones (Gamification light) ───
 // ─── MILESTONES — Verhaltens-Meilensteine ──────────────────────────────────
@@ -338,20 +315,20 @@ const MILESTONES = [
   {
     id:"first_log", cat:"Erste Schritte", icon:"📝",
     title:"Erster Schritt", desc:"Ersten Log-Eintrag gespeichert",
-    color:"#B89DE8", popup:"Gut gemacht! Jeder Weg beginnt mit dem ersten Schritt — und du hast ihn gemacht. 🌿",
+    color:"#B89DE8", popup:"Der erste Eintrag. Du hast angefangen — das zählt.",
     check: (l,m,g,kb,sk) => l.length >= 1,
   },
   {
     id:"first_mood", cat:"Erste Schritte", icon:"💚",
     title:"Innenschau", desc:"Ersten Mood-Check-in gemacht",
-    color:"#B89DE8", popup:"Selbstwahrnehmung ist der Anfang — ruhig, bewusst, präsent. 🧘",
+    color:"#B89DE8", popup:"Selbstwahrnehmung ist ein guter Anfang.",
     check: (l,m,g,kb,sk) => m.length >= 1,
   },
   // ── Check-in Streak ────────────────────────────────────────────────────────
   {
     id:"checkin_3", cat:"Check-in Streak", icon:"🌱",
     title:"3 Tage dabei", desc:"3 Tage hintereinander die App genutzt",
-    color:"#6BCB77", popup:"3 Tage in Folge — das ist kein Zufall, das ist Absicht. Stark! 🌱",
+    color:"#6BCB77", popup:"3 Tage in Folge. Kontinuität entsteht genau so.",
     check: (l,m,g,kb,sk) => {
       const days = new Set([
         ...l.map(e => e.date?.split("T")[0]),
@@ -370,7 +347,7 @@ const MILESTONES = [
   {
     id:"checkin_7", cat:"Check-in Streak", icon:"🔥",
     title:"Eine Woche Präsenz", desc:"7 Tage hintereinander Einträge gemacht",
-    color:"#F2A65A", popup:"7 Tage in Folge — du kennst deinen Rhythmus. Das ist echte Stärke. 🏔️",
+    color:"#F2A65A", popup:"Eine Woche dabei. Das ist mehr als die meisten durchhalten.",
     check: (l,m,g,kb,sk) => {
       const days = new Set([
         ...l.map(e => e.date?.split("T")[0]),
@@ -389,7 +366,7 @@ const MILESTONES = [
   {
     id:"checkin_30", cat:"Check-in Streak", icon:"💎",
     title:"Ein Monat Kontinuität", desc:"30 Tage aktive App-Nutzung",
-    color:"#F2D388", popup:"Ein ganzer Monat aktive Nutzung — stetig und beständig. Du fließt. 🌊",
+    color:"#F2D388", popup:"Ein Monat aktive Nutzung. Beständig.",
     check: (l,m,g,kb,sk) => {
       const days = new Set([
         ...l.map(e => e.date?.split("T")[0]),
@@ -402,32 +379,32 @@ const MILESTONES = [
   {
     id:"kb_3", cat:"Safer-Use-Expertise", icon:"🧬",
     title:"Wissensdurst", desc:"3 Infotexte gelesen",
-    color:"#7EC8A4", popup:"Wissen schützt. Du nutzt diesen Vorteil — und das merkt man. 🎓",
+    color:"#7EC8A4", popup:"3 Infotexte gelesen. Wissen hilft.",
     check: (l,m,g,kb,sk) => Object.keys(kb.read||{}).length >= 3,
   },
   {
     id:"kb_6", cat:"Safer-Use-Expertise", icon:"📚",
     title:"Halbzeit-Experte", desc:"6 von 12 Modulen abgeschlossen",
-    color:"#7EC8A4", popup:"Halbzeit! Du weißt jetzt mehr über Harm Reduction als die meisten. 🌿",
+    color:"#7EC8A4", popup:"Die Hälfte durch. Du weißt jetzt einiges.",
     check: (l,m,g,kb,sk) => Object.keys(kb.read||{}).length >= 6,
   },
   {
     id:"kb_12", cat:"Safer-Use-Expertise", icon:"🎓",
     title:"Safer-Use-Profi", desc:"Alle 12 Infotexte gelesen",
-    color:"#6BCB77", popup:"Alle 12 Module! Du bist dein eigener Experte. Das ist echter Einsatz. 🏆",
+    color:"#6BCB77", popup:"Alle 12 Module. Du kennst die Grundlagen gut.",
     check: (l,m,g,kb,sk) => Object.keys(kb.read||{}).length >= 12,
   },
   {
     id:"refl_3", cat:"Safer-Use-Expertise", icon:"💭",
     title:"Reflexions-Tiefe", desc:"3 Reflexionen geschrieben",
-    color:"#9B7ECF", popup:"Tiefe Selbstreflexion — das ist echte Stärke. 🔮",
+    color:"#9B7ECF", popup:"3 Reflexionen. Hinschauen ist schwieriger als wegsehen.",
     check: (l,m,g,kb,sk) => Object.values(kb.reflections||{}).filter(v=>v?.trim()).length >= 3,
   },
   // ── Resilienz ──────────────────────────────────────────────────────────────
   {
     id:"log_after_clean", cat:"Resilienz", icon:"🔄",
     title:"Resilienz-Award", desc:"Eintrag nach einem Rückfall gemacht",
-    color:"#E8A87C", popup:"Ein Rückfall ist kein Ende — er ist ein Datenpunkt. Du hast weitergemacht. Chapeau! 🌅",
+    color:"#E8A87C", popup:"Nach einem Rückfall weitergemacht. Das ist der entscheidende Schritt.",
     check: (l,m,g,kb,sk) => {
       if (l.length < 2 || !g.cleanDays?.length) return false;
       const cleanSet = new Set(g.cleanDays);
@@ -443,26 +420,26 @@ const MILESTONES = [
   {
     id:"skill_5", cat:"Resilienz", icon:"🧰",
     title:"Skill-Anwender", desc:"Grounding-Skills 5× genutzt",
-    color:"#E8A87C", popup:"5× Skills genutzt — das ist echtes Werkzeug im Gepäck. 🧰",
+    color:"#E8A87C", popup:"5× Skills genutzt. Es hilft, wenn man weiß womit.",
     check: (l,m,g,kb,sk) => Object.values(sk.feedback||{}).reduce((a,v)=>a+v.length,0) >= 5,
   },
   {
     id:"log_50", cat:"Resilienz", icon:"📊",
     title:"Ausdauer-Tracker", desc:"50 Log-Einträge erfasst",
-    color:"#E8A87C", popup:"50 Einträge! Du kennst deine Muster besser als jeder andere. 📊",
+    color:"#E8A87C", popup:"50 Einträge. Du kennst dein Muster inzwischen gut.",
     check: (l,m,g,kb,sk) => l.length >= 50,
   },
   // ── Clean Days ─────────────────────────────────────────────────────────────
   {
     id:"clean_7", cat:"Clean Days", icon:"⭐",
     title:"7 Cleane Tage", desc:"7 konsumfreie Tage markiert",
-    color:"#F2D388", popup:"7 cleane Tage — du weißt, wie sich Klarheit anfühlt. ⭐",
+    color:"#F2D388", popup:"7 cleane Tage. Das spürt man.",
     check: (l,m,g,kb,sk) => (g.cleanDays||[]).length >= 7,
   },
   {
     id:"clean_30", cat:"Clean Days", icon:"🏆",
     title:"30 Cleane Tage", desc:"30 konsumfreie Tage markiert",
-    color:"#F2D388", popup:"30 cleane Tage! Das ist ein echter Meilenstein — du hast Grund zum Feiern. 🏆",
+    color:"#F2D388", popup:"30 cleane Tage. Das ist eine echte Veränderung.",
     check: (l,m,g,kb,sk) => (g.cleanDays||[]).length >= 30,
   },
 ];
@@ -769,7 +746,7 @@ const FEATURE_TIPS = {
     color: "#E06B8A",
   },
   wissen: {
-    icon: "🧬", title: "Wissensdatenbank",
+    icon: "🧬", title: "Infos",
     text: "12 kurze Module zu Neurobiologie, Safer Use, Recht und Selbstfürsorge — wertfrei und evidenzbasiert. Lies in deinem Tempo, was dich interessiert. Kein Zwang, keine Reihenfolge.",
     color: "#6BCB77",
   },
@@ -866,7 +843,7 @@ function DoseDiary() {
   const [tourIdx, setTourIdx] = useState(0);
   const [milestonePopup, setMilestonePopup] = useState(null); // {id, title, icon, color, popup}
   const [seenMilestones, setSeenMilestones] = useState(new Set());
-  const [jokerUsed, setJokerUsed] = useState(false); // Streak-Joker einmal pro Monat
+  const [seenMilestonesLoaded, setSeenMilestonesLoaded] = useState(false);
 
   // Check onboarding status on mount
   useEffect(() => {
@@ -886,8 +863,9 @@ function DoseDiary() {
         if (kb) setKbProgress(kb);
         const sb = await S.get("dd_skillbox");
         if (sb) setSkillbox(sb);
-        const jk = await S.get("dd_joker_used");
-        if (jk) setJokerUsed(jk);
+        const sm = await S.get("dd_seen_milestones");
+        if (sm) setSeenMilestones(new Set(sm));
+        setSeenMilestonesLoaded(true);
       } else {
         setOnboarded(false);
       }
@@ -908,6 +886,7 @@ function DoseDiary() {
 
   // Milestone-Check: bei jeder Änderung von logs/moods/goals/kbProgress/skillbox
   useEffect(() => {
+    if (!seenMilestonesLoaded) return; // Warte bis localStorage geladen ist
     const newlyEarned = MILESTONES.filter(ms =>
       !seenMilestones.has(ms.id) && ms.check(logs, [], goals, kbProgress, skillbox)
     );
@@ -915,12 +894,13 @@ function DoseDiary() {
       setSeenMilestones(prev => {
         const next = new Set(prev);
         newlyEarned.forEach(ms => next.add(ms.id));
+        S.set("dd_seen_milestones", [...next]); // persistieren
         return next;
       });
       // Zeige das erste neue Popup (Queue: weitere erscheinen beim nächsten Render)
       setMilestonePopup(newlyEarned[0]);
     }
-  }, [logs, goals, kbProgress, skillbox]);
+  }, [logs, goals, kbProgress, skillbox, seenMilestonesLoaded]);
 
   const nav = v => { setFade(false); setTimeout(() => { setView(v); setShowMenu(false); setFade(true); }, 120); };
 
@@ -940,8 +920,8 @@ function DoseDiary() {
     await S.set("dd_prefs", { mySubs: [] });
     await S.set("dd_kb", { read: {}, reflections: {} });
     await S.set("dd_skillbox", { seenIntro: false, feedback: {}, emergencyContact: "" });
-    await S.set("dd_joker_used", false);
-    setJokerUsed(false);
+    await S.set("dd_seen_milestones", []);
+    setSeenMilestones(new Set());
     await S.set("dd_meds", []);
     setLogs([]);
     setGoals({ cleanDays:[], target:null, targetSubs:[], startDate:null, goalType:"clean", maxPerWeek:null });
@@ -1416,11 +1396,11 @@ function DoseDiary() {
         {/* ═══ Step 2: Dashboard-Tour ═══ */}
         {onboardStep === 2 && (() => {
           const TOUR = [
-            { id:"mood",    label:"Mood-Board",       emoji:"😊", color:"#6BCB77",  bubble:"Jeden Tag einmal einchecken: Wie geht's dir? So erkennst du Muster zwischen Stimmung und Konsum.", highlight:"tour-mood" },
-            { id:"log",     label:"Loggen",            emoji:"📝", color:"#9B7ECF",  bubble:"Trage hier ein, was du konsumiert hast — Substanz, Menge, Setting. Die App warnt dich bei riskanten Kombinationen.", highlight:"tour-log" },
-            { id:"skills",  label:"Skills",            emoji:"🧰", color:"#E06B8A",  bubble:"Interaktive Übungen für den Moment des Suchtdrucks — Atemübungen, Grounding-Techniken und mehr.", highlight:"tour-skills" },
-            { id:"wissen",  label:"Wissen",            emoji:"🧬", color:"#6BCB77",  bubble:"12 kurze Module zu Neurobiologie, Substanzen, Recht und Selbstfürsorge — lies was dich interessiert, wann du willst.", highlight:"tour-wissen" },
-            { id:"report",  label:"Meine Auswertungen",emoji:"📊", color:"#8899AA",  bubble:"Wochenbericht, Konsummuster und Stimmungsverläufe — dein persönliches Bild auf einen Blick.", highlight:"tour-report" },
+            { id:"mood",    label:"Mood-Board",  emoji:"😊", color:"#6BCB77",  bubble:"Wie geht's dir heute? Kurzer Check-in — hilft Muster zwischen Stimmung und Konsum zu erkennen.", highlight:"tour-mood" },
+            { id:"log",     label:"Loggen",       emoji:"📝", color:"#9B7ECF",  bubble:"Substanz, Menge, Setting — die App warnt bei riskanten Kombinationen.", highlight:"tour-log" },
+            { id:"skills",  label:"Skills",       emoji:"🧰", color:"#E06B8A",  bubble:"Übungen für den Moment des Suchtdrucks: Atemtechniken, Grounding und mehr.", highlight:"tour-skills" },
+            { id:"wissen",  label:"Infos",        emoji:"🧬", color:"#6BCB77",  bubble:"12 Module zu Substanzen, Neurobiologie, Recht und Selbstfürsorge — kein linearer Kurs, lies was dich gerade interessiert.", highlight:"tour-wissen" },
+            { id:"report",  label:"Analyse",      emoji:"📊", color:"#8899AA",  bubble:"Konsummuster und Stimmungsverläufe auf einen Blick.", highlight:"tour-report" },
           ];
           const current = TOUR[tourIdx];
           const isLast = tourIdx === TOUR.length - 1;
@@ -1457,7 +1437,7 @@ function DoseDiary() {
 
                 {/* Action buttons row 2 */}
                 <div className="grid grid-cols-3 gap-2 mb-3">
-                  {[{icon:"📊",label:"Analyse",id:"analysis"},{icon:"🧰",label:"Skills",id:"skills"},{icon:"🧬",label:"Wissen",id:"wissen"}].map(a => (
+                  {[{icon:"📊",label:"Analyse",id:"analysis"},{icon:"🧰",label:"Skills",id:"skills"},{icon:"🧬",label:"Infos",id:"wissen"}].map(a => (
                     <div key={a.id} id={`tour-${a.id}`} className="rounded-2xl py-4 flex flex-col items-center gap-2"
                       style={{background:"var(--card)",border:`1px solid ${(current.id===a.id)?current.color:"var(--bdr)"}`,boxShadow:(current.id===a.id)?`0 0 0 3px ${current.color}55`:"none",position:"relative",zIndex:(current.id===a.id)?20:5,transition:"box-shadow 0.3s,border 0.3s"}}>
                       <span style={{fontSize:26}}>{a.icon}</span>
@@ -1470,7 +1450,7 @@ function DoseDiary() {
                 <div id="tour-report" className="rounded-2xl p-4" style={{background:"var(--card)",border:`1px solid ${current.id==="report"?current.color:"var(--bdr)"}`,boxShadow:current.id==="report"?`0 0 0 3px ${current.color}55`:"none",position:"relative",zIndex:current.id==="report"?20:5,transition:"box-shadow 0.3s,border 0.3s"}}>
                   <div className="flex items-center gap-2 mb-3">
                     <span style={{fontSize:18}}>📊</span>
-                    <p style={{fontSize:14,fontWeight:700,color:"var(--tx)"}}>Meine Auswertungen</p>
+                    <p style={{fontSize:14,fontWeight:700,color:"var(--tx)"}}>Analyse</p>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     {[{label:"Einträge",val:"—"},{label:"Clean Days",val:"—"},{label:"Ø Stimmung",val:"—"}].map((s,i)=>(
@@ -1557,11 +1537,6 @@ function DoseDiary() {
   // ─── DASHBOARD ───
   const Dashboard = () => {
     const streak = calcStreak(goals.cleanDays || [], logs);
-    const xp = calcXP(logs, goals.cleanDays, streak);
-    const level = getLevel(xp);
-    const nextLevel = getNextLevel(xp);
-    const xpPct = nextLevel ? Math.round(((xp - level.min) / (nextLevel.min - level.min)) * 100) : 100;
-    const xpToNext = nextLevel ? nextLevel.min - xp : 0;
 
     // Calendar state
     const [calMonth, setCalMonth] = React.useState(() => {
@@ -1569,18 +1544,6 @@ function DoseDiary() {
     });
     const [daySheet, setDaySheet] = React.useState(null); // { ds, isClean, dayLogs }
     const [logForDay, setLogForDay] = React.useState(null); // ds string → triggers inline log
-
-    // Joker
-    const thisMonth = new Date().toISOString().slice(0,7);
-    const jokerAvailable = jokerUsed !== thisMonth;
-    const handleJoker = async () => {
-      if (!jokerAvailable || streak === 0) return;
-      const t = todayStr();
-      const updatedClean = goals.cleanDays?.includes(t) ? goals.cleanDays : [...(goals.cleanDays||[]), t];
-      await saveGoals({ ...goals, cleanDays: updatedClean });
-      setJokerUsed(thisMonth);
-      await S.set("dd_joker_used", thisMonth);
-    };
 
     // Build calendar grid for calMonth
     const buildCalendar = () => {
@@ -1648,10 +1611,40 @@ function DoseDiary() {
       setDaySheet(prev => prev ? { ...prev, dayLogs: prev.dayLogs.filter(l => l.id !== id) } : null);
     };
 
-    // Streak styling
-    const streakColor = streak >= 30 ? "#F2D388" : streak >= 7 ? "#E8A87C" : streak >= 3 ? "#6BCB77" : "var(--acc)";
-    const streakEmoji = streak >= 30 ? "🔥" : streak >= 7 ? "⚡" : streak >= 3 ? "🌱" : "✨";
-    const streakLabel = streak >= 100 ? "LEGENDÄR" : streak >= 30 ? "UNAUFHALTBAR" : streak >= 7 ? "AUF KURS" : streak >= 3 ? "GUTER START" : streak === 1 ? "ERSTER TAG" : "STARTE HEUTE";
+    // Mark / unmark all past days of calMonth as clean in one tap
+    const [monthCleanConfirm, setMonthCleanConfirm] = React.useState(false);
+    const markMonthClean = async () => {
+      const { y, m } = calMonth;
+      const today = new Date(); today.setHours(0,0,0,0);
+      const lastDay = new Date(y, m+1, 0);
+      const lastValid = lastDay > today ? today : lastDay;
+      // Collect all days of the month up to today
+      const monthDays = [];
+      for (let d = 1; d <= lastValid.getDate(); d++) {
+        monthDays.push(dateStr(new Date(y, m, d)));
+      }
+      const isFullyClean = monthDays.every(ds => (goals.cleanDays||[]).includes(ds));
+      let updatedClean;
+      let updatedLogs = logs;
+      if (isFullyClean) {
+        // Toggle off: remove all month days from cleanDays
+        updatedClean = (goals.cleanDays||[]).filter(ds => !monthDays.includes(ds));
+      } else {
+        // Mark all: add missing days, remove logs for those days
+        const cleanSet = new Set(goals.cleanDays||[]);
+        monthDays.forEach(ds => cleanSet.add(ds));
+        updatedClean = [...cleanSet];
+        updatedLogs = logs.filter(l => !monthDays.includes(l.date?.split("T")[0]));
+        if (updatedLogs.length !== logs.length) {
+          await save("dd_logs", setLogs, updatedLogs);
+        }
+      }
+      await saveGoals({ ...goals, cleanDays: updatedClean });
+      setMonthCleanConfirm(false);
+    };
+
+    // Streak styling — ruhigere Darstellung
+    const streakColor = streak >= 30 ? "#6BCB77" : streak >= 7 ? "#6BCB77" : streak >= 1 ? "#6BCB77" : "var(--tx2)";
 
     // 24h mix warning
     const recent24h = logs.filter(l=>Date.now()-new Date(l.date).getTime()<864e5).map(l=>l.substance).filter((v,i,a)=>a.indexOf(v)===i);
@@ -1682,27 +1675,15 @@ function DoseDiary() {
 
       {/* ══ STREAK HERO ══ */}
       <div className="rounded-3xl p-5 text-center relative overflow-hidden"
-        style={{background:`linear-gradient(145deg,${streakColor}1A,${streakColor}06)`,border:`2px solid ${streakColor}33`}}>
-        <div style={{position:"absolute",inset:0,background:`radial-gradient(ellipse at 50% 20%,${streakColor}18,transparent 70%)`,pointerEvents:"none"}}/>
+        style={{background:"var(--card)",border:`1.5px solid ${streak > 0 ? "#6BCB7744" : "var(--bdr)"}`}}>
         <div className="relative">
-          <div className="flex items-end justify-center gap-1 mb-0.5">
-            <span style={{fontSize:20,paddingBottom:8}}>{streakEmoji}</span>
-            <span style={{fontSize:80,fontWeight:900,color:streakColor,fontFamily:"var(--fontD)",lineHeight:1}}>{streak}</span>
-            <span style={{fontSize:20,paddingBottom:8}}>{streakEmoji}</span>
-          </div>
-          <p style={{fontSize:11,fontWeight:800,color:streakColor,letterSpacing:"1.5px"}}>{streakLabel}</p>
-          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Clean-Streak {streak===1?"Tag":"Tage"}</p>
-          {/* XP Bar */}
-          <div className="mt-4 mx-1">
-            <div className="flex justify-between mb-1">
-              <span style={{fontSize:10,color:"var(--tx2)",fontWeight:600}}>{level.icon} Lv.{level.level} {level.label}</span>
-              <span style={{fontSize:10,color:"var(--acc)",fontWeight:700}}>{xp} XP{nextLevel ? ` · noch ${xpToNext} bis Lv.${nextLevel.level}`:""}</span>
-            </div>
-            <div className="h-1.5 rounded-full" style={{background:"var(--bdr)"}}>
-              <div className="h-1.5 rounded-full transition-all duration-700"
-                style={{width:`${xpPct}%`,background:`linear-gradient(90deg,var(--acc),${streakColor})`}}/>
-            </div>
-          </div>
+          <span style={{fontSize:80,fontWeight:900,color: streak > 0 ? "#6BCB77" : "var(--tx2)",fontFamily:"var(--fontD)",lineHeight:1}}>{streak}</span>
+          <p className="text-sm font-semibold mt-1" style={{color:"var(--tx)"}}>
+            {streak === 0 ? "Noch kein Streak" : streak === 1 ? "Tag in Folge clean" : `Tage in Folge clean`}
+          </p>
+          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>
+            {streak === 0 ? "Markiere heute als clean, um zu starten." : streak >= 30 ? `Das sind ${streak} Tage — solide.` : "Jeden Tag zählt."}
+          </p>
         </div>
       </div>
 
@@ -1713,7 +1694,7 @@ function DoseDiary() {
           style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
           <span style={{fontSize:28}}>📝</span>
           <span className="text-sm font-bold" style={{color:"var(--tx)"}}>Jetzt loggen</span>
-          <span className="text-xs" style={{color:"var(--tx2)"}}>+10 XP</span>
+          <span className="text-xs" style={{color:"var(--tx2)"}}>Eintrag erstellen</span>
         </button>
         <button onClick={async () => {
             const t = todayStr();
@@ -1733,7 +1714,7 @@ function DoseDiary() {
           <span style={{fontSize:28}}>{goals.cleanDays?.includes(todayStr()) ? "✅":"🌿"}</span>
           <span className="text-sm font-bold" style={{color:"var(--tx)"}}>Heute clean</span>
           <span className="text-xs" style={{color: goals.cleanDays?.includes(todayStr()) ? "#6BCB77":"var(--tx2)"}}>
-            {goals.cleanDays?.includes(todayStr()) ? "Markiert ✓" : "+25 XP"}
+            {goals.cleanDays?.includes(todayStr()) ? "Markiert ✓" : "Als clean markieren"}
           </span>
         </button>
       </div>
@@ -1742,12 +1723,47 @@ function DoseDiary() {
       <div className="rounded-2xl overflow-hidden" style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3" style={{borderBottom:"1px solid var(--bdr)"}}>
-          <button onClick={()=>setCalMonth(({y,m})=>m===0?{y:y-1,m:11}:{y,m:m-1})}
+          <button onClick={()=>{ setCalMonth(({y,m})=>m===0?{y:y-1,m:11}:{y,m:m-1}); setMonthCleanConfirm(false); }}
             disabled={isPrevDisabled}
             className="w-9 h-9 rounded-xl flex items-center justify-center font-bold transition-all active:scale-90"
             style={{background:"var(--card2)",color:isPrevDisabled?"var(--bdr)":"var(--tx)",fontSize:18}}>‹</button>
-          <p className="text-sm font-bold" style={{color:"var(--tx)"}}>{monthName}</p>
-          <button onClick={()=>setCalMonth(({y,m})=>m===11?{y:y+1,m:0}:{y,m:m+1})}
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-sm font-bold" style={{color:"var(--tx)"}}>{monthName}</p>
+            {(() => {
+              const { y, m } = calMonth;
+              const today2 = new Date(); today2.setHours(0,0,0,0);
+              const lastDay2 = new Date(y, m+1, 0);
+              const lastValid2 = lastDay2 > today2 ? today2 : lastDay2;
+              const monthDays2 = [];
+              for (let d = 1; d <= lastValid2.getDate(); d++) monthDays2.push(dateStr(new Date(y,m,d)));
+              const isFullyClean2 = monthDays2.length > 0 && monthDays2.every(ds => (goals.cleanDays||[]).includes(ds));
+              if (monthCleanConfirm) return (
+                <div className="flex items-center gap-1">
+                  <span style={{fontSize:9,color:"var(--tx2)"}}>Sicher?</span>
+                  <button onClick={markMonthClean}
+                    className="text-xs font-bold px-2 py-0.5 rounded-lg"
+                    style={{background:"#6BCB7722",color:"#6BCB77",border:"1px solid #6BCB7744",fontSize:9}}>
+                    ✓ Ja
+                  </button>
+                  <button onClick={()=>setMonthCleanConfirm(false)}
+                    className="text-xs font-bold px-2 py-0.5 rounded-lg"
+                    style={{background:"var(--card2)",color:"var(--tx2)",border:"1px solid var(--bdr)",fontSize:9}}>
+                    Nein
+                  </button>
+                </div>
+              );
+              return (
+                <button onClick={()=>setMonthCleanConfirm(true)}
+                  className="flex items-center gap-1 px-2 py-0.5 rounded-lg transition-all active:scale-95"
+                  style={{background: isFullyClean2 ? "#6BCB7722":"var(--card2)",
+                          border:`1px solid ${isFullyClean2?"#6BCB7744":"var(--bdr)"}`,
+                          color: isFullyClean2 ? "#6BCB77":"var(--tx2)",fontSize:9,fontWeight:700}}>
+                  {isFullyClean2 ? "✅ Monat clean" : "🌿 Monat clean markieren"}
+                </button>
+              );
+            })()}
+          </div>
+          <button onClick={()=>{ setCalMonth(({y,m})=>m===11?{y:y+1,m:0}:{y,m:m+1}); setMonthCleanConfirm(false); }}
             disabled={isNextDisabled}
             className="w-9 h-9 rounded-xl flex items-center justify-center font-bold transition-all active:scale-90"
             style={{background:"var(--card2)",color:isNextDisabled?"var(--bdr)":"var(--tx)",fontSize:18}}>›</button>
@@ -1809,33 +1825,12 @@ function DoseDiary() {
         </div>
         <button onClick={() => nav("badges")} className="rounded-2xl p-3 text-center transition-all active:scale-95"
           style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
-          <p className="text-xl font-black" style={{fontFamily:"var(--fontD)"}}>{level.icon}</p>
-          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Lv. {level.level}</p>
+          <p className="text-xl font-black" style={{fontFamily:"var(--fontD)",color:"var(--tx)"}}>
+            {MILESTONES.filter(ms => ms.check(logs, [], goals, kbProgress, skillbox)).length}
+          </p>
+          <p className="text-xs mt-0.5" style={{color:"var(--tx2)"}}>Meilensteine</p>
         </button>
       </div>
-
-      {/* ══ JOKER ══ */}
-      {streak > 0 && (
-        <div className="rounded-2xl p-4" style={{background:"var(--card)",border:`1px solid ${jokerAvailable?"#F2D38844":"var(--bdr)"}`}}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span style={{fontSize:22}}>{jokerAvailable?"🃏":"🔒"}</span>
-              <div>
-                <p className="text-sm font-bold" style={{color:"var(--tx)"}}>Monats-Joker</p>
-                <p className="text-xs" style={{color:"var(--tx2)"}}>
-                  {jokerAvailable ? "Schützt deinen Streak einmalig" : "Bereits diesen Monat genutzt"}
-                </p>
-              </div>
-            </div>
-            {jokerAvailable && (
-              <button onClick={handleJoker} className="text-xs font-bold px-3 py-2 rounded-xl"
-                style={{background:"#F2D38822",color:"#F2D388",border:"1px solid #F2D38844"}}>
-                Nutzen
-              </button>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* ══ MISCH-WARNUNG ══ */}
       {mixWarn && (() => {
@@ -1860,7 +1855,7 @@ function DoseDiary() {
       <div>
         <p className="text-xs font-bold mb-2 px-0.5" style={{color:"var(--tx2)"}}>MEHR</p>
         <div className="grid grid-cols-3 gap-2">
-          {[{icon:"📊",label:"Analyse",id:"analysis"},{icon:"🧰",label:"Skills",id:"skillbox"},{icon:"🧬",label:"Wissen",id:"wissen"}].map(a=>(
+          {[{icon:"📊",label:"Analyse",id:"analysis"},{icon:"🧰",label:"Skills",id:"skillbox"},{icon:"🧬",label:"Infos",id:"wissen"}].map(a=>(
             <button key={a.id} onClick={()=>nav(a.id)}
               className="rounded-2xl py-4 flex flex-col items-center gap-1.5 transition-all active:scale-95"
               style={{background:"var(--card)",border:"1px solid var(--bdr)"}}>
@@ -1880,7 +1875,18 @@ function DoseDiary() {
           <div className="animate-fadeIn w-full" style={{position:"relative",zIndex:1,
             background:"var(--card)",borderRadius:"24px 24px 0 0",
             border:"1px solid var(--bdr)",maxHeight:"80vh",overflowY:"auto",
-            maxWidth:480,margin:"0 auto"}}>
+            maxWidth:480,margin:"0 auto"}}
+            ref={el => {
+              if (!el) return;
+              let startY = 0;
+              const onStart = e => { startY = (e.touches?.[0]||e).clientY; };
+              const onEnd = e => {
+                const dy = (e.changedTouches?.[0]||e).clientY - startY;
+                if (dy > 60) setDaySheet(null);
+              };
+              el.addEventListener("touchstart", onStart, {passive:true});
+              el.addEventListener("touchend", onEnd, {passive:true});
+            }}>
             {/* Handle */}
             <div className="flex justify-center pt-3 pb-1">
               <div style={{width:36,height:4,borderRadius:2,background:"var(--bdr)"}}/>
@@ -1968,7 +1974,6 @@ function DoseDiary() {
     const [retroTime, setRetroTime]= useState(()=>{const n=new Date();return `${String(n.getHours()).padStart(2,"0")}:${String(n.getMinutes()).padStart(2,"0")}`;});
     const [showAll,   setShowAll]  = useState(false);
     const [saved,     setSaved]    = useState(false);
-    const [xpGained,  setXpGained] = useState(0);
 
     const isBehavior = ALL_ITEMS.find(i=>i.id===sub)?.cat==="beh";
     const myItems    = prefs.mySubs?.length>0 ? prefs.mySubs : SUBSTANCES;
@@ -2009,13 +2014,13 @@ function DoseDiary() {
       if (goals.cleanDays?.includes(entryDay)) {
         await saveGoals({ ...goals, cleanDays: goals.cleanDays.filter(d => d !== entryDay) });
       }
-      setXpGained(10);
       setSaved(true);
+      setTimeout(() => { if(onDone){onDone();}else{reset();nav("dashboard");} }, 3000);
     };
 
     const reset = () => {
       setSub(""); setAmt(""); setUnit("mg"); setNote("");
-      setSaved(false); setStep(1); setRetroMode(!!preselectedDate); setXpGained(0);
+      setSaved(false); setStep(1); setRetroMode(!!preselectedDate);
       if (onDone) onDone();
     };
 
@@ -2025,11 +2030,7 @@ function DoseDiary() {
         <div className="w-24 h-24 rounded-full flex items-center justify-center"
           style={{background:"#6BCB7712",border:"2px solid #6BCB7744",fontSize:48}}>🌿</div>
         <p className="text-xl font-bold text-center px-4" style={{color:"var(--tx)",fontFamily:"var(--fontD)"}}>Eingetragen.</p>
-        {xpGained > 0 && (
-          <div className="px-4 py-2 rounded-2xl" style={{background:"var(--acc)20",border:"1px solid var(--acc)44"}}>
-            <p className="text-sm font-bold text-center" style={{color:"var(--acc)"}}>+{xpGained} XP verdient ⭐</p>
-          </div>
-        )}
+        <p className="text-xs" style={{color:"var(--tx2)"}}>Weiterleitung in 3 Sekunden…</p>
         <div className="flex gap-3">
           <button onClick={reset}
             className="px-6 py-3.5 rounded-2xl text-sm font-bold"
@@ -2038,7 +2039,7 @@ function DoseDiary() {
           </button>
           <button onClick={()=>{ if(onDone){onDone();}else{reset();nav("dashboard");} }}
             className="px-6 py-3.5 rounded-2xl text-sm font-bold"
-            style={{background:"linear-gradient(135deg,var(--acc),#6272C4)",color:"#fff"}}>
+            style={{background:"var(--acc)22",color:"var(--acc)",border:"1px solid var(--acc)44"}}>
             {onDone ? "Fertig" : "Zum Dashboard"}
           </button>
         </div>
@@ -2182,7 +2183,7 @@ function DoseDiary() {
           style={{background:sub?"linear-gradient(135deg,var(--acc),#6272C4)":"var(--bdr)",
                   color:sub?"#fff":"var(--tx2)",
                   opacity:sub?1:0.5}}>
-          Eintragen (+10 XP)
+          Eintragen
         </button>
 
         <button onClick={()=>setStep(1)} className="w-full py-3 rounded-2xl text-sm font-medium"
@@ -2628,7 +2629,7 @@ function DoseDiary() {
                 { cat: "Konsumlogbuch", desc: "Substanz, Menge, Setting, Craving", key: "dd_logs", count: logs.length },
                 { cat: "Ziele & Clean Days", desc: "Cleane Tage, Abstinenz-Ziel, Streaks", key: "dd_goals", count: goals.cleanDays?.length || 0 },
                 { cat: "Persönliche Auswahl", desc: "Gewählte Substanzen & Verhaltensweisen", key: "dd_prefs", count: prefs.mySubs?.length || 0 },
-                { cat: "Wissensdatenbank", desc: "Gelesene Module & Reflexionen", key: "dd_kb", count: Object.keys(kbProgress.read || {}).length },
+                { cat: "Infos", desc: "Gelesene Module & Reflexionen", key: "dd_kb", count: Object.keys(kbProgress.read || {}).length },
                 { cat: "Skill-Box", desc: "Feedback & Notfallkontakt", key: "dd_skillbox", count: Object.values(skillbox.feedback || {}).flat().length },
               ].map((d, i) => (
                 <div key={i} className="flex items-center justify-between py-2 border-b last:border-0" style={{borderColor:"var(--bdr)"}}>
@@ -3515,14 +3516,14 @@ function DoseDiary() {
   const views = {
     dashboard:{t:"DoseDiary",c:<Dashboard />},
     log:{t:"Dose-Log",c:<><FeatureTip featureId="log" /><DoseLog /></>},
-    analysis:{t:"Meine Auswertungen",c:<><FeatureTip featureId="analysis" /><Analysis /></>},
-    wissen:{t:"Wissensdatenbank",c:<><FeatureTip featureId="wissen" /><KnowledgeBase /></>},
+    analysis:{t:"Analyse",c:<><FeatureTip featureId="analysis" /><Analysis /></>},
+    wissen:{t:"Infos",c:<><FeatureTip featureId="wissen" /><KnowledgeBase /></>},
     badges:{t:"Meilensteine",c:<BadgesView />},
     privacy:{t:"Datenschutz & Info",c:<Privacy />},
     skillbox:{t:"Skill-Box",c:<><FeatureTip featureId="skillbox" /><SkillBox /></>},
   };
 
-  const menu = [{id:"dashboard",i:"🏠",l:"Dashboard"},{id:"log",i:"📝",l:"Dose-Log"},{id:"analysis",i:"📊",l:"Meine Auswertungen"},{id:"wissen",i:"🧬",l:"Wissensdatenbank"},{id:"skillbox",i:"🧰",l:"Skill-Box"},{id:"badges",i:"🏅",l:"Meilensteine"},{id:"privacy",i:"🔒",l:"Datenschutz & Info"}];
+  const menu = [{id:"dashboard",i:"🏠",l:"Dashboard"},{id:"log",i:"📝",l:"Dose-Log"},{id:"analysis",i:"📊",l:"Analyse"},{id:"wissen",i:"🧬",l:"Infos"},{id:"skillbox",i:"🧰",l:"Skill-Box"},{id:"badges",i:"🏅",l:"Meilensteine"},{id:"privacy",i:"🔒",l:"Datenschutz & Info"}];
 
   return (
     <div style={{...theme,fontFamily:"var(--font)",background:"var(--bg)",color:"var(--tx)",minHeight:"100vh",maxWidth:480,margin:"0 auto",position:"relative"}}>
@@ -3650,7 +3651,7 @@ function DoseDiary() {
 
       {/* Bottom Nav */}
       <nav aria-label="Schnellnavigation" className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] flex justify-around py-2 px-2" style={{background:"var(--bg)",borderTop:"1px solid var(--bdr)"}}>
-        {[{id:"dashboard",i:"🏠",l:"Home"},{id:"log",i:"📝",l:"Dose-Log"},,{id:"skillbox",i:"🧰",l:"Skills"},{id:"wissen",i:"🧬",l:"Wissen"}].map(n => {
+        {[{id:"dashboard",i:"🏠",l:"Home"},{id:"log",i:"📝",l:"Dose-Log"},,{id:"skillbox",i:"🧰",l:"Skills"},{id:"wissen",i:"🧬",l:"Infos"}].map(n => {
           const active = view===n.id;
           return (
             <button
